@@ -1,33 +1,23 @@
 <script setup>
 import { reactive, onMounted, computed } from "vue";
 
-//основной массив.
+// Основной массив.
 let calculateData = reactive([]);
 
-//const displayElementRef = ref(null)
-//showOnDisplay.focus();
 const calculatedData = computed(() => {
   console.log("computed", calculateData);
   return calculateData.join("") || "0";
 });
 
-onMounted(() => {
-  //отображение нуля, пока нет ввода.
-  //displayElementRef.value.textContent = 0;
-});
-
-//----------------------------------------------------------------------------------------------------------------------------
 document.addEventListener("keydown", handleKey);
 
-//спец.символы для проверки операторов.
+// Спец.символы для проверки операторов.
 const specialChars = "/x-+%.";
 
-// проверка последовательности решения.
+// Проверка последовательности решения.
 const priorityOperators = [".", "/", "x", "-", "+"];
 
-/**
- * перехват клавиатуры.
- */
+// Перехват клавиатуры.
 const numbersKey = {
   96: () => {
     addCharToDisplay(0);
@@ -113,7 +103,7 @@ const numbersKey = {
 };
 
 /**
- * добавление значения по ключам.
+ * Добавление значения по ключам.
  * @param {*} event
  */
 function handleKey(event) {
@@ -134,12 +124,10 @@ function addCharToDisplay(currentChar) {
 
   if (calculateData[0] === "-" && isCurrentCharSpecial === false) {
     calculateData.splice(0, 1, -currentChar);
-    showOnDisplayChars();
     return;
   }
   if (currentChar === "negative") {
     calculateData.splice(-1, 1, Number(-calculateData.slice(-1)));
-    showOnDisplayChars();
     return;
   }
 
@@ -154,12 +142,15 @@ function addCharToDisplay(currentChar) {
     }
   } else if (currentChar === "." && penultimateChar === ".") {
     return;
-    //проверка поставлена ли дробь или нет.
+    // Проверка поставлена дробь или нет.
   } else if (isLastCharSpecial === false && isCurrentCharSpecial === true) {
     calculateData.push(currentChar);
   } else if (isLastCharSpecial === true && isCurrentCharSpecial === true) {
-    if (currentChar === "." && calculateData[calculateData.length - 3] === ".") {
-      //тут если эту проверку не сделать то плюс можно заменить точкой.
+    if (
+      currentChar === "." &&
+      calculateData[calculateData.length - 3] === "."
+    ) {
+      // Без проверки - плюс можно заменить точкой.
       return;
     }
     calculateData.splice(-1, 1, currentChar);
@@ -167,32 +158,15 @@ function addCharToDisplay(currentChar) {
     calculateData.push(currentChar);
   }
   console.log(currentChar, calculateData);
-  showOnDisplayChars();
 }
 
-/**
- * Вывод на дисплей массива в виде строки.
- */
-function showOnDisplayChars() {
-  /*
-  for (let i = 0; i < calculateData.length; i++) {
-    if (i === 0) {
-      let result = calculateData;
-    }
-    displayElementRef.value.innerHTML = result.join("");
-  }
-    */
-}
-/**
- * очистка значения
- */
+// Очистка значения.
 function clearInputField() {
-  //displayElementRef.value.innerHTML = 0;
   calculateData.splice(0);
   console.log(calculateData);
 }
 /**
- *приоритет операции по правилам. сначала деление, умножение, потом сложение.
+ * Приоритет операции по правилам. сначала деление, умножение, потом сложение.
  * @returns
  */
 function getPriorityOperatorIndex() {
@@ -205,38 +179,37 @@ function getPriorityOperatorIndex() {
   return null;
 }
 
-/**
- * Вычисление результата и проверка на процент.
- */
+// Вычисление результата и проверка на процент.
 function getResult() {
   if (calculateData.length == 1) {
-    //displayElementRef.value.innerHTML = calculateData[0];
     return;
   }
-  /*  переменная для определения приоритетного оператора. нужна что бы проще было понять.
-  в вычислении процента использую operator. */
   let priorityOperatorIndex = getPriorityOperatorIndex();
-
-  /*переменные операндов. вынести в глобальные переменные, что бы не писать 
-  их в функции вычисления на %. Спорный вопрос, надо ли так делать? вынести после части кода строки 203-207*/
   let operandOne = calculateData[priorityOperatorIndex - 1];
   let operandTwo = calculateData[priorityOperatorIndex + 1];
   if (priorityOperatorIndex === null) {
     console.log("error");
-    //displayElementRef.value.innerHTML = "error";
     return;
   }
-  //проверка %
+  // Проверка %
   if (calculateData.includes("%") === true) {
-    //удаление знака % и передача трех параметров в функцию процента
+    // Удаление знака % и передача трех параметров в функцию процента.
     calculateData.pop();
-    executeOperation(operandOne, calculateData[priorityOperatorIndex], operandTwo);
+    executeOperation(
+      operandOne,
+      calculateData[priorityOperatorIndex],
+      operandTwo
+    );
     console.log("передача в функции %", calculateData);
   }
 
-  // взятие чисел для вычисления результата, в зависимости от приоритетного оператора
+  // Взятие чисел для вычисления результата, в зависимости от приоритетного оператора.
   if (isFinite(operandOne) && isFinite(operandTwo)) {
-    let resultOperation = defineOperator(operandOne, calculateData[priorityOperatorIndex], operandTwo);
+    let resultOperation = defineOperator(
+      operandOne,
+      calculateData[priorityOperatorIndex],
+      operandTwo
+    );
 
     calculateData.splice(priorityOperatorIndex - 1, 3, resultOperation);
     getResult();
@@ -246,7 +219,7 @@ function getResult() {
 }
 
 /**
- * патерн стратегия
+ * Патерн стратегия.
  * @param {Number} operandOne
  * @param {String} operator
  * @param {Number} operandTwo
@@ -267,7 +240,7 @@ function defineOperator(operandOne, operator, operandTwo) {
 }
 
 /**
- * сделать дробные числа
+ * Сделать дробные числа.
  * @param {Number} operandOne
  * @param {Number} operandTwo
  * @returns
@@ -288,7 +261,7 @@ function resultPlus(operandOne, operandTwo) {
 }
 
 /**
- * Вычитание
+ * Вычитание.
  * @param {Number} operandOne
  * @param {String} operator
  * @param {Number} operandTwo
@@ -320,9 +293,7 @@ function resultDivide(operandOne, operandTwo) {
   return operandOne / operandTwo;
 }
 
-/**
- * Удаление последнего символа.
- */
+// Удаление последнего символа.
 function removeLastCharacter() {
   let lastValue = calculateData.splice(-1).toString();
   console.log(lastValue, lastValue.length, calculateData);
@@ -331,18 +302,10 @@ function removeLastCharacter() {
     lastValue = lastValue.slice(0, lastValue.length - 1);
     calculateData.push(+lastValue);
     console.log(lastValue, calculateData);
-    //displayElementRef.value.innerHTML = 0;
-    showOnDisplayChars();
-  } else {
-    console.log(calculateData);
-    //displayElementRef.value.innerHTML = 0;
-    showOnDisplayChars();
   }
 }
 
-/**
- * Код с процентом, проверка что делать с процентом (- + / *). переименовать что бы было понятно что это с процентами работаем
- */
+// Код с процентом, проверка что делать с процентом (- + / *).
 function executeOperation(operandOne, operator, operandTwo) {
   if (operator === "-") {
     minusPercentageAmount(operandOne, operandTwo);
@@ -389,84 +352,125 @@ function multiplyPercentageAmount(baseValue, percentValue) {
 function dividePercentageAmount(baseValue, percentValue) {
   return baseValue / ((baseValue / 100) * percentValue);
 }
-
-/*
-баги, которые нашел: 
-
-прописать правила работы с процентом. что надо брать только два числа
-
-переделать процент.
-
-подумать на проверку перед отправкой в (Пример - 1 - 1). при нажатии на кнопки результат сделать проверку 
-котрая преобразует калькулейтитдата, если оператор мину его надо заменить на плюс. 
-
-отображение на дисплее скоректировать, что бы большое количество символов  
-было внутри рамок дисплея
-
-подумать надо ли выводить подсчет сразу при нажатии на оператора или оставить 
-все только в фурнкции результата
-
-при нажатии на минус перед числом, все ломается. надо сделать что бы если 0 индекс это -, 
-то число делать отрицательным
-
-автофокусировоание на дисплее
-*/
 </script>
 
 <template>
-  <div class="container">
-    <div class="row border-bottom border-dark border-2">
-      <div class="col">
-        <div class="display text-end fs-1 overflow-hidden" style="max-height: 1.5em">{{ calculatedData }}</div>
+  <div class="col-md-5 col-lg-3 mx-auto border border-dark border-2 rounded-3">
+    <div class="container">
+      <div class="row border-bottom border-dark border-2">
+        <div class="col">
+          <div
+            class="display text-end fs-1 overflow-hidden border-2"
+            style="max-height: 0.5em">{{ calculatedData }}
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="row justify-content-md-center">
-      <div class="col-md-auto">
-        <div class="row m-1">
-          <div class="col">
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-bold" @click="clearInputField()">AC</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="removeLastCharacter()">&#8592;</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('negative')">+/-</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('/')">/</button>
+      <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+          <div class="row m-1">
+            <div class="col">
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="clearInputField()">AC</button>
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="removeLastCharacter()"
+              >&#8592;</button><button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('negative')">+/-</button>
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('/')">/</button>
+            </div>
           </div>
-        </div>
 
-        <div class="row m-1">
-          <div class="col">
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(7)">7</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(8)">8</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(9)">9</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('x')">x</button>
+          <div class="row m-1">
+            <div class="col">
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(7)">7</button>
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(8)">8</button>
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(9)">9</button>
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('x')">x</button>
+            </div>
           </div>
-        </div>
 
-        <div class="row m-1">
-          <div class="col">
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(4)">4</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(5)">5</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(6)">6</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('-')">-</button>
+          <div class="row m-1">
+            <div class="col">
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(4)">4</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(5)">5</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(6)">6</button>
+              <button
+                type="button"
+                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('-')">-</button>
+            </div>
           </div>
-        </div>
 
-        <div class="row m-1">
-          <div class="col">
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(1)">1</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(2)">2</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(3)">3</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('+')">+</button>
+          <div class="row m-1">
+            <div class="col">
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(1)">1</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(2)">2</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(3)">3</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('+')">+</button>
+            </div>
           </div>
-        </div>
 
-        <div class="row m-1">
-          <div class="col">
-            <button type="button" class="button-calc button-calc-js button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('%')">
-              %
-            </button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3" @click="addCharToDisplay(0)">0</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="addCharToDisplay('.')">.</button>
-            <button type="button" class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 fw-semibold" @click="getResult()">=</button>
+          <div class="row m-1">
+            <div class="col">
+              <button
+                type="button"
+                class="button button-calc button-calc-js button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('%')">%</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay(0)">0</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="addCharToDisplay('.')">.</button>
+              <button
+                type="button"
+                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
+                @click="getResult()">=</button>
+            </div>
           </div>
         </div>
       </div>
@@ -475,13 +479,8 @@ function dividePercentageAmount(baseValue, percentValue) {
 </template>
 
 <style>
-.display {
-  width: 24px;
-  padding: 18px;
-  font-size: 38px;
-}
-.button-calc {
-  width: 4ch;
-  padding: 4ch;
+.button {
+  height: 60px;
+  width: 70px;
 }
 </style>
