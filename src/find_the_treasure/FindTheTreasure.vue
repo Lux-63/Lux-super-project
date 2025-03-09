@@ -1,44 +1,119 @@
 <script setup>
-import { ref, reactive } from "vue";
-import ModalWindow from "./ModalWindow.vue";
+import { ref } from "vue";
+
+const coordinateX = ref(null);
+const coordinateY = ref(null);
+//Всплывающая подскзказка.
+const targetDiv = ref("null");
+let centerX = ref(0);
+let centerY = ref(0);
+const infoText = ref("");
+const divInfoText = ref("");
 
 
+const settingsGame = ref({
+  width: 600,
+  height: 500,
+  map: document.querySelector(".js_map"),
+  clicks: 0,
+});
 
-const viewLetterElem = ref("hello");
-const inputs = ref([]);
-const myModal = ref(null);
-
-const isKeyboardOff = ref(false);
-
-function showModal() {
-    myModal.value.openModal();
+let target = {
+  x: getRandomNumber(settingsGame.value.width),
+  y: getRandomNumber(settingsGame.value.height),
 };
 
-function receiveNewData(param) {
-    
-    console.log(param);
+function getRandomNumber(size) {
+  return Math.floor(Math.random() * size);
+}
+
+function worksProcess(event) {
+  settingsGame.value.clicks++;
+
+  coordinateX.value = event.offsetX;
+  coordinateY.value = event.offsetY;
+  let distance = getDistance(event.offsetX, event.offsetY);
+  targetDiv.value.className = "div-reactive";
+  setTimeout(() => {
+    divInfoText.value = "";
+    targetDiv.value.className = "div-reactive-hidden";
+  }, 4000);
+
+  if (distance < 8) {
+    alert("Клад найден! Сделано кликов: " + settingsGame.value.clicks + " и мы перепрятали клад.");
+    infoText.value = "Попробуй найти!"
+    settingsGame.value.clicks = 0;
+    target.x = target.x = getRandomNumber(settingsGame.value.width);
+    target.y = target.x = getRandomNumber(settingsGame.value.width);
+  } else if (distance < 10) {
+    divInfoText.value = "Обожжешься!";
+    infoText.value = "Обожжешься!";
+  } else if (distance < 20) {
+    divInfoText.value = "Очень горячо!";
+    infoText.value = "Очень горячо!";
+  } else if (distance < 40) {
+    divInfoText.value = "Горячо!";
+    infoText.value = "Очень горячо!";
+  } else if (distance < 80) {
+    divInfoText.value = "Тепло!";
+    infoText.value = "Тепло!";
+  } else if (distance < 160) {
+    divInfoText.value = "Холодно!";
+    infoText.value = "Холодно!";
+  } else if (distance < 320) {
+    divInfoText.value = "Очень холодно!";
+    infoText.value = "Очень холодно!";
+  } else {
+    divInfoText.value = "Замерзнешь!";
+    infoText.value = "Замерзнешь!";
+  }
+  //console.log("координаты", target, "click", event.offsetX, event.offsetY, distance, coordinateX.value, coordinateY.value);
+};
+
+function getDistance(x, y) {
+  let diffX = x - target.x;
+  let diffY = y - target.y;
+  return Math.sqrt(diffX * diffX + diffY * diffY);
+};
+
+function positionDiv(x, y) {
+  //targetDiv.value.style.position = "absolute";
+  targetDiv.value.style.left = x + 30 + "px";
+  targetDiv.value.style.top = y + 10 + "px";
+  centerX.value = x;
+  centerY.value = y;
 };
 </script>
+
 <template>
-  <div>{{ viewLetterElem }}</div>
-  <div>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '1'">1</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '2'">2</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '3'">3</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '4'">4</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '5'">5</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '6'">6</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '7'">7</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '8'">8</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '9'">9</button>
-    <button ref="inputs" :disabled="isKeyboardOff" class="js-letter-btn col btn btn-outline-secondary" @click="viewLetterElem = '0'">0</button>
+  <div class="container text-center">
+    <div class="col">
+      <h1>Найди клад</h1>
+      <div>
+        <p class="js_distance">{{ infoText }}</p>
+        <img class="js_map" width="600" height="500" src="./map01.jpg" @click="worksProcess($event)" @mousemove="positionDiv($event.clientX, $event.clientY)" />
+      </div>
+    </div>
   </div>
-
-  <div class="page">
-    <button сlass="col btn btn-outline-secondary" @click="showModal()">Показать модальное окно</button>
-
-    <ModalWindow  ref="myModal" @changed-form="receiveNewData"></ModalWindow>
+  <div>
+    <div >
+      <div class="div-reactive-hidden" ref="targetDiv">{{ divInfoText }}</div>
+    </div>
   </div>
 </template>
 
-<style></style>
+<style>
+
+.div-reactive {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 3px solid black;
+  background-color: white;
+}
+.div-reactive-hidden {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+</style>

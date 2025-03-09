@@ -7,8 +7,11 @@ const simpleModal = ref(null);
 const text = ref("");
 let myModal = null;
 
+const inputFocus = ref(null);
 const isGameEasy = ref(true);
 const selectedCategory = ref("animal");
+
+
 
 onMounted(() => {
   myModal = new Modal(simpleModal.value);
@@ -17,6 +20,8 @@ onMounted(() => {
 
 function openModal() {
   myModal.show();
+  //inputFocus.value.focus();
+  console.log()
 };
 /**
  * передача параметров в родительский компонент. Имя, сложность, категория.
@@ -30,6 +35,7 @@ function saveChanges() {
 defineExpose({
   openModal,
 });
+
 </script>
 
 <template>
@@ -44,7 +50,7 @@ defineExpose({
       </div>
       <div class="modal-body">
         <div>
-          Ваше имя <input v-model="text" placeholder="друг"></input>
+          Ваше имя <input ref="inputFocus" v-model="text" placeholder="друг" />
         </div>
         <br />
         <div class="js-line-btn col">

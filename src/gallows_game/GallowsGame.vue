@@ -28,7 +28,7 @@ let nikName = ref("друг");
 let chanceLife = [drawOneLife, drawTwoLife, drawThreeLife, drawFourLife, drawFiveLife, drawSixLife, drawSevenLife, drawEightLife, drawNineLife, drawTenLife];
 const imageParts = chanceLife.length;
 
- const meaningsInRussian = {
+const meaningsInRussian = {
   animal: "животные",
   edible: "съедобное",
   inedible: "несъедобное",
@@ -62,11 +62,11 @@ function receiveNewData(paramName, paramDifficulty, paramCategory, ) {
   nikName.value = paramName;
   isGameEasy.value = paramDifficulty;
   selectedCategory.value = paramCategory;
-}
+  generationWord();
+};
 
 // Сообщения для игрока.
 const gameInfo = {
-  hiPlayer: `<p>Привет, <b>${nikName}.</b> Начнем игру!</p> `,
   startGame: 'Угадайте букву или нажмите "Начать заново" что бы сменить слово. ',
   letterWas: `вы уже использовали букву!`,
   correctLetter: `Поздравляем! Такая буква есть. Следующая буква?.`,
@@ -119,7 +119,10 @@ onMounted(() => {
   canvasContext = canvasElementRef.value.getContext("2d"); // Получаем контекст канваса и сохр. его в реакт. св-во.
   generationWord();
 });
-// Использование подсказок.
+
+/**
+ * Использование подсказок.
+ */
 function usingHints() {
   let unsolvedLettersIndexes = [];
   if (totalHints.value === 0) {
@@ -206,7 +209,7 @@ function generationWord() {
   resetGameState();
   // Выбираем слово из массива по категории.
   gameState.randomWord = allWords[selectedCategory.value][difficulty.value][Math.floor(Math.random() * allWords[selectedCategory.value][difficulty.value].length)];
-  console.log("пров функц генерация слова", gameState.randomWord);
+  //console.log("пров функц генерация слова", gameState.randomWord);
 
   for (let i = 0; gameState.randomWord.length > i; i++) {
     gameState.answer[i] = "-";
@@ -227,16 +230,16 @@ function gameProcess(event) {
   switch (charLetterUsage(letter)) {
     case STATE_LETTER_USED:
       console.log("было");
-      messageToPlayer.value = `<b>${nikName}</b> ${gameInfo.letterWas}`;
+      messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.letterWas}`;
       return;
     case STATE_LETTER_CORRECT:
       console.log("передача леттера", letter);
-      messageToPlayer.value = `<b>${nikName}</b> ${gameInfo.correctLetter}`;
+      messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.correctLetter}`;
       correctLetter(buttonElement, letter);
       break;
     case STATE_LETTER_WRONG:
       wrongLetter(buttonElement, letter);
-      messageToPlayer.value = `<b>${nikName}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
+      messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
       console.log("передача леттера", letter);
       break;
   }
@@ -247,6 +250,11 @@ function gameProcess(event) {
   console.log(buttonElement, letter);
 }
 
+/**
+ * Если буква угадана верно.
+ * @param buttonElement 
+ * @param letter 
+ */
 function correctLetter(buttonElement, letter) {
   let letterForCheck = [letter];
   if (letter == "е") {
@@ -265,6 +273,11 @@ function correctLetter(buttonElement, letter) {
   }
 }
 
+/**
+ * Если буква угадана не верно.
+ * @param buttonElement 
+ * @param letter 
+ */
 function wrongLetter(buttonElement, letter) {
   // Смена цвета.
   buttonElement.className += " letter-wrong";
@@ -280,9 +293,12 @@ function wrongLetter(buttonElement, letter) {
   }
 }
 
+/**
+ * Если игрок проиграл.
+ */
 function gameOver() {
   console.log("Проигрыш");
-  messageToPlayer.value = `<b>${nikName}</b> ${gameInfo.gameOver} "${gameState.randomWord}"`;
+  messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.gameOver} "${gameState.randomWord}"`;
   for (let j = 0; j < gameState.randomWord.length; j++) {
     gameState.answer[j] = gameState.randomWord[j];
     console.log("проиграл");
@@ -290,8 +306,11 @@ function gameOver() {
   isKeyboardOff.value = true;
 }
 
+/**
+ * Если игрок выйграл.
+ */
 function victory() {
-  messageToPlayer.value = `<b>${nikName}</b> ${gameInfo.playerWin}<b>"${gameState.randomWord}"</b>`;
+  messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.playerWin}<b>"${gameState.randomWord}"</b>`;
   drawPlayerWin();
   totalHints.value += addHintOnDifficulty.value;
   isbuttonHelpOff.value = false;
