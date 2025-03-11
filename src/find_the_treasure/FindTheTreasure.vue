@@ -90,14 +90,28 @@ function positionDiv(x, y) {
     <div class="col">
       <h1>Найди клад</h1>
       <div>
-        <p class="js_distance">{{ infoText }}</p>
-        <img class="js_map" width="600" height="500" src="./map01.jpg" @click="worksProcess($event)" @mousemove="positionDiv($event.clientX, $event.clientY)" />
+        <p class="js_distance">
+          {{ infoText }}
+        </p>
+        <img
+          class="js_map"
+          width="600"
+          height="500"
+          src="./map01.jpg"
+          @click="worksProcess($event)"
+          @mousemove="positionDiv($event.clientX, $event.clientY)"
+        >
       </div>
     </div>
   </div>
   <div>
-    <div >
-      <div class="div-reactive-hidden" ref="targetDiv">{{ divInfoText }}</div>
+    <div>
+      <div
+        ref="targetDiv"
+        class="div-reactive-hidden"
+      >
+        {{ divInfoText }}
+      </div>
     </div>
   </div>
 </template>

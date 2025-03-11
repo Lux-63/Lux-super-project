@@ -1,11 +1,11 @@
 <script setup>
 import { ref } from "vue";
-import Calculator from "./calculator/Calculator.vue";
+import SimpleCalculator from "./calculator/SimpleCalculator.vue";
 import GallowsGame from "./gallows_game/GallowsGame.vue";
 import FindTheTreasure from "./find_the_treasure/FindTheTreasure.vue";
 import GameOfLife from "./GameOfLife/GameOfLife.vue";
 
-import Testing from "./testing/Testing.vue";
+import VariousTesting from "./VariousTesting/VariousTesting.vue";
 
 const isViewCalculator = ref(false);
 const isViewGallows = ref(false);
@@ -108,20 +108,54 @@ function showTesting() {
 <template>
   <header>
     <div>
-      <button type="button" class="col btn btn-outline-secondary" @click="showCalculator" ref="calculatorLink">калькулятор</button>
-      <button type="button" class="col btn btn-outline-secondary" @click="showGallows" ref="gallowsLink">виселица</button>
-      <button type="button" class="col btn btn-outline-secondary" @click="showFindTheTreasure" ref="findTheTreasureLink">найди клад</button>
-      <button type="button" class="col btn btn-outline-secondary" @click="showGameOfLife" ref="gameOfLifeLink">игра в жизнь</button>
-      <button type="button" class="col btn btn-outline-secondary" @click="showTesting" ref="testLink">тестовое</button>
+      <button
+        ref="calculatorLink"
+        type="button"
+        class="col btn btn-outline-secondary"
+        @click="showCalculator"
+      >
+        калькулятор
+      </button>
+      <button
+        ref="gallowsLink"
+        type="button"
+        class="col btn btn-outline-secondary"
+        @click="showGallows"
+      >
+        виселица
+      </button>
+      <button
+        ref="findTheTreasureLink"
+        type="button"
+        class="col btn btn-outline-secondary"
+        @click="showFindTheTreasure"
+      >
+        найди клад
+      </button>
+      <button
+        ref="gameOfLifeLink"
+        type="button"
+        class="col btn btn-outline-secondary"
+        @click="showGameOfLife"
+      >
+        игра в жизнь
+      </button>
+      <button
+        ref="testLink"
+        type="button"
+        class="col btn btn-outline-secondary"
+        @click="showTesting"
+      >
+        тестовое
+      </button>
     </div>
-
   </header>
 
   <main>
-    <Calculator v-if="isViewCalculator" />
+    <SimpleCalculator v-if="isViewCalculator" />
     <GallowsGame v-if="isViewGallows" />
     <FindTheTreasure v-if="isViewFindTheTreasure" />
-    <Testing v-if="isViewTesting" />
+    <VariousTesting v-if="isViewTesting" />
     <GameOfLife v-if="isViewGameOfLife" />
   </main>
 </template>

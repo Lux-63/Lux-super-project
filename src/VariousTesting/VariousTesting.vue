@@ -32,10 +32,21 @@ function positionDiv(x, y) {
 <template>
   <div>
     <div>
-      <h2 class="Contur">тык {{ centerX }} : {{ centerY }}</h2>
+      <h2 class="Contur">
+        тык {{ centerX }} : {{ centerY }}
+      </h2>
     </div>
-    <div class="box" @click="divClickElem($event.clientX, $event.clientY)" @mousemove="positionDiv($event.clientX, $event.clientY)">
-      <div class="div-reactive-hidden" ref="targetDiv">{{ text }}</div>
+    <div
+      class="box"
+      @click="divClickElem($event.clientX, $event.clientY)"
+      @mousemove="positionDiv($event.clientX, $event.clientY)"
+    >
+      <div
+        ref="targetDiv"
+        class="div-reactive-hidden"
+      >
+        {{ text }}
+      </div>
     </div>
   </div>
 </template>

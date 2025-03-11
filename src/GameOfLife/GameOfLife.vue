@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted } from "vue";
 
 let centerX = ref(0);
 let centerY = ref(0);
@@ -67,15 +67,37 @@ function positionDiv(x, y) {
 <template>
   <div class="container text-center">
     <div>Информация</div>
-    <button type="button" @click="LivingCell">старт</button>
-    <button type="button">стоп</button>
-    <button type="button">сброс</button>
-    <button type="button" @click="test">тест</button>
+    <button
+      type="button"
+      @click="LivingCell"
+    >
+      старт
+    </button>
+    <button type="button">
+      стоп
+    </button>
+    <button type="button">
+      сброс
+    </button>
+    <button
+      type="button"
+      @click="test"
+    >
+      тест
+    </button>
   </div>
   <div class="container text-center">
-    <canvas ref="canvasElementRef" class="position canvas-style border border-black center" height="400px" width="400px" @mousemove="positionDiv($event.clientX, $event.clientY)"> </canvas>
+    <canvas
+      ref="canvasElementRef"
+      class="position canvas-style border border-black center"
+      height="400px"
+      width="400px"
+      @mousemove="positionDiv($event.clientX, $event.clientY)"
+    />
   </div>
-  <div class="container text-center">{{ centerX }} {{ centerY }}</div>
+  <div class="container text-center">
+    {{ centerX }} {{ centerY }}
+  </div>
 </template>
 
 <style>

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted, computed } from "vue";
+import { reactive, computed } from "vue";
 
 // Основной массив.
 let calculateData = reactive([]);
@@ -361,7 +361,9 @@ function dividePercentageAmount(baseValue, percentValue) {
         <div class="col">
           <div
             class="display text-end fs-1 overflow-hidden border-2"
-            style="max-height: 0.5em">{{ calculatedData }}
+            style="max-height: 0.5em"
+          >
+            {{ calculatedData }}
           </div>
         </div>
       </div>
@@ -373,19 +375,30 @@ function dividePercentageAmount(baseValue, percentValue) {
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="clearInputField()">AC</button>
+                @click="clearInputField()"
+              >
+                AC
+              </button>
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
                 @click="removeLastCharacter()"
-              >&#8592;</button><button
+              >
+                &#8592;
+              </button><button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('negative')">+/-</button>
+                @click="addCharToDisplay('negative')"
+              >
+                +/-
+              </button>
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('/')">/</button>
+                @click="addCharToDisplay('/')"
+              >
+                /
+              </button>
             </div>
           </div>
 
@@ -394,19 +407,31 @@ function dividePercentageAmount(baseValue, percentValue) {
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(7)">7</button>
+                @click="addCharToDisplay(7)"
+              >
+                7
+              </button>
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(8)">8</button>
+                @click="addCharToDisplay(8)"
+              >
+                8
+              </button>
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(9)">9</button>
+                @click="addCharToDisplay(9)"
+              >
+                9
+              </button>
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('x')">x</button>
+                @click="addCharToDisplay('x')"
+              >
+                x
+              </button>
             </div>
           </div>
 
@@ -415,19 +440,31 @@ function dividePercentageAmount(baseValue, percentValue) {
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(4)">4</button>
+                @click="addCharToDisplay(4)"
+              >
+                4
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(5)">5</button>
+                @click="addCharToDisplay(5)"
+              >
+                5
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(6)">6</button>
+                @click="addCharToDisplay(6)"
+              >
+                6
+              </button>
               <button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('-')">-</button>
+                @click="addCharToDisplay('-')"
+              >
+                -
+              </button>
             </div>
           </div>
 
@@ -436,19 +473,31 @@ function dividePercentageAmount(baseValue, percentValue) {
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(1)">1</button>
+                @click="addCharToDisplay(1)"
+              >
+                1
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(2)">2</button>
+                @click="addCharToDisplay(2)"
+              >
+                2
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(3)">3</button>
+                @click="addCharToDisplay(3)"
+              >
+                3
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('+')">+</button>
+                @click="addCharToDisplay('+')"
+              >
+                +
+              </button>
             </div>
           </div>
 
@@ -457,19 +506,31 @@ function dividePercentageAmount(baseValue, percentValue) {
               <button
                 type="button"
                 class="button button-calc button-calc-js button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('%')">%</button>
+                @click="addCharToDisplay('%')"
+              >
+                %
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(0)">0</button>
+                @click="addCharToDisplay(0)"
+              >
+                0
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('.')">.</button>
+                @click="addCharToDisplay('.')"
+              >
+                .
+              </button>
               <button
                 type="button"
                 class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="getResult()">=</button>
+                @click="getResult()"
+              >
+                =
+              </button>
             </div>
           </div>
         </div>

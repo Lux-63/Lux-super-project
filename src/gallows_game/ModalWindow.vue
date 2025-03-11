@@ -39,48 +39,87 @@ defineExpose({
 </script>
 
 <template>
-
-<!-- Модальное окно -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" ref="simpleModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Выберите нужные параметры</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-      </div>
-      <div class="modal-body">
-        <div>
-          Ваше имя <input ref="inputFocus" v-model="text" placeholder="друг" />
+  <!-- Модальное окно -->
+  <div
+    id="exampleModal"
+    ref="simpleModal"
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1
+            id="exampleModalLabel"
+            class="modal-title fs-5"
+          >
+            Выберите нужные параметры
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Закрыть"
+          />
         </div>
-        <br />
-        <div class="js-line-btn col">
-      <div>
-        <button
-          class="col btn btn-outline-secondary"
-          data-bs-toggle="button"
-          @click="
-            isGameEasy = !isGameEasy;"
-        >
-          {{ isGameEasy ? "легко" : "сложно" }}
-        </button>  
+        <div class="modal-body">
+          <div>
+            Ваше имя <input
+              ref="inputFocus"
+              v-model="text"
+              placeholder="друг"
+            >
+          </div>
+          <br>
+          <div class="js-line-btn col">
+            <div>
+              <button
+                class="col btn btn-outline-secondary"
+                data-bs-toggle="button"
+                @click="
+                  isGameEasy = !isGameEasy;"
+              >
+                {{ isGameEasy ? "легко" : "сложно" }}
+              </button>  
         
-        <select
-          class="col btn btn-outline-secondary" v-model="selectedCategory" @click="changeCategory">
-          <option value="animal" data="животные">   Животные</option>
-          <option value="edible">Съедобное</option>
-          <option value="inedible">Несъедобное</option>
-          <option value="all">Все категории</option>
-        </select>
-      </div>
-    </div>
-         
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="col btn btn-outline-secondary" @click="saveChanges">Сохранить изменения</button>
+              <select
+                v-model="selectedCategory"
+                class="col btn btn-outline-secondary"
+                @click="changeCategory"
+              >
+                <option
+                  value="animal"
+                  data="животные"
+                >
+                  Животные
+                </option>
+                <option value="edible">
+                  Съедобное
+                </option>
+                <option value="inedible">
+                  Несъедобное
+                </option>
+                <option value="all">
+                  Все категории
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="col btn btn-outline-secondary"
+            @click="saveChanges"
+          >
+            Сохранить изменения
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <style>

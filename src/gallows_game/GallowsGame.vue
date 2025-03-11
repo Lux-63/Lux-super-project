@@ -5,9 +5,7 @@
 2. Систему баллов и получение подсказок за эти баллы.
 ----------------------------------------
  */
-
 import { ref, onMounted, reactive } from "vue";
-import { Modal } from "bootstrap";
 import ModalWindow from "./ModalWindow.vue";
 
 const selectedCategory = ref("animal");
@@ -238,7 +236,7 @@ function gameProcess(event) {
       correctLetter(buttonElement, letter);
       break;
     case STATE_LETTER_WRONG:
-      wrongLetter(buttonElement, letter);
+      wrongLetter(buttonElement);
       messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
       console.log("передача леттера", letter);
       break;
@@ -278,7 +276,7 @@ function correctLetter(buttonElement, letter) {
  * @param buttonElement 
  * @param letter 
  */
-function wrongLetter(buttonElement, letter) {
+function wrongLetter(buttonElement) {
   // Смена цвета.
   buttonElement.className += " letter-wrong";
   // Отнимаем жизнь
@@ -509,23 +507,45 @@ function drawPlayerWin() {
 </script>
 
 <template>
-  <div class="container text-center" style="width: 600px">
-    <div class="js-top-window-btn row"></div>
+  <div
+    class="container text-center"
+    style="width: 600px"
+  >
+    <div class="js-top-window-btn row" />
 
     <div class="row">
       <div>
-        <div class="container text-center" v-html="`Привет <b>${nikName}</b>. <p />категория: <b>${meaningsInRussian[selectedCategory]}</b>, сложность: <b>${meaningsInRussian[isGameEasy]}</b>`"></div>
-        <canvas ref="canvasElementRef" class="canvas-style border border-black center" height="250px" width="300px"> </canvas>
+        <div
+          class="container text-center"
+          v-html="`Привет <b>${nikName}</b>. <p />категория: <b>${meaningsInRussian[selectedCategory]}</b>, сложность: <b>${meaningsInRussian[isGameEasy]}</b>`"
+        />
+        <canvas
+          ref="canvasElementRef"
+          class="canvas-style border border-black center"
+          height="250px"
+          width="300px"
+        />
       </div>
     </div>
-    <div class="container text-center" ref="infoElementRef" v-html="messageToPlayer"></div>
+    <div
+      class="container text-center"
+      ref="infoElementRef"
+      v-html="messageToPlayer"
+    />
     <div class="row">
-      <div class="js-information-btn col"></div>
+      <div class="js-information-btn col" />
     </div>
 
     <div class="js-block-answer-btn row justify-content-center">
-      <div class="js-hidden-word-btn row" style="width: 400px">
-        <div class="js-answer-word-btn col" v-for="item in gameState.answer">
+      <div
+        class="js-hidden-word-btn row"
+        style="width: 400px"
+      >
+        <div
+          class="js-answer-word-btn col"
+          v-for="item in gameState.answer" 
+          :key="item.id"
+        > 
           {{ item }}
         </div>
       </div>
@@ -533,58 +553,338 @@ function drawPlayerWin() {
 
     <div class="js-line-btn col">
       <div>
-        <button class="js-letter-btn col btn btn-outline-secondary" @click="generationWord()">Начать заново</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" @click="showModal()">Настройки игры</button>
-        <ModalWindow ref="myModal" @changed-form="receiveNewData"></ModalWindow>
-        <button class="js-letter-btn col btn btn-outline-secondary" :disabled="isbuttonHelpOff" @click="usingHints()">всего подсказок: {{ totalHints }}</button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          @click="generationWord()"
+        >
+          Начать заново
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          @click="showModal()"
+        >
+          Настройки игры
+        </button>
+        <ModalWindow
+          ref="myModal"
+          @changed-form="receiveNewData"
+        />
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          :disabled="isbuttonHelpOff"
+          @click="usingHints()"
+        >
+          всего подсказок: {{ totalHints }}
+        </button>
       </div>
     </div>
     <div>
       <div class="js-line-btn row">
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="й" @click="gameProcess($event, 'й')">Й</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ц" @click="gameProcess($event, 'ц')">Ц</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="у" @click="gameProcess($event, 'у')">У</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="к" @click="gameProcess($event, 'к')">К</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="е" @click="gameProcess($event, 'е')">Е</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="н" @click="gameProcess($event, 'н')">Н</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="г" @click="gameProcess($event, 'г')">Г</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ш" @click="gameProcess($event, 'ш')">Ш</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="щ" @click="gameProcess($event, 'щ')">Щ</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="з" @click="gameProcess($event, 'з')">З</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="х" @click="gameProcess($event, 'х')">Х</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ъ" @click="gameProcess($event, 'ъ')">Ъ</button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="й"
+          @click="gameProcess($event, 'й')"
+        >
+          Й
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ц"
+          @click="gameProcess($event, 'ц')"
+        >
+          Ц
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="у"
+          @click="gameProcess($event, 'у')"
+        >
+          У
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="к"
+          @click="gameProcess($event, 'к')"
+        >
+          К
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="е"
+          @click="gameProcess($event, 'е')"
+        >
+          Е
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="н"
+          @click="gameProcess($event, 'н')"
+        >
+          Н
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="г"
+          @click="gameProcess($event, 'г')"
+        >
+          Г
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ш"
+          @click="gameProcess($event, 'ш')"
+        >
+          Ш
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="щ"
+          @click="gameProcess($event, 'щ')"
+        >
+          Щ
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="з"
+          @click="gameProcess($event, 'з')"
+        >
+          З
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="х"
+          @click="gameProcess($event, 'х')"
+        >
+          Х
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ъ"
+          @click="gameProcess($event, 'ъ')"
+        >
+          Ъ
+        </button>
       </div>
       <div class="js-line-btn row">
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ф" @click="gameProcess($event, 'ф')">Ф</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ы" @click="gameProcess($event, 'ы')">Ы</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="в" @click="gameProcess($event, 'в')">В</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="а" @click="gameProcess($event, 'а')">А</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="п" @click="gameProcess($event, 'п')">П</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="р" @click="gameProcess($event, 'р')">Р</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="о" @click="gameProcess($event, 'о')">О</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="л" @click="gameProcess($event, 'л')">Л</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="д" @click="gameProcess($event, 'д')">Д</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ж" @click="gameProcess($event, 'ж')">Ж</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="э" @click="gameProcess($event, 'э')">Э</button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ф"
+          @click="gameProcess($event, 'ф')"
+        >
+          Ф
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ы"
+          @click="gameProcess($event, 'ы')"
+        >
+          Ы
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="в"
+          @click="gameProcess($event, 'в')"
+        >
+          В
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="а"
+          @click="gameProcess($event, 'а')"
+        >
+          А
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="п"
+          @click="gameProcess($event, 'п')"
+        >
+          П
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="р"
+          @click="gameProcess($event, 'р')"
+        >
+          Р
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="о"
+          @click="gameProcess($event, 'о')"
+        >
+          О
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="л"
+          @click="gameProcess($event, 'л')"
+        >
+          Л
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="д"
+          @click="gameProcess($event, 'д')"
+        >
+          Д
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ж"
+          @click="gameProcess($event, 'ж')"
+        >
+          Ж
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="э"
+          @click="gameProcess($event, 'э')"
+        >
+          Э
+        </button>
       </div>
       <div class="js-line-btn row">
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="я" @click="gameProcess($event, 'я')">Я</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ч" @click="gameProcess($event, 'ч')">Ч</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="с" @click="gameProcess($event, 'с')">С</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="м" @click="gameProcess($event, 'м')">М</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="и" @click="gameProcess($event, 'и')">И</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="т" @click="gameProcess($event, 'т')">Т</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ь" @click="gameProcess($event, 'ь')">Ь</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="б" @click="gameProcess($event, 'б')">Б</button>
-        <button class="js-letter-btn col btn btn-outline-secondary" ref="letterButton" :disabled="isKeyboardOff" data-index="ю" @click="gameProcess($event, 'ю')">Ю</button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="я"
+          @click="gameProcess($event, 'я')"
+        >
+          Я
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ч"
+          @click="gameProcess($event, 'ч')"
+        >
+          Ч
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="с"
+          @click="gameProcess($event, 'с')"
+        >
+          С
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="м"
+          @click="gameProcess($event, 'м')"
+        >
+          М
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="и"
+          @click="gameProcess($event, 'и')"
+        >
+          И
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="т"
+          @click="gameProcess($event, 'т')"
+        >
+          Т
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ь"
+          @click="gameProcess($event, 'ь')"
+        >
+          Ь
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="б"
+          @click="gameProcess($event, 'б')"
+        >
+          Б
+        </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          ref="letterButton"
+          :disabled="isKeyboardOff"
+          data-index="ю"
+          @click="gameProcess($event, 'ю')"
+        >
+          Ю
+        </button>
       </div>
     </div>
     <div class="js-line-btn col ">
       <div class="d-grid gap-2">
-        <button class="col btn btn-outline-secondary" @click="proverimNuzhnoemne()">Проверка</button>
+        <button
+          class="col btn btn-outline-secondary"
+          @click="proverimNuzhnoemne()"
+        >
+          Проверка
+        </button>
       </div>
     </div>
-    <div class="js-line-btn"></div>
+    <div class="js-line-btn" />
   </div>
 </template>
 
