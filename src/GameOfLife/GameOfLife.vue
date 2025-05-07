@@ -12,6 +12,7 @@ const isOptionWithObject = ref(false);
 const isOptionWithArray = ref(true);
 let fieldWidth = ref(400);
 let fieldHeight = ref(400);
+let epochCounter = ref(0)
 //let y = ref(400);
 
 function showOptionWithObject () {
@@ -26,7 +27,7 @@ function showOptionWithArray () {
 function fieldSize() {
   fieldWidth.value = Number(prompt("ширина поля", 400));
   fieldHeight.value = Number(prompt("высота поля", 400))
-  console.log(fieldWidth.value)
+  console.log(fieldWidth.value, fieldHeight.value)
 }
 // provide("fieldWidth", fieldWidth.value)
 </script>
@@ -60,6 +61,7 @@ function fieldSize() {
         v-if="isOptionWithArray" 
         :field-width="fieldWidth"
         :field-height="fieldHeight"
+        :epoch-counter="epochCounter"
       />
     </div>
   </div>

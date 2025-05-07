@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
+
 const props = defineProps({
   fieldWidth: Number,
-  fieldHeight: Number
+  fieldHeight: Number,
 })
+
 
 /*
 проход по соседям идет и в отрицательные числаБ возможно поэтому он не корректно отображается
@@ -20,12 +22,15 @@ let centerX = ref(0);
 let centerY = ref(0);
 const canvasElementRef = ref(null);
 let canvasContext = null;
-let epochCounter = ref(0)
+let epochCounter = ref(0);
 let timerId = null;
-let allCellX = 0;
-let allCellY = 0;
+let allCellX = ref(props.fieldWidth);
+let allCellY = ref(props.fieldHeight);
+
+
 let testX = ref(0);
 //let testY = inject(y.value);
+
 
 let indexY = 0;
 let indexX = 0;
@@ -36,26 +41,26 @@ let bornCells = [];
 
 onMounted(() => {
   canvasContext = canvasElementRef.value.getContext("2d");
-  allCellX = props.fieldWidth / 10;
-  allCellY = props.fieldHeight / 10;
+  // allCellX.value = props.fieldWidth;
+  // allCellY.value = props.fieldHeight;
   testX.value = props.fieldWidth / 10;
 
-  for (let x = 0; x <= allCellX * 10; x += 10) {
+  for (let x = 0; x <= allCellX.value; x += 10) {
     canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, allCellX * 10);
+    canvasContext.lineTo(x, allCellX.value);
   }
-  for (let y = 0; y < allCellY * 10; y += 10) {
+  for (let y = 0; y < allCellY.value; y += 10) {
     canvasContext.moveTo(0, y);
-    canvasContext.lineTo(allCellY * 10, y);
+    canvasContext.lineTo(allCellY.value, y);
   }
   canvasContext.strokeStyle = "silver";
   canvasContext.stroke();
 
   // ToDo посмотреть другие способы не через циклы. Или оставить один цикл.
-  for (let i = 0; i < allCellY; i++) {
+  for (let i = 0; i < allCellY.value; i++) {
     indexY = i;
     population.push([]);
-    for (let i = 0; i < allCellX; i++) {
+    for (let i = 0; i < allCellX.value; i++) {
       indexX = i;
       population[indexY].push(0);
     }
@@ -68,7 +73,7 @@ onMounted(() => {
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
 function test() {
-  //console.log(allCellX, allCellY)
+  console.log(allCellX.value, allCellY.value);
   canvasContext
   let addLivingCell = [
     [6, 6],
@@ -111,7 +116,7 @@ function test() {
     });
   }
 
-  console.log("проверим параметры", testX.value, allCellX, allCellY);
+  console.log("проверим параметры", testX.value, allCellX.value, allCellY.value);
 }
 
 /**
@@ -153,11 +158,11 @@ function checkingNeighbors(y, x) {
   const neighboringCell = [
     y > 0 && x > 0 ? population[y-1][x-1] : -1,
     y > 0 ? population[y-1][x] : -1,
-    y > 0 && x < allCellX - 1 ? population[y-1][x+1] : -1,
-    y > 0 && x < allCellX - 1 ? population[y][x+1] : -1,
-    y < allCellY - 1 && x < allCellX ? population[y+1][x+1] : -1,
-    y < allCellY - 1 ? population[y+1][x] : -1,
-    y < allCellY - 1 && x > 0 ? population[y+1][x-1] : -1,
+    y > 0 && x < allCellX.value - 1 ? population[y-1][x+1] : -1,
+    y > 0 && x < allCellX.value - 1 ? population[y][x+1] : -1,
+    y < allCellY.value - 1 && x < allCellX.value ? population[y+1][x+1] : -1,
+    y < allCellY.value - 1 ? population[y+1][x] : -1,
+    y < allCellY.value - 1 && x > 0 ? population[y+1][x-1] : -1,
     x > 0 ? population[y][x-1] : -1,
   ];
 
@@ -188,11 +193,11 @@ function birthCell(y, x) {
   const neighboringCell = [
     y > 0 && x > 0 ? population[y-1][x-1] : -1,
     y > 0 ? population[y-1][x] : -1,
-    y > 0 && x < allCellX - 1 ? population[y-1][x+1] : -1,
-    y > 0 && x < allCellX - 1 ? population[y][x+1] : -1,
-    y < allCellY - 1 && x < allCellX ? population[y+1][x+1] : -1,
-    y < allCellY - 1 ? population[y+1][x] : -1,
-    y < allCellY - 1 && x > 0 ? population[y+1][x-1] : -1,
+    y > 0 && x < allCellX.value - 1 ? population[y-1][x+1] : -1,
+    y > 0 && x < allCellX.value - 1 ? population[y][x+1] : -1,
+    y < allCellY.value - 1 && x < allCellX.value ? population[y+1][x+1] : -1,
+    y < allCellY.value - 1 ? population[y+1][x] : -1,
+    y < allCellY.value - 1 && x > 0 ? population[y+1][x-1] : -1,
     x > 0 ? population[y][x-1] : -1,
   ];
   // перебор соседей.
@@ -226,13 +231,13 @@ function cellEvolution() {
   deadCells = [];
 
   // Восстанавливаем клетки. Цвет меняется потому что разметка становится сверху?
-  for (let x = 0; x < allCellX * 10; x += 10) {
+  for (let x = 0; x < allCellX.value * 10; x += 10) {
     canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, allCellX * 10);
+    canvasContext.lineTo(x, allCellX.value * 10);
   }
-  for (let y = 0; y < allCellY * 10; y += 10) {
+  for (let y = 0; y < allCellY.value * 10; y += 10) {
     canvasContext.moveTo(0, y);
-    canvasContext.lineTo(allCellY * 10, y);
+    canvasContext.lineTo(allCellY.value * 10, y);
   }
   canvasContext.strokeStyle = "silver";
   canvasContext.stroke();
@@ -245,20 +250,20 @@ function cellEvolution() {
 function positionDiv(x, y) {
   centerX.value = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / 10);
   centerY.value = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / 10);
-  if( centerX.value >= allCellX) {
+  if( centerX.value >= allCellX.value) {
     centerX.value--;
   }
-  if (centerY.value >= allCellY) {
+  if (centerY.value >= allCellY.value) {
     centerY.value--;
   }
 }
 function positionCanvas(x, y) {
   x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / 10);
   y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / 10);
-  if( x >= allCellX) {
+  if( x >= allCellX.value) {
     x--;
   }
-  if (y >= allCellY) {
+  if (y >= allCellY.value) {
     y--;
   }
   
@@ -270,13 +275,13 @@ function positionCanvas(x, y) {
 function clearArea() {
   canvasContext.clearRect(0, 0, 400, 400);
   //переписываем массив клеток.
-  allCellX = 400 / 10;
-  allCellY = 400 / 10;
+  allCellX.value = 400 / 10;
+  allCellY.value = 400 / 10;
   population = [];
-  for (let i = 0; i < allCellY; i++) {
+  for (let i = 0; i < allCellY.value; i++) {
     indexY = i;
     population.push([]);
-    for (let i = 0; i < allCellX; i++) {
+    for (let i = 0; i < allCellX.value; i++) {
       indexX = i;
       population[indexY].push(0);
       console.log(population)
@@ -284,13 +289,13 @@ function clearArea() {
   }
   epochCounter.value = 0;
   // Восстанавливаем клетки
-  for (let x = 0; x <= allCellX * 10; x += 10) {
+  for (let x = 0; x <= allCellX.value * 10; x += 10) {
     canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, allCellX * 10);
+    canvasContext.lineTo(x, allCellX.value * 10);
   }
-  for (let y = 0; y < allCellY * 10; y += 10) {
+  for (let y = 0; y < allCellY.value * 10; y += 10) {
     canvasContext.moveTo(0, y);
-    canvasContext.lineTo(allCellY * 10, y);
+    canvasContext.lineTo(allCellY.value * 10, y);
   }
   canvasContext.strokeStyle = "silver";
   canvasContext.stroke();
@@ -342,22 +347,21 @@ function stopGame() {
   <div class="container text-center">
     <canvas
       ref="canvasElementRef"
-      class="canvas-size position canvas-style border border-black center"
-      width="400px"
+      class="canvas-size"
       height="400px"
-      
+      width="400px"
       
       @mousemove="positionDiv($event.clientX, $event.clientY)"
       @click="positionCanvas($event.clientX, $event.clientY)"
     />
   </div>
   <div class="container text-center">
-    Текущее поколение: {{ epochCounter }} 
+    Текущее поколение: {{ epochCounter }} размер {{ fieldWidth }} {{ fieldHeight }}
   </div>
 </template>
 
 <style>
-.canvas-size1 {
+.canvas-size {
   width: 400px;
   height: 400px;
 }

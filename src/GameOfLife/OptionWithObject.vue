@@ -11,10 +11,13 @@ import { ref, onMounted } from "vue";
 что будет, если все поле будет в живых клетках.
 */
 
+
+
 let centerX = ref(0);
 let centerY = ref(0);
 const canvasElementRef = ref(null);
 let canvasContext = null;
+let epochCounter = ref(0)
 let timerId = null;
 let allCellX = 400;
 let allCellY = 400;
@@ -92,6 +95,7 @@ function nextStep() {
     //console.log("шаг", coordinateX, coordinateY);
     checkingNeighbors(coordinateX, coordinateY);
   }
+  epochCounter.value++;
   cellEvolution();
 }
 /**
@@ -294,6 +298,7 @@ function clearArea() {
   canvasContext.clearRect(0, 0, allCellX * 10, allCellY * 10);
   population = {};
 
+  epochCounter.value = 0;
   // Восстанавливаем клетки
   for (let x = 0; x <= allCellX * 10; x += 10) {
     canvasContext.moveTo(x, 0);
@@ -360,6 +365,6 @@ function stopGame() {
     />
   </div>
   <div class="container text-center">
-    {{ centerX }} {{ centerY }} obj
+    Текущее поколение: {{ epochCounter }}
   </div>
 </template>
