@@ -7,27 +7,23 @@ import OptionWithArray from "./OptionWithArray.vue";
 сделать рисование в отдельной функции вообще.
 */
 
-
 const isOptionWithObject = ref(false);
 const isOptionWithArray = ref(true);
-let fieldWidth = ref(400);
-let fieldHeight = ref(400);
-let epochCounter = ref(0)
-//let y = ref(400);
+let cellCountX = ref(40);
+let cellCountY = ref(40);
 
-function showOptionWithObject () {
+function showOptionWithObject() {
   isOptionWithObject.value = true;
   isOptionWithArray.value = false;
-};
-function showOptionWithArray () {
+}
+function showOptionWithArray() {
   isOptionWithObject.value = false;
   isOptionWithArray.value = true;
-};
+}
 
 function fieldSize() {
-  fieldWidth.value = Number(prompt("ширина поля", 400));
-  fieldHeight.value = Number(prompt("высота поля", 400))
-  console.log(fieldWidth.value, fieldHeight.value)
+  cellCountX.value = Number(prompt("количество клеток в ширину", 40));
+  cellCountY.value = Number(prompt("количество клеток в высоту", 40));
 }
 // provide("fieldWidth", fieldWidth.value)
 </script>
@@ -36,19 +32,17 @@ function fieldSize() {
   <div class="container text-center">
     <div>
       <select v-bind="showOptionWithArray">
-        <option
+        <option 
           @click="showOptionWithArray"
         >
           вариант с массивом
         </option>
-        <option 
-          @click="showOptionWithObject"
-        >
+        <option @click="showOptionWithObject">
           вариант с объектом
         </option>
       </select>
-      <button
-        type="button"
+      <button 
+        type="button" 
         @click="fieldSize"
       >
         размер поля
@@ -56,16 +50,18 @@ function fieldSize() {
     </div>
 
     <div>
-      <OptionWithObject v-if="isOptionWithObject" />
-      <OptionWithArray 
-        v-if="isOptionWithArray" 
-        :field-width="fieldWidth"
-        :field-height="fieldHeight"
-        :epoch-counter="epochCounter"
+      <OptionWithObject 
+        v-if="isOptionWithObject" 
+        :cell-count-x="cellCountX"
+        :cell-count-y="cellCountY"
+      />
+      <OptionWithArray
+        v-if="isOptionWithArray"
+        :cell-count-x="cellCountX"
+        :cell-count-y="cellCountY"
       />
     </div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>

@@ -11,8 +11,6 @@ const inputFocus = ref(null);
 const isGameEasy = ref(true);
 const selectedCategory = ref("animal");
 
-
-
 onMounted(() => {
   myModal = new Modal(simpleModal.value);
   console.log(myModal);
@@ -21,21 +19,25 @@ onMounted(() => {
 function openModal() {
   myModal.show();
   //inputFocus.value.focus();
-  console.log()
-};
+  console.log();
+}
 /**
  * передача параметров в родительский компонент. Имя, сложность, категория.
  */
 function saveChanges() {
-  emit("changed-form", text.value == "" ? "друг" : text.value, isGameEasy.value, selectedCategory.value);
- //console.log(text.value == "" ? "друг" : text.value )
+  emit(
+    "changed-form",
+    text.value == "" ? "друг" : text.value,
+    isGameEasy.value,
+    selectedCategory.value
+  );
+  //console.log(text.value == "" ? "друг" : text.value )
   myModal.hide();
-};
+}
 
 defineExpose({
   openModal,
 });
-
 </script>
 
 <template>
@@ -51,8 +53,8 @@ defineExpose({
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1
-            id="exampleModalLabel"
+          <h1 
+            id="exampleModalLabel" 
             class="modal-title fs-5"
           >
             Выберите нужные параметры
@@ -66,42 +68,48 @@ defineExpose({
         </div>
         <div class="modal-body">
           <div>
-            Ваше имя <input
-              ref="inputFocus"
-              v-model="text"
-              placeholder="друг"
-            >
+            Ваше имя
+            <input 
+              ref="inputFocus" 
+              v-model="text" 
+              placeholder="друг" 
+            />
           </div>
-          <br>
+          <br />
           <div class="js-line-btn col">
             <div>
               <button
                 class="col btn btn-outline-secondary"
                 data-bs-toggle="button"
-                @click="
-                  isGameEasy = !isGameEasy;"
+                @click="isGameEasy = !isGameEasy"
               >
                 {{ isGameEasy ? "легко" : "сложно" }}
-              </button>  
-        
+              </button>
+
               <select
                 v-model="selectedCategory"
                 class="col btn btn-outline-secondary"
                 @click="changeCategory"
               >
-                <option
-                  value="animal"
+                <option 
+                  value="animal" 
                   data="животные"
                 >
                   Животные
                 </option>
-                <option value="edible">
+                <option 
+                  value="edible"
+                >
                   Съедобное
                 </option>
-                <option value="inedible">
+                <option 
+                  value="inedible"
+                >
                   Несъедобное
                 </option>
-                <option value="all">
+                <option 
+                  value="all"
+                >
                   Все категории
                 </option>
               </select>
@@ -122,6 +130,4 @@ defineExpose({
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

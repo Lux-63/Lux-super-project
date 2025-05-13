@@ -10,41 +10,33 @@ function positionDiv(x, y) {
   //targetDiv.value.style.position = "absolute";
   targetDiv.value.style.left = x - 10 + "px";
   targetDiv.value.style.top = y - 80 + "px";
-    centerX.value = x;
-    centerY.value = y;
-  }
+  centerX.value = x;
+  centerY.value = y;
+}
 
-  function divClickElem () {
-    targetDiv.value.className = "div-reactive"
+function divClickElem() {
+  targetDiv.value.className = "div-reactive";
   console.log(targetDiv.value);
-    text.value = "Я изменился";
-    setTimeout(() => {
-      text.value = "";
-      targetDiv.value.className = "div-reactive-hidden"
-    }, 2000);
-    console.log("Click");
-  };
-
-
-   
+  text.value = "Я изменился";
+  setTimeout(() => {
+    text.value = "";
+    targetDiv.value.className = "div-reactive-hidden";
+  }, 2000);
+  console.log("Click");
+}
 </script>
 
 <template>
   <div>
     <div>
-      <h2 class="Contur">
-        тык {{ centerX }} : {{ centerY }}
-      </h2>
+      <h2 class="Contur">тык {{ centerX }} : {{ centerY }}</h2>
     </div>
     <div
       class="box"
       @click="divClickElem($event.clientX, $event.clientY)"
       @mousemove="positionDiv($event.clientX, $event.clientY)"
     >
-      <div
-        ref="targetDiv"
-        class="div-reactive-hidden"
-      >
+      <div ref="targetDiv" class="div-reactive-hidden">
         {{ text }}
       </div>
     </div>

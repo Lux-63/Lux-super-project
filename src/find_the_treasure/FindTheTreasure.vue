@@ -10,7 +10,6 @@ let centerY = ref(0);
 const infoText = ref("");
 const divInfoText = ref("");
 
-
 const settingsGame = ref({
   width: 600,
   height: 500,
@@ -40,8 +39,12 @@ function worksProcess(event) {
   }, 4000);
 
   if (distance < 8) {
-    alert("Клад найден! Сделано кликов: " + settingsGame.value.clicks + " и мы перепрятали клад.");
-    infoText.value = "Попробуй найти!"
+    alert(
+      "Клад найден! Сделано кликов: " +
+        settingsGame.value.clicks +
+        " и мы перепрятали клад."
+    );
+    infoText.value = "Попробуй найти!";
     settingsGame.value.clicks = 0;
     target.x = target.x = getRandomNumber(settingsGame.value.width);
     target.y = target.x = getRandomNumber(settingsGame.value.width);
@@ -68,13 +71,13 @@ function worksProcess(event) {
     infoText.value = "Замерзнешь!";
   }
   //console.log("координаты", target, "click", event.offsetX, event.offsetY, distance, coordinateX.value, coordinateY.value);
-};
+}
 
 function getDistance(x, y) {
   let diffX = x - target.x;
   let diffY = y - target.y;
   return Math.sqrt(diffX * diffX + diffY * diffY);
-};
+}
 
 function positionDiv(x, y) {
   //targetDiv.value.style.position = "absolute";
@@ -82,7 +85,7 @@ function positionDiv(x, y) {
   targetDiv.value.style.top = y + 10 + "px";
   centerX.value = x;
   centerY.value = y;
-};
+}
 </script>
 
 <template>
@@ -100,16 +103,13 @@ function positionDiv(x, y) {
           src="./map01.jpg"
           @click="worksProcess($event)"
           @mousemove="positionDiv($event.clientX, $event.clientY)"
-        >
+        />
       </div>
     </div>
   </div>
   <div>
     <div>
-      <div
-        ref="targetDiv"
-        class="div-reactive-hidden"
-      >
+      <div ref="targetDiv" class="div-reactive-hidden">
         {{ divInfoText }}
       </div>
     </div>
@@ -117,7 +117,6 @@ function positionDiv(x, y) {
 </template>
 
 <style>
-
 .div-reactive {
   position: absolute;
   top: 0px;

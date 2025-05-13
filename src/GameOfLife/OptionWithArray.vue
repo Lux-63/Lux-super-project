@@ -1,11 +1,19 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 
 const props = defineProps({
-  fieldWidth: Number,
-  fieldHeight: Number,
+  cellCountX: {
+    type: Number,
+    default: 40,
+  },
+  cellCountY: {
+    type: Number,
+    default: 40,
+  },
 })
+
+
 
 
 /*
@@ -24,12 +32,18 @@ const canvasElementRef = ref(null);
 let canvasContext = null;
 let epochCounter = ref(0);
 let timerId = null;
-let allCellX = ref(props.fieldWidth);
-let allCellY = ref(props.fieldHeight);
+
+
+
+
+
+// три параметра. Один это кол-во клеток(кол-во клеток по оси X и Y), третий размер клетки в px,
+let allCellX = ref(props.cellCountX);
+let allCellY = ref(props.cellCountY);
+const cellSize = 10;
 
 
 let testX = ref(0);
-//let testY = inject(y.value);
 
 
 let indexY = 0;
@@ -39,24 +53,18 @@ let population = [];
 let deadCells = [];
 let bornCells = [];
 
+//watch смотрим.
+watch([() => props.cellCountX, () => props.cellCountY], () => {
+  drawGrid(props.cellCountX, props.cellCountY);
+});
 onMounted(() => {
+
   canvasContext = canvasElementRef.value.getContext("2d");
-  // allCellX.value = props.fieldWidth;
-  // allCellY.value = props.fieldHeight;
-  testX.value = props.fieldWidth / 10;
+  testX.value = props.cellCountX / 10;
 
-  for (let x = 0; x <= allCellX.value; x += 10) {
-    canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, allCellX.value);
-  }
-  for (let y = 0; y < allCellY.value; y += 10) {
-    canvasContext.moveTo(0, y);
-    canvasContext.lineTo(allCellY.value, y);
-  }
-  canvasContext.strokeStyle = "silver";
-  canvasContext.stroke();
-
+  drawGrid(props.cellCountX, props.cellCountY);
   // ToDo посмотреть другие способы не через циклы. Или оставить один цикл.
+  //Тут надо передавать кол-во клеток, а не размер поля
   for (let i = 0; i < allCellY.value; i++) {
     indexY = i;
     population.push([]);
@@ -68,8 +76,31 @@ onMounted(() => {
   }
 
   //Пробрасываем параметры от родителя.
-  // testX = props.fieldWidth
 });
+
+/**
+ * Разметка сетки.
+ */
+function drawGrid (cellCountX, cellCountY) {
+
+  const rightBorder = cellCountX * cellSize;
+  const bottomBorder = cellCountY * cellSize;
+
+  for (let i = 0; i <= cellCountX; i++) {
+    let x = i * cellSize;
+    canvasContext.moveTo(x, 0);
+    canvasContext.lineTo(x, bottomBorder)
+  }
+  for (let i = 0; i < cellCountY; i++) {
+    let y =  i * cellSize;
+    canvasContext.moveTo(0, y);
+    canvasContext.lineTo(rightBorder, y);
+  }
+  canvasContext.strokeStyle = "silver";
+  canvasContext.stroke();
+
+  console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
+};
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
 function test() {
@@ -101,10 +132,8 @@ function test() {
   indexY = 0;
   //Добавляем живие клетки в массив. addLivingCell переименовать, должно нач с сущ.
   for (let key in addLivingCell) {
-    // population[addLivingCell[key][0]].splice(addLivingCell[key][1], 1, 1);
 
     population[addLivingCell[key][0]][addLivingCell[key][1]] = 1;
-    // console.log(population);
   }
   // Рисуем живые клетки из массива. убрать лишнее.
   for (let i = 0; i < population.length; i++) {
@@ -139,8 +168,6 @@ function nextStep() {
  * @param y {number}
  */
 function checkingNeighbors(y, x) {
-  // let coordinateX = x;
-  // let coordinateY = y;
   let livingNeighbor = 0;
   let coordinateStep = -1;
   
@@ -231,19 +258,10 @@ function cellEvolution() {
   deadCells = [];
 
   // Восстанавливаем клетки. Цвет меняется потому что разметка становится сверху?
-  for (let x = 0; x < allCellX.value * 10; x += 10) {
-    canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, allCellX.value * 10);
-  }
-  for (let y = 0; y < allCellY.value * 10; y += 10) {
-    canvasContext.moveTo(0, y);
-    canvasContext.lineTo(allCellY.value * 10, y);
-  }
-  canvasContext.strokeStyle = "silver";
-  canvasContext.stroke();
+  drawGrid(props.cellCountX, props.cellCountY);
 }
 /**
- * Рисуем живие клетки в поле.
+ * координаты мыши в поле элемента.
  * @param x {number}
  * @param y {number}
  */
@@ -257,7 +275,9 @@ function positionDiv(x, y) {
     centerY.value--;
   }
 }
+//Рисуем живые клетки в поле.
 function positionCanvas(x, y) {
+  console.log(x, y, "сравнение", x - canvasElementRef.value.getBoundingClientRect().x, y - canvasElementRef.value.getBoundingClientRect().y)
   x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / 10);
   y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / 10);
   if( x >= allCellX.value) {
@@ -289,20 +309,11 @@ function clearArea() {
   }
   epochCounter.value = 0;
   // Восстанавливаем клетки
-  for (let x = 0; x <= allCellX.value * 10; x += 10) {
-    canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, allCellX.value * 10);
-  }
-  for (let y = 0; y < allCellY.value * 10; y += 10) {
-    canvasContext.moveTo(0, y);
-    canvasContext.lineTo(allCellY.value * 10, y);
-  }
-  canvasContext.strokeStyle = "silver";
-  canvasContext.stroke();
+  drawGrid(props.cellCountX, props.cellCountY);
 };
 
 function autoStartGame() {
-  timerId = setInterval(() => nextStep(), 0);
+  timerId = setInterval(() => nextStep(), 500);
   timerId;
 };
 function stopGame() {
@@ -343,26 +354,31 @@ function stopGame() {
     >
       тест
     </button>
+    <button 
+      @click="drawGrid
+        (props.cellCountX, props.cellCountY)"
+    >
+      drawGrid
+    </button>
   </div>
   <div class="container text-center">
     <canvas
       ref="canvasElementRef"
       class="canvas-size"
-      height="400px"
-      width="400px"
+      :height="`${cellCountY * cellSize}px`"
+      :width="`${cellCountX * cellSize}px`"
       
       @mousemove="positionDiv($event.clientX, $event.clientY)"
       @click="positionCanvas($event.clientX, $event.clientY)"
     />
   </div>
   <div class="container text-center">
-    Текущее поколение: {{ epochCounter }} размер {{ fieldWidth }} {{ fieldHeight }}
+    Текущее поколение: {{ epochCounter }} размер {{ cellCountX }} {{ cellCountY }}
   </div>
 </template>
 
 <style>
 .canvas-size {
-  width: 400px;
-  height: 400px;
+  border: 1px solid black;
 }
 </style>

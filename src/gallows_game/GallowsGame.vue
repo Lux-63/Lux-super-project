@@ -23,7 +23,18 @@ const totalHints = ref(2);
 let nikName = ref("друг");
 
 // Массив количества жизней.
-let chanceLife = [drawOneLife, drawTwoLife, drawThreeLife, drawFourLife, drawFiveLife, drawSixLife, drawSevenLife, drawEightLife, drawNineLife, drawTenLife];
+let chanceLife = [
+  drawOneLife,
+  drawTwoLife,
+  drawThreeLife,
+  drawFourLife,
+  drawFiveLife,
+  drawSixLife,
+  drawSevenLife,
+  drawEightLife,
+  drawNineLife,
+  drawTenLife,
+];
 const imageParts = chanceLife.length;
 
 const meaningsInRussian = {
@@ -33,7 +44,7 @@ const meaningsInRussian = {
   all: "все категории",
   true: "легко",
   false: "сложно",
-}
+};
 
 const gameState = reactive({
   lettersUsed: [],
@@ -56,16 +67,17 @@ function showModal() {
  * @param paramDifficulty {Boolean}
  * @param paramCategory {text}
  */
-function receiveNewData(paramName, paramDifficulty, paramCategory, ) {
+function receiveNewData(paramName, paramDifficulty, paramCategory) {
   nikName.value = paramName;
   isGameEasy.value = paramDifficulty;
   selectedCategory.value = paramCategory;
   generationWord();
-};
+}
 
 // Сообщения для игрока.
 const gameInfo = {
-  startGame: 'Угадайте букву или нажмите "Начать заново" что бы сменить слово. ',
+  startGame:
+    'Угадайте букву или нажмите "Начать заново" что бы сменить слово. ',
   letterWas: `вы уже использовали букву!`,
   correctLetter: `Поздравляем! Такая буква есть. Следующая буква?.`,
   wrong: "Такой буквы нет. Осталось попыток: ",
@@ -80,16 +92,82 @@ const messageToPlayer = ref(gameInfo.startGame);
 // Выбор массива слов исходя из сложности и выбранной категории.
 const allWords = {
   animal: {
-    easy: ["лиса", "волк", "бобёр", "ёжик", "медведь", "олень", "заяц", "кролик", "корова", "лягушка", "кошка", "собака", "мышь"],
-    hard: ["игуана", "гиппопотам", "трясогузка", "леопард", "аллигатор", "горилла"],
+    easy: [
+      "лиса",
+      "волк",
+      "бобёр",
+      "ёжик",
+      "медведь",
+      "олень",
+      "заяц",
+      "кролик",
+      "корова",
+      "лягушка",
+      "кошка",
+      "собака",
+      "мышь",
+    ],
+    hard: [
+      "игуана",
+      "гиппопотам",
+      "трясогузка",
+      "леопард",
+      "аллигатор",
+      "горилла",
+    ],
   },
   edible: {
-    easy: ["каша", "пицца", "арбуз", "лимон", "грибы", "хлеб", "тесто", "мясо", "салат", "рыба", "молоко"],
-    hard: ["сельдерей", "фейхоа", "картофель", "абрикос", "баклажан", "виноград", "йогурт", "конфета", "свинина", "говядина"],
+    easy: [
+      "каша",
+      "пицца",
+      "арбуз",
+      "лимон",
+      "грибы",
+      "хлеб",
+      "тесто",
+      "мясо",
+      "салат",
+      "рыба",
+      "молоко",
+    ],
+    hard: [
+      "сельдерей",
+      "фейхоа",
+      "картофель",
+      "абрикос",
+      "баклажан",
+      "виноград",
+      "йогурт",
+      "конфета",
+      "свинина",
+      "говядина",
+    ],
   },
   inedible: {
-    easy: ["окно", "стена", "шкаф", "стол", "стул", "пакет", "мешок", "шарик", "очки", "машина"],
-    hard: ["гильотина", "наволочка", "автозаправка", "фортепиано", "антресоль", "домкрат", "электричка", "сноуборд", "программа", "верёвка"],
+    easy: [
+      "окно",
+      "стена",
+      "шкаф",
+      "стол",
+      "стул",
+      "пакет",
+      "мешок",
+      "шарик",
+      "очки",
+      "машина",
+    ],
+    hard: [
+      "гильотина",
+      "наволочка",
+      "автозаправка",
+      "фортепиано",
+      "антресоль",
+      "домкрат",
+      "электричка",
+      "сноуборд",
+      "программа",
+      "верёвка",
+    ],
   },
   all: {
     easy: [],
@@ -110,8 +188,12 @@ function proverimNuzhnoemne() {
 onMounted(() => {
   for (let category in allWords) {
     if (category != "all") {
-      allWords["all"]["easy"] = allWords["all"]["easy"].concat(allWords[category]["easy"]);
-      allWords["all"]["hard"] = allWords["all"]["hard"].concat(allWords[category]["hard"]);
+      allWords["all"]["easy"] = allWords["all"]["easy"].concat(
+        allWords[category]["easy"]
+      );
+      allWords["all"]["hard"] = allWords["all"]["hard"].concat(
+        allWords[category]["hard"]
+      );
     }
   }
   canvasContext = canvasElementRef.value.getContext("2d"); // Получаем контекст канваса и сохр. его в реакт. св-во.
@@ -135,7 +217,10 @@ function usingHints() {
   });
   const randomIndex = Math.floor(Math.random() * unsolvedLettersIndexes.length);
   const answerIndexHint = unsolvedLettersIndexes[randomIndex];
-  const letter = gameState.randomWord[answerIndexHint] === "ё" ? "е" : gameState.randomWord[answerIndexHint];
+  const letter =
+    gameState.randomWord[answerIndexHint] === "ё"
+      ? "е"
+      : gameState.randomWord[answerIndexHint];
   const buttonElement = document.querySelector(`[data-index="${letter}"]`);
 
   correctLetter(buttonElement, letter);
@@ -169,7 +254,10 @@ function charLetterUsage(letter) {
 function checkGameEnd() {
   if (gameState.remainingAttempts == 0) {
     gameOver();
-  } else if (gameState.answer.includes("-") == false && gameState.remainingAttempts > 0) {
+  } else if (
+    gameState.answer.includes("-") == false &&
+    gameState.remainingAttempts > 0
+  ) {
     victory();
   }
 }
@@ -184,13 +272,16 @@ function resetGameState() {
   //определение сложности игры
   difficulty.value = isGameEasy.value ? "easy" : "hard";
   // Инфа на кнопке подсказок.
-  difficulty.value == "easy" ? (addHintOnDifficulty.value = 1) : (addHintOnDifficulty.value = 2);
+  difficulty.value == "easy"
+    ? (addHintOnDifficulty.value = 1)
+    : (addHintOnDifficulty.value = 2);
   canvasElementRef.value.getContext("2d").clearRect(0, 0, 250, 300);
   //Включение кнопок алфавита.
   isKeyboardOff.value = false;
   //сброс кнопок алфавита.
   document.querySelectorAll(".js-letter-btn").forEach((letterButton) => {
-    letterButton.className = "js-letter-btn col btn btn-outline-secondary button-letters";
+    letterButton.className =
+      "js-letter-btn col btn btn-outline-secondary button-letters";
   });
   // life
   if (isGameEasy.value == false) {
@@ -206,7 +297,13 @@ function generationWord() {
   // Обнуляем значения.
   resetGameState();
   // Выбираем слово из массива по категории.
-  gameState.randomWord = allWords[selectedCategory.value][difficulty.value][Math.floor(Math.random() * allWords[selectedCategory.value][difficulty.value].length)];
+  gameState.randomWord =
+    allWords[selectedCategory.value][difficulty.value][
+      Math.floor(
+        Math.random() *
+          allWords[selectedCategory.value][difficulty.value].length
+      )
+    ];
   //console.log("пров функц генерация слова", gameState.randomWord);
 
   for (let i = 0; gameState.randomWord.length > i; i++) {
@@ -250,8 +347,8 @@ function gameProcess(event) {
 
 /**
  * Если буква угадана верно.
- * @param buttonElement 
- * @param letter 
+ * @param buttonElement
+ * @param letter
  */
 function correctLetter(buttonElement, letter) {
   let letterForCheck = [letter];
@@ -273,8 +370,8 @@ function correctLetter(buttonElement, letter) {
 
 /**
  * Если буква угадана не верно.
- * @param buttonElement 
- * @param letter 
+ * @param buttonElement
+ * @param letter
  */
 function wrongLetter(buttonElement) {
   // Смена цвета.
@@ -507,17 +604,16 @@ function drawPlayerWin() {
 </script>
 
 <template>
-  <div
-    class="container text-center"
-    style="width: 600px"
-  >
+  <div class="container text-center" style="width: 600px">
     <div class="js-top-window-btn row" />
 
     <div class="row">
       <div>
         <div
           class="container text-center"
-          v-html="`Привет <b>${nikName}</b>. <p />категория: <b>${meaningsInRussian[selectedCategory]}</b>, сложность: <b>${meaningsInRussian[isGameEasy]}</b>`"
+          v-html="
+            `Привет <b>${nikName}</b>. <p />категория: <b>${meaningsInRussian[selectedCategory]}</b>, сложность: <b>${meaningsInRussian[isGameEasy]}</b>`
+          "
         />
         <canvas
           ref="canvasElementRef"
@@ -537,15 +633,12 @@ function drawPlayerWin() {
     </div>
 
     <div class="js-block-answer-btn row justify-content-center">
-      <div
-        class="js-hidden-word-btn row"
-        style="width: 400px"
-      >
+      <div class="js-hidden-word-btn row" style="width: 400px">
         <div
           class="js-answer-word-btn col"
-          v-for="item in gameState.answer" 
+          v-for="item in gameState.answer"
           :key="item.id"
-        > 
+        >
           {{ item }}
         </div>
       </div>
@@ -565,10 +658,7 @@ function drawPlayerWin() {
         >
           Настройки игры
         </button>
-        <ModalWindow
-          ref="myModal"
-          @changed-form="receiveNewData"
-        />
+        <ModalWindow ref="myModal" @changed-form="receiveNewData" />
         <button
           class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isbuttonHelpOff"
@@ -874,7 +964,7 @@ function drawPlayerWin() {
         </button>
       </div>
     </div>
-    <div class="js-line-btn col ">
+    <div class="js-line-btn col">
       <div class="d-grid gap-2">
         <button
           class="col btn btn-outline-secondary"
