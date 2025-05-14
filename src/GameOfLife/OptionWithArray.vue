@@ -106,6 +106,7 @@ function drawGrid (cellCountX, cellCountY) {
 function test() {
   console.log(allCellX.value, allCellY.value);
   canvasContext
+  // Массив живых клеток для тестирования.
   let addLivingCell = [
     [6, 6],
     [7, 6],
@@ -266,8 +267,8 @@ function cellEvolution() {
  * @param y {number}
  */
 function positionDiv(x, y) {
-  centerX.value = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / 10);
-  centerY.value = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / 10);
+  centerX.value = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x));
+  centerY.value = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y));
   if( centerX.value >= allCellX.value) {
     centerX.value--;
   }
@@ -293,7 +294,7 @@ function positionCanvas(x, y) {
 }
 
 function clearArea() {
-  canvasContext.clearRect(0, 0, 400, 400);
+  canvasContext.clearRect(0, 0, props.cellCountX * cellSize, props.cellCountY * cellSize);
   //переписываем массив клеток.
   allCellX.value = 400 / 10;
   allCellY.value = 400 / 10;
@@ -373,7 +374,7 @@ function stopGame() {
     />
   </div>
   <div class="container text-center">
-    Текущее поколение: {{ epochCounter }} размер {{ cellCountX }} {{ cellCountY }}
+    Текущее поколение: {{ epochCounter }} размер {{ cellCountX }} {{ cellCountY }} {{ centerX }} {{ centerY }}
   </div>
 </template>
 

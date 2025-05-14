@@ -287,7 +287,7 @@ function positionCanvas(x, y) {
 }
 
 function clearArea() {
-  canvasContext.clearRect(0, 0, allCellX.value * 10, allCellY.value * 10);
+  canvasContext.clearRect(0, 0, props.cellCountX * cellSize, props.cellCountY * cellSize);
   population = {};
 
   epochCounter.value = 0;
