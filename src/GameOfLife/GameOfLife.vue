@@ -24,6 +24,7 @@ function showOptionWithArray() {
 function fieldSize() {
   cellCountX.value = Number(prompt("количество клеток в ширину", 40));
   cellCountY.value = Number(prompt("количество клеток в высоту", 40));
+  
 }
 // provide("fieldWidth", fieldWidth.value)
 </script>

@@ -17,7 +17,8 @@ const props = defineProps({
 
 
 /*
-проход по соседям идет и в отрицательные числаБ возможно поэтому он не корректно отображается
+При добавлении тестовых живых клеток, необходимо сделать проверку на наличие этой клетки в массивк. Что бы не было ошибок, когда создаешь
+поле меньшего размера чем живых клеток в массиве функции теста.
 
 
 
@@ -56,24 +57,19 @@ let bornCells = [];
 //watch смотрим.
 watch([() => props.cellCountX, () => props.cellCountY], () => {
   drawGrid(props.cellCountX, props.cellCountY);
+  createCellPopulation(props.cellCountX, props.cellCountY);
+  stopGame();
+
+  console.log("The field marking should happen here");
 });
 onMounted(() => {
 
   canvasContext = canvasElementRef.value.getContext("2d");
-  testX.value = props.cellCountX / 10;
+  testX.value = props.cellCountX / cellSize;
 
   drawGrid(props.cellCountX, props.cellCountY);
   // ToDo посмотреть другие способы не через циклы. Или оставить один цикл.
-  //Тут надо передавать кол-во клеток, а не размер поля
-  for (let i = 0; i < allCellY.value; i++) {
-    indexY = i;
-    population.push([]);
-    for (let i = 0; i < allCellX.value; i++) {
-      indexX = i;
-      population[indexY].push(0);
-    }
-    console.log(population, indexY, indexX, "параметры из родителя", testX.value);
-  }
+  createCellPopulation(props.cellCountX, props.cellCountY);
 
   //Пробрасываем параметры от родителя.
 });
@@ -82,7 +78,8 @@ onMounted(() => {
  * Разметка сетки.
  */
 function drawGrid (cellCountX, cellCountY) {
-
+  console.log("start of field marking")
+  
   const rightBorder = cellCountX * cellSize;
   const bottomBorder = cellCountY * cellSize;
 
@@ -101,13 +98,44 @@ function drawGrid (cellCountX, cellCountY) {
 
   console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
 };
+/**
+ * push coordinate and drawing cell.
+ * @param x Number
+ * @param y Number
+ * @param action String
+ */
+function drawCell(x, y, action) {
+  if(action == "drawing") {
+    console.log("drawing cell", x, y);
+    canvasContext.fillRect(x, y, cellSize, cellSize);
+  } else if (action == "del") {
+    console.log("delete cell", x, y);
+  canvasContext.clearRect(x, y, cellSize, cellSize);
+  }
+};
+/**
+ * creation of a cell population
+ * @param cellCountX Number
+ * @param cellCountY Number
+ */
+function createCellPopulation(cellCountX, cellCountY) {
+  population = [];
+  //Тут надо передавать кол-во клеток, а не размер поля
+  for (let i = 0; i < cellCountY; i++) {
+    indexY = i;
+    population.push([]);
+    for (let i = 0; i < cellCountX; i++) {
+      indexX = i;
+      population[indexY].push(0);
+    }
+  }
+  console.log(population, indexY, indexX, "parameters from parent", testX.value);
+}
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
 function test() {
-  console.log(allCellX.value, allCellY.value);
-  canvasContext
   // Массив живых клеток для тестирования.
-  let addLivingCell = [
+  let LiveCell = [
     [6, 6],
     [7, 6],
     [8, 6],
@@ -128,26 +156,29 @@ function test() {
     [0, 0],
     [0, 1],
     [0, 2],
-    [39, 0],
-  ]
-  indexY = 0;
-  //Добавляем живие клетки в массив. addLivingCell переименовать, должно нач с сущ.
-  for (let key in addLivingCell) {
+    [40, 40],
+    [39, 39],
+  ];
 
-    population[addLivingCell[key][0]][addLivingCell[key][1]] = 1;
+  for (let key in LiveCell) {
+    checkAddCell(LiveCell[key][0], LiveCell[key][1]);
   }
-  // Рисуем живые клетки из массива. убрать лишнее.
-  for (let i = 0; i < population.length; i++) {
-    indexY = i;
-    population[i].forEach((item, index) => {
-      if (item == 1) {
-        canvasContext.fillRect(index * 10, indexY * 10, 10, 10);
-      }
-    });
-  }
-
   console.log("проверим параметры", testX.value, allCellX.value, allCellY.value);
-}
+};
+
+/**
+ * We check if the cell can exist. If so, we add it.
+ * @param x Number
+ * @param y Number
+ */
+function checkAddCell(y, x) {
+  if (x < props.cellCountX && y < props.cellCountY) {
+    console.log("cell OK", y, x);
+    population[y][x] = 1;
+
+    drawCell(x * cellSize, y * cellSize, "drawing");
+  }
+};
 
 /**
  * Следующий шаг эволюции.
@@ -230,7 +261,6 @@ function birthCell(y, x) {
   ];
   // перебор соседей.
   for (let key in neighboringCell) {
-
     if(neighboringCell[key] == 1) {
       livingNeighbor++
     }
@@ -246,14 +276,16 @@ function birthCell(y, x) {
  */
 function cellEvolution() {
   for (let key in deadCells) {
-    canvasContext.clearRect(deadCells[key][1] * 10, deadCells[key][0] * 10, 10, 10);
+    //canvasContext.clearRect(deadCells[key][1] * 10, deadCells[key][0] * 10, 10, 10);
+    drawCell(deadCells[key][1] * cellSize, deadCells[key][0] * cellSize, "del")
    
     population[deadCells[key][0]].splice(deadCells[key][1], 1, 0)
   }
 
   for (let key in bornCells) {
     population[bornCells[key][0]].splice(bornCells[key][1], 1, 1)
-    canvasContext.fillRect(bornCells[key][1] * 10 , bornCells[key][0] * 10, 10, 10);
+    //canvasContext.fillRect(bornCells[key][1] * cellSize , bornCells[key][0] * cellSize, 10, 10);
+    drawCell(bornCells[key][1] * cellSize, bornCells[key][0] * cellSize, "drawing")
   }
   bornCells = [];
   deadCells = [];
@@ -278,9 +310,9 @@ function positionDiv(x, y) {
 }
 //Рисуем живые клетки в поле.
 function positionCanvas(x, y) {
-  console.log(x, y, "сравнение", x - canvasElementRef.value.getBoundingClientRect().x, y - canvasElementRef.value.getBoundingClientRect().y)
-  x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / 10);
-  y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / 10);
+  //console.log(x, y, "сравнение", x - canvasElementRef.value.getBoundingClientRect().x, y - canvasElementRef.value.getBoundingClientRect().y)
+  x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / cellSize);
+  y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / cellSize);
   if( x >= allCellX.value) {
     x--;
   }
@@ -289,25 +321,15 @@ function positionCanvas(x, y) {
   }
   
 
-  canvasContext.fillRect(x * 10, y * 10, 10, 10);
+  canvasContext.fillRect(x * cellSize, y * cellSize, 10, 10);
+  console.log(x, y)
   population[y].splice(x, 1, 1)
 }
 
 function clearArea() {
   canvasContext.clearRect(0, 0, props.cellCountX * cellSize, props.cellCountY * cellSize);
   //переписываем массив клеток.
-  allCellX.value = 400 / 10;
-  allCellY.value = 400 / 10;
-  population = [];
-  for (let i = 0; i < allCellY.value; i++) {
-    indexY = i;
-    population.push([]);
-    for (let i = 0; i < allCellX.value; i++) {
-      indexX = i;
-      population[indexY].push(0);
-      console.log(population)
-    }
-  }
+  createCellPopulation(props.cellCountX, props.cellCountY);
   epochCounter.value = 0;
   // Восстанавливаем клетки
   drawGrid(props.cellCountX, props.cellCountY);
@@ -374,7 +396,7 @@ function stopGame() {
     />
   </div>
   <div class="container text-center">
-    Текущее поколение: {{ epochCounter }} размер {{ cellCountX }} {{ cellCountY }} {{ centerX }} {{ centerY }}
+    Текущее поколение: {{ epochCounter }} размер {{ cellCountX }} {{ cellCountY }}
   </div>
 </template>
 

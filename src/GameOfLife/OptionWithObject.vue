@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 
-
 const props = defineProps({
   cellCountX: {
     type: Number,
@@ -11,9 +10,13 @@ const props = defineProps({
     type: Number,
     default: 40,
   },
-})
+});
 /*
 проход по соседям идет и в отрицательные числаБ возможно поэтому он не корректно отображается
+
+При меньшем размере поля, клетки убегают за пределы поля. Это пиздец как тормозит вычисление все программы.
+
+Рисование нужно сделать в отдельной функции.
 
 
 
@@ -33,20 +36,20 @@ let population = {};
 let deadCells = [];
 let bornCells = {};
 
-
-
 let allCellX = ref(props.cellCountX);
 let allCellY = ref(props.cellCountY);
 const cellSize = 10;
 
 watch([() => props.cellCountX, () => props.cellCountY], () => {
   drawGrid(props.cellCountX, props.cellCountY);
+  population = {};
+  stopGame();
+  console.log(population);
 });
 
 onMounted(() => {
   canvasContext = canvasElementRef.value.getContext("2d");
   drawGrid(props.cellCountX, props.cellCountY);
-
 });
 
 /* подумать что бы поуляция была в виде массива. сделать второй вариант отдельно, где популешин будет массивов.
@@ -60,18 +63,17 @@ onMounted(() => {
 /**
  * Разметка сетки.
  */
-function drawGrid (cellCountX, cellCountY) {
-
+function drawGrid(cellCountX, cellCountY) {
   const rightBorder = cellCountX * cellSize;
   const bottomBorder = cellCountY * cellSize;
 
   for (let i = 0; i <= cellCountX; i++) {
     let x = i * cellSize;
     canvasContext.moveTo(x, 0);
-    canvasContext.lineTo(x, bottomBorder)
+    canvasContext.lineTo(x, bottomBorder);
   }
   for (let i = 0; i < cellCountY; i++) {
-    let y =  i * cellSize;
+    let y = i * cellSize;
     canvasContext.moveTo(0, y);
     canvasContext.lineTo(rightBorder, y);
   }
@@ -80,10 +82,25 @@ function drawGrid (cellCountX, cellCountY) {
 
   console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
 };
+/**
+ * push coordinate and drawing cell.
+ * @param x Number
+ * @param y Number
+ * @param action String
+ */
+function drawCell(x, y, action) {
+  if(action == "drawing") {
+    console.log("drawing cell", x, y);
+    canvasContext.fillRect(x, y, cellSize, cellSize);
+  } else if (action == "del") {
+    console.log("delete cell", x, y);
+  canvasContext.clearRect(x, y, cellSize, cellSize);
+  }
+};
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
 function test() {
-  population = {
+  let LiveCell = {
     "60,60": [60, 60],
     "60,70": [60, 70],
     "60,80": [60, 80],
@@ -106,13 +123,25 @@ function test() {
     "20,0": [20, 0],
     "0,390": [0, 390],
   };
-  for (let key in population) {
-    canvasContext.fillRect(population[key][0], population[key][1], 10, 10);
+  for (let key in LiveCell) {
+    checkAddCell(LiveCell[key][0], LiveCell[key][1]);
   }
-
 }
 /**
- * Следующий шаг эволюции.
+ * We check if the cell can exist. If so, we add it.
+ * @param x Number
+ * @param y Number
+ */
+function checkAddCell(x, y) {
+  if (x < props.cellCountX * cellSize && y < props.cellCountY * cellSize) {
+    console.log("cell OK", x, y);
+    population[`${x},${y}`] = [x, y];
+    drawCell(x, y, "drawing");
+  }
+};
+
+/**
+ * The next step of evolution.
  */
 function nextStep() {
   let coordinateX = 0;
@@ -120,14 +149,14 @@ function nextStep() {
   for (let key in population) {
     coordinateX = population[key][0];
     coordinateY = population[key][1];
-    
+
     checkingNeighbors(coordinateX, coordinateY);
   }
   epochCounter.value++;
   cellEvolution();
 }
 /**
- * Проверяет сколько соседей есть у живой клетки.
+ * Checks how many neighbors a living cell has.
  * @param x {number}
  * @param y {number}
  */
@@ -143,8 +172,8 @@ function checkingNeighbors(x, y) {
     [x - 10, y],
   ];
 
-  // индекс мертвой клетки что бы проверить, родится ли она
-  let indexPossiblyBornCell = -1;
+  // Dead cell index to check if it will be born.
+  let enumerationNextStep = -1;
   let livingNeighbor = 0;
 
   const identifyNeighbors = {
@@ -161,23 +190,21 @@ function checkingNeighbors(x, y) {
   // перебор соседей.
   for (let key in identifyNeighbors) {
     //тут делаем реверс на противоположную сторону. Проверяем отрицательные либо плюсовые значения.
-    // Внутри уже проверяем наличие данных
-    indexPossiblyBornCell += 1; // подумать как переименовать что бы было понятно.
+    // Внутри уже проверяем наличие данных.
+    enumerationNextStep +=1;
     if (identifyNeighbors[key] != undefined) {
       livingNeighbor += 1;
-
-      //console.log("координаты и сосед", livingNeighbor, indexPossiblyBornCell);
+      // тут индекс посибл борн
     }
     if (identifyNeighbors[key] === undefined) {
       birthCell(
-        neighboringCell[indexPossiblyBornCell][0],
-        neighboringCell[indexPossiblyBornCell][1]
+        neighboringCell[enumerationNextStep][0],
+        neighboringCell[enumerationNextStep][1]
       );
     }
   }
 
   if (livingNeighbor < 2 || livingNeighbor > 3) {
-
     deadCells.push([x, y]);
   }
 }
@@ -218,7 +245,7 @@ function birthCell(x, y) {
     }
   }
   if (livingNeighbor === 3 && population[`${x},${y}`] == undefined) {
-    if (x >= 0 && (x < 400) & (y >= 0) && y < 400) {
+    if (x >= 0 && x < props.cellCountX * cellSize && y >= 0 && y < props.cellCountY * cellSize) {
       bornCells[`${x},${y}`] = [x, y];
     }
   }
@@ -228,19 +255,21 @@ function birthCell(x, y) {
  * отрисовка следующего поколения.
  */
 function cellEvolution() {
-  deadCells.forEach((i) => {
-    delete population[`${i[0]},${i[1]}`];
-    canvasContext.clearRect(i[0], i[1], 10, 10);
-    
-  });
+  // Delete death cells.
+  for (let key in deadCells) {
+    delete population[`${key[0]},${key[1]}`];
+    //canvasContext.clearRect(key[0], key[1], cellSize, cellSize);
+    drawCell(deadCells[key][0], deadCells[key][1], "del");
+  }
+
 
   for (let key in bornCells) {
     population[`${bornCells[key][0]},${bornCells[key][1]}`] = [
       bornCells[key][0],
       bornCells[key][1],
     ];
-    canvasContext.fillRect(bornCells[key][0], bornCells[key][1], 10, 10);
-
+    //canvasContext.fillRect(bornCells[key][0], bornCells[key][1], cellSize, cellSize);
+    drawCell(bornCells[key][0], bornCells[key][1], "drawing")
   }
   bornCells = {};
   deadCells = [];
@@ -255,10 +284,10 @@ function cellEvolution() {
  */
 function positionDiv(x, y) {
   centerX.value = Math.floor(
-    (x - canvasElementRef.value.getBoundingClientRect().x) / 10
+    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize
   );
   centerY.value = Math.floor(
-    (y - canvasElementRef.value.getBoundingClientRect().y) / 10
+    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize
   );
   if (centerX.value >= allCellX.value) {
     centerX.value--;
@@ -268,26 +297,29 @@ function positionDiv(x, y) {
   }
 }
 function positionCanvas(x, y) {
-  x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / 10);
-  y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / 10);
-  if (x >= allCellX.value) {
+  x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / cellSize);
+  y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / cellSize);
+  if (x >= props.cellCountX) {
     x--;
   }
-  if (y >= allCellY.value) {
+  if (y >= props.cellCountY) {
     y--;
   }
 
-  canvasContext.fillRect(x * 10, y * 10, 10, 10);
-  population[`${x * 10},${y * 10}`] = [x * 10, y * 10];
+  //canvasContext.fillRect(x * 10, y * 10, 10, 10);
+  drawCell(x * cellSize, y * cellSize, "drawing");
+  population[`${x * cellSize},${y * cellSize}`] = [x * cellSize, y * cellSize];
   console.log(population);
-  /*
-  556/10 = 55,6
-  работать как с числами, а не строками.
-  */
+
 }
 
 function clearArea() {
-  canvasContext.clearRect(0, 0, props.cellCountX * cellSize, props.cellCountY * cellSize);
+  canvasContext.clearRect(
+    0,
+    0,
+    props.cellCountX * cellSize,
+    props.cellCountY * cellSize
+  );
   population = {};
 
   epochCounter.value = 0;
@@ -331,16 +363,16 @@ function stopGame() {
       сброс
     </button>
     <button 
-      @click="drawGrid
-        (props.cellCountX, props.cellCountY)"
-    >
-      drawGrid
-    </button>
-    <button 
       type="button" 
       @click="test"
     >
       тест
+    </button>
+    <button 
+      @click="drawGrid
+        (props.cellCountX, props.cellCountY)"
+    >
+      drawGrid
     </button>
   </div>
   <div class="container text-center">
