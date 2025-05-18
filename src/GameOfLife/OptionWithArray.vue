@@ -56,8 +56,11 @@ let bornCells = [];
 
 //watch смотрим.
 watch([() => props.cellCountX, () => props.cellCountY], () => {
-  drawGrid(props.cellCountX, props.cellCountY);
+
+  
+  console.log("сработала сетка");
   createCellPopulation(props.cellCountX, props.cellCountY);
+  drawGrid(props.cellCountX, props.cellCountY);
   stopGame();
 
   console.log("The field marking should happen here");
@@ -77,8 +80,8 @@ onMounted(() => {
 /**
  * Разметка сетки.
  */
-function drawGrid (cellCountX, cellCountY) {
-  console.log("start of field marking")
+function drawGrid(cellCountX, cellCountY) {
+  // console.log("start of field marking")
   
   const rightBorder = cellCountX * cellSize;
   const bottomBorder = cellCountY * cellSize;
@@ -96,7 +99,7 @@ function drawGrid (cellCountX, cellCountY) {
   canvasContext.strokeStyle = "silver";
   canvasContext.stroke();
 
-  console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
+  // console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
 };
 /**
  * push coordinate and drawing cell.
@@ -229,11 +232,11 @@ function checkingNeighbors(y, x) {
   const neighboringCell = [
     y > 0 && x > 0 ? population[y-1][x-1] : -1,
     y > 0 ? population[y-1][x] : -1,
-    y > 0 && x < allCellX.value - 1 ? population[y-1][x+1] : -1,
-    y > 0 && x < allCellX.value - 1 ? population[y][x+1] : -1,
-    y < allCellY.value - 1 && x < allCellX.value ? population[y+1][x+1] : -1,
-    y < allCellY.value - 1 ? population[y+1][x] : -1,
-    y < allCellY.value - 1 && x > 0 ? population[y+1][x-1] : -1,
+    y > 0 && x < props.cellCountX - 1 ? population[y-1][x+1] : -1,
+    y > 0 && x < props.cellCountX - 1 ? population[y][x+1] : -1,
+    y < props.cellCountY - 1 && x < props.cellCountX ? population[y+1][x+1] : -1,
+    y < props.cellCountY - 1 ? population[y+1][x] : -1,
+    y < props.cellCountY - 1 && x > 0 ? population[y+1][x-1] : -1,
     x > 0 ? population[y][x-1] : -1,
   ];
 
@@ -264,11 +267,11 @@ function birthCell(y, x) {
   const neighboringCell = [
     y > 0 && x > 0 ? population[y-1][x-1] : -1,
     y > 0 ? population[y-1][x] : -1,
-    y > 0 && x < allCellX.value - 1 ? population[y-1][x+1] : -1,
-    y > 0 && x < allCellX.value - 1 ? population[y][x+1] : -1,
-    y < allCellY.value - 1 && x < allCellX.value ? population[y+1][x+1] : -1,
-    y < allCellY.value - 1 ? population[y+1][x] : -1,
-    y < allCellY.value - 1 && x > 0 ? population[y+1][x-1] : -1,
+    y > 0 && x < props.cellCountX - 1 ? population[y-1][x+1] : -1,
+    y > 0 && x < props.cellCountX - 1 ? population[y][x+1] : -1,
+    y < props.cellCountY - 1 && x < allCellX.value ? population[y+1][x+1] : -1,
+    y < props.cellCountY - 1 ? population[y+1][x] : -1,
+    y < props.cellCountY - 1 && x > 0 ? population[y+1][x-1] : -1,
     x > 0 ? population[y][x-1] : -1,
   ];
   // перебор соседей.
