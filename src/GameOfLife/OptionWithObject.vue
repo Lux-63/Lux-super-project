@@ -17,6 +17,7 @@ const props = defineProps({
 При меньшем размере поля, клетки убегают за пределы поля. Это пиздец как тормозит вычисление все программы.
 
 Рисование нужно сделать в отдельной функции.
+Пробежать по работе функций. Высчитывание идет не так как это задумывалось.
 
 
 
@@ -52,13 +53,7 @@ onMounted(() => {
   drawGrid(props.cellCountX, props.cellCountY);
 });
 
-/* подумать что бы поуляция была в виде массива. сделать второй вариант отдельно, где популешин будет массивов.
-  [
-    [0, 1, 0],
-    [0, 1, 1],
-    [0, 0, 0]
-  ]
-*/
+
 
 /**
  * Разметка сетки.
@@ -98,7 +93,21 @@ function drawCell(x, y, action) {
   }
 };
 
-// вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
+
+
+/**
+ * All cells in the field are alive.
+ */
+// function DrawingCellAll() {
+//   for(let y = 0; y < props.cellCountY * cellSize; y+= cellSize) {
+//     for(let x = 0; x < props.cellCountX * cellSize; x+= cellSize) {
+//       population[`${x},${y}`] = [x, y];
+//       drawCell(x, y, "drawing")
+//     }
+//   }
+// };
+
+
 function test() {
   let LiveCell = {
     "60,60": [60, 60],
@@ -125,6 +134,7 @@ function test() {
   };
   for (let key in LiveCell) {
     checkAddCell(LiveCell[key][0], LiveCell[key][1]);
+    console.log("testing coord", LiveCell[key]);
   }
 }
 /**
@@ -137,6 +147,8 @@ function checkAddCell(x, y) {
     console.log("cell OK", x, y);
     population[`${x},${y}`] = [x, y];
     drawCell(x, y, "drawing");
+  } else {
+    console.log("cell eror", x, y);
   }
 };
 
@@ -151,8 +163,9 @@ function nextStep() {
     coordinateY = population[key][1];
 
     checkingNeighbors(coordinateX, coordinateY);
-  }
+  };
   epochCounter.value++;
+  console.log("strart evo")
   cellEvolution();
 }
 /**
@@ -189,8 +202,6 @@ function checkingNeighbors(x, y) {
 
   // перебор соседей.
   for (let key in identifyNeighbors) {
-    //тут делаем реверс на противоположную сторону. Проверяем отрицательные либо плюсовые значения.
-    // Внутри уже проверяем наличие данных.
     enumerationNextStep +=1;
     if (identifyNeighbors[key] != undefined) {
       livingNeighbor += 1;
@@ -206,6 +217,7 @@ function checkingNeighbors(x, y) {
 
   if (livingNeighbor < 2 || livingNeighbor > 3) {
     deadCells.push([x, y]);
+    console.log("dead cell", x, y);
   }
 }
 
@@ -256,8 +268,9 @@ function birthCell(x, y) {
  */
 function cellEvolution() {
   // Delete death cells.
+  console.log("del obj", deadCells)
   for (let key in deadCells) {
-    delete population[`${key[0]},${key[1]}`];
+    delete population[`${deadCells[key][0]},${deadCells[key][1]}`];
     //canvasContext.clearRect(key[0], key[1], cellSize, cellSize);
     drawCell(deadCells[key][0], deadCells[key][1], "del");
   }
@@ -374,6 +387,11 @@ function stopGame() {
     >
       drawGrid
     </button>
+    <!-- <button 
+      @click="DrawingCellAll"
+    >
+      All cells
+    </button> -->
   </div>
   <div class="container text-center">
     <canvas

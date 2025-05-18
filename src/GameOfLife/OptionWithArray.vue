@@ -130,7 +130,19 @@ function createCellPopulation(cellCountX, cellCountY) {
     }
   }
   console.log(population, indexY, indexX, "parameters from parent", testX.value);
-}
+};
+
+/**
+ * All cells in the field are alive.
+ */
+// function DrawingCellAll() {
+//   for(let y = 0; y < props.cellCountY; y++) {
+//     for(let x = 0; x < props.cellCountX; x++) {
+//       population[y][x]=1;
+//       drawCell(x * cellSize, y * cellSize, "drawing");
+//     }
+//   }
+// };
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
 function test() {
@@ -383,6 +395,11 @@ function stopGame() {
     >
       drawGrid
     </button>
+    <!-- <button 
+      @click="DrawingCellAll"
+    >
+      All cells
+    </button> -->
   </div>
   <div class="container text-center">
     <canvas
