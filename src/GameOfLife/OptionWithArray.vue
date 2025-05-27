@@ -56,32 +56,28 @@ let bornCells = [];
 
 //watch смотрим.
 watch([() => props.cellCountX, () => props.cellCountY], () => {
-
-  
-  console.log("сработала сетка");
-  createCellPopulation(props.cellCountX, props.cellCountY);
+  console.log("рисуем разметку");
   drawGrid(props.cellCountX, props.cellCountY);
+  console.log("Создаем популяцию",);
+  createCellPopulation(props.cellCountX, props.cellCountY);
+  console.log("Создаем популяцию",);
   stopGame();
-
-  console.log("The field marking should happen here");
+  epochCounter.value = 0;
+  console.log("Останавливаем игру");
 });
 onMounted(() => {
-
   canvasContext = canvasElementRef.value.getContext("2d");
   testX.value = props.cellCountX / cellSize;
 
   drawGrid(props.cellCountX, props.cellCountY);
-  // ToDo посмотреть другие способы не через циклы. Или оставить один цикл.
   createCellPopulation(props.cellCountX, props.cellCountY);
-
-  //Пробрасываем параметры от родителя.
 });
 
 /**
  * Разметка сетки.
  */
 function drawGrid(cellCountX, cellCountY) {
-  // console.log("start of field marking")
+  console.log("start of field marking")
   
   const rightBorder = cellCountX * cellSize;
   const bottomBorder = cellCountY * cellSize;
