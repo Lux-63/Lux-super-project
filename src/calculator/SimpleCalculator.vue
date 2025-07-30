@@ -384,8 +384,8 @@ function dividePercentageAmount(baseValue, percentValue) {
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
                 @click="removeLastCharacter()"
               >
-                &#8592;</button
-              ><button
+                &#8592;
+              </button><button
                 type="button"
                 class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
                 @click="addCharToDisplay('negative')"
