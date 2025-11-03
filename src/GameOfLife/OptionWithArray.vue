@@ -14,19 +14,6 @@ const props = defineProps({
 })
 
 
-
-
-/*
-При добавлении тестовых живых клеток, необходимо сделать проверку на наличие этой клетки в массивк. Что бы не было ошибок, когда создаешь
-поле меньшего размера чем живых клеток в массиве функции теста.
-
-
-
-Удаление свойств из объектов во вью через стандартный "delete" не будет работать корректно, если объект/массив является реактивным.
-добавить счетчик эпох.
-что будет, если все поле будет в живых клетках.
-*/
-
 let centerX = ref(0);
 let centerY = ref(0);
 const canvasElementRef = ref(null);
@@ -94,8 +81,6 @@ function drawGrid(cellCountX, cellCountY) {
   }
   canvasContext.strokeStyle = "silver";
   canvasContext.stroke();
-
-  // console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
 };
 /**
  * push coordinate and drawing cell.
@@ -131,17 +116,6 @@ function createCellPopulation(cellCountX, cellCountY) {
   console.log(population, indexY, indexX, "parameters from parent", testX.value);
 };
 
-/**
- * All cells in the field are alive.
- */
-// function DrawingCellAll() {
-//   for(let y = 0; y < props.cellCountY; y++) {
-//     for(let x = 0; x < props.cellCountX; x++) {
-//       population[y][x]=1;
-//       drawCell(x * cellSize, y * cellSize, "drawing");
-//     }
-//   }
-// };
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
 function test() {
@@ -287,7 +261,6 @@ function birthCell(y, x) {
  */
 function cellEvolution() {
   for (let key in deadCells) {
-    //canvasContext.clearRect(deadCells[key][1] * 10, deadCells[key][0] * 10, 10, 10);
     drawCell(deadCells[key][1] * cellSize, deadCells[key][0] * cellSize, "del")
    
     population[deadCells[key][0]].splice(deadCells[key][1], 1, 0)
@@ -295,7 +268,6 @@ function cellEvolution() {
 
   for (let key in bornCells) {
     population[bornCells[key][0]].splice(bornCells[key][1], 1, 1)
-    //canvasContext.fillRect(bornCells[key][1] * cellSize , bornCells[key][0] * cellSize, 10, 10);
     drawCell(bornCells[key][1] * cellSize, bornCells[key][0] * cellSize, "drawing")
   }
   bornCells = [];
@@ -321,7 +293,6 @@ function positionDiv(x, y) {
 }
 //Рисуем живые клетки в поле.
 function positionCanvas(x, y) {
-  //console.log(x, y, "сравнение", x - canvasElementRef.value.getBoundingClientRect().x, y - canvasElementRef.value.getBoundingClientRect().y)
   x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / cellSize);
   y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / cellSize);
   if( x >= allCellX.value) {
@@ -394,11 +365,6 @@ function stopGame() {
     >
       drawGrid
     </button>
-    <!-- <button 
-      @click="DrawingCellAll"
-    >
-      All cells
-    </button> -->
   </div>
   <div class="container text-center">
     <canvas

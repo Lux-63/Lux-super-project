@@ -94,20 +94,6 @@ function drawCell(x, y, action) {
 };
 
 
-
-/**
- * All cells in the field are alive.
- */
-// function DrawingCellAll() {
-//   for(let y = 0; y < props.cellCountY * cellSize; y+= cellSize) {
-//     for(let x = 0; x < props.cellCountX * cellSize; x+= cellSize) {
-//       population[`${x},${y}`] = [x, y];
-//       drawCell(x, y, "drawing")
-//     }
-//   }
-// };
-
-
 function test() {
   let LiveCell = {
     "60,60": [60, 60],
@@ -271,7 +257,6 @@ function cellEvolution() {
   console.log("del obj", deadCells)
   for (let key in deadCells) {
     delete population[`${deadCells[key][0]},${deadCells[key][1]}`];
-    //canvasContext.clearRect(key[0], key[1], cellSize, cellSize);
     drawCell(deadCells[key][0], deadCells[key][1], "del");
   }
 
@@ -281,7 +266,6 @@ function cellEvolution() {
       bornCells[key][0],
       bornCells[key][1],
     ];
-    //canvasContext.fillRect(bornCells[key][0], bornCells[key][1], cellSize, cellSize);
     drawCell(bornCells[key][0], bornCells[key][1], "drawing")
   }
   bornCells = {};
@@ -319,7 +303,6 @@ function positionCanvas(x, y) {
     y--;
   }
 
-  //canvasContext.fillRect(x * 10, y * 10, 10, 10);
   drawCell(x * cellSize, y * cellSize, "drawing");
   population[`${x * cellSize},${y * cellSize}`] = [x * cellSize, y * cellSize];
   console.log(population);
@@ -387,11 +370,6 @@ function stopGame() {
     >
       drawGrid
     </button>
-    <!-- <button 
-      @click="DrawingCellAll"
-    >
-      All cells
-    </button> -->
   </div>
   <div class="container text-center">
     <canvas

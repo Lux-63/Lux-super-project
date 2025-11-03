@@ -7,7 +7,6 @@ let centerY = ref(0);
 let text = ref("");
 
 function positionDiv(x, y) {
-  //targetDiv.value.style.position = "absolute";
   targetDiv.value.style.left = x - 10 + "px";
   targetDiv.value.style.top = y - 80 + "px";
   centerX.value = x;

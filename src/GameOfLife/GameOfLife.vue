@@ -3,10 +3,6 @@ import { ref } from "vue";
 import OptionWithObject from "./OptionWithObject.vue";
 import OptionWithArray from "./OptionWithArray.vue";
 
-/*
-сделать рисование в отдельной функции вообще.
-*/
-
 const isOptionWithObject = ref(false);
 const isOptionWithArray = ref(true);
 let cellCountX = ref(40);
@@ -26,7 +22,6 @@ function fieldSize() {
   cellCountY.value = Number(prompt("количество клеток в высоту", 40));
   
 }
-// provide("fieldWidth", fieldWidth.value)
 </script>
 
 <template>
