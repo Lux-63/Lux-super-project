@@ -1,10 +1,5 @@
 <script setup>
-/*
-   Тут вопросы!
-1. Диалоговое окно, где нужно будет ввести имя и выббрать сложность с категорией.
-2. Систему баллов и получение подсказок за эти баллы.
-----------------------------------------
- */
+
 import { ref, onMounted, reactive } from "vue";
 import ModalWindow from "./ModalWindow.vue";
 
@@ -227,7 +222,6 @@ function usingHints() {
   gameState.lettersUsed.push(letter);
   checkGameEnd();
   totalHints.value--;
-  //console.log("отнимание подсказки",totalHints.value --)
 }
 
 const STATE_LETTER_USED = 1;
@@ -304,7 +298,6 @@ function generationWord() {
           allWords[selectedCategory.value][difficulty.value].length
       )
     ];
-  //console.log("пров функц генерация слова", gameState.randomWord);
 
   for (let i = 0; gameState.randomWord.length > i; i++) {
     gameState.answer[i] = "-";

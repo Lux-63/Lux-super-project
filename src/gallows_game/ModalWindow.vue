@@ -18,7 +18,6 @@ onMounted(() => {
 
 function openModal() {
   myModal.show();
-  //inputFocus.value.focus();
   console.log();
 }
 /**
@@ -31,7 +30,6 @@ function saveChanges() {
     isGameEasy.value,
     selectedCategory.value
   );
-  //console.log(text.value == "" ? "друг" : text.value )
   myModal.hide();
 }
 

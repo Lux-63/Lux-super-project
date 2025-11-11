@@ -70,7 +70,6 @@ function worksProcess(event) {
     divInfoText.value = "Замерзнешь!";
     infoText.value = "Замерзнешь!";
   }
-  //console.log("координаты", target, "click", event.offsetX, event.offsetY, distance, coordinateX.value, coordinateY.value);
 }
 
 function getDistance(x, y) {
@@ -80,7 +79,6 @@ function getDistance(x, y) {
 }
 
 function positionDiv(x, y) {
-  //targetDiv.value.style.position = "absolute";
   targetDiv.value.style.left = x + 30 + "px";
   targetDiv.value.style.top = y + 10 + "px";
   centerX.value = x;
