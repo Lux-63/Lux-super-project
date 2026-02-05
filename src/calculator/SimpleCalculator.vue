@@ -355,7 +355,7 @@ function dividePercentageAmount(baseValue, percentValue) {
 </script>
 
 <template>
-  <div class="col-md-5 col-lg-3 mx-auto border border-dark border-2 rounded-3">
+  <div class=" mx-auto border border-dark border-2 rounded-3">
     <div class="container">
       <div class="row border-bottom border-dark border-2">
         <div class="col">
