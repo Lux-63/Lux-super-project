@@ -5,6 +5,7 @@ import SimpleCalculator from "./calculator/SimpleCalculator.vue";
 import GallowsGame from "./gallows_game/GallowsGame.vue";
 import FindTheTreasure from "./find_the_treasure/FindTheTreasure.vue";
 import GameOfLife from "./GameOfLife/GameOfLife.vue";
+import PageDogs from "./page_dogs/PageDogs.vue";
 
 import VariousTesting from "./VariousTesting/VariousTesting.vue";
 
@@ -13,6 +14,7 @@ const isViewCalculator = ref(false);
 const isViewGallows = ref(false);
 const isViewFindTheTreasure = ref(false);
 const isViewGameOfLife = ref(false);
+const isViewPageDogs = ref(false);
 
 const isViewTesting = ref(false);
 
@@ -22,6 +24,7 @@ const calculatorLink = ref(null);
 const gallowsLink = ref(null);
 const findTheTreasureLink = ref(null);
 const gameOfLifeLink = ref(null);
+const pageDogs = ref(null)
 
 const testLink = ref(null);
 
@@ -31,6 +34,7 @@ function showPersonalPage() {
   isViewGallows.value = false;
   isViewFindTheTreasure.value = false;
   isViewGameOfLife.value = false;
+  isViewPageDogs.value = false;
 
   isViewTesting.value = false;
 
@@ -39,6 +43,7 @@ function showPersonalPage() {
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -49,6 +54,7 @@ function showCalculator() {
   isViewGallows.value = false;
   isViewFindTheTreasure.value = false;
   isViewGameOfLife.value = false;
+  isViewPageDogs.value = false;
 
   isViewTesting.value = false;
 
@@ -57,6 +63,7 @@ function showCalculator() {
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -66,6 +73,7 @@ function showGallows() {
   isViewGallows.value = true;
   isViewFindTheTreasure.value = false;
   isViewGameOfLife.value = false;
+  isViewPageDogs.value = false;
 
   isViewTesting.value = false;
 
@@ -74,6 +82,7 @@ function showGallows() {
   calculatorLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -83,6 +92,7 @@ function showFindTheTreasure() {
   isViewCalculator.value = false;
   isViewFindTheTreasure.value = true;
   isViewGameOfLife.value = false;
+  isViewPageDogs.value = false;
 
   isViewTesting.value = false;
 
@@ -91,6 +101,7 @@ function showFindTheTreasure() {
   calculatorLink.value.className = "col-1 btn btn-outline-secondary";
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -101,6 +112,7 @@ function showGameOfLife() {
   isViewGallows.value = false;
   isViewFindTheTreasure.value = false;
   isViewGameOfLife.value = true;
+  isViewPageDogs.value = false;
 
   isViewTesting.value = false;
 
@@ -109,6 +121,27 @@ function showGameOfLife() {
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className += " active";
+  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+
+  testLink.value.className = "col-1 btn btn-outline-secondary";
+}
+
+function showPageDogs() {
+  isViewPersonalPage.value = false;
+  isViewGallows.value = false;
+  isViewCalculator.value = false;
+  isViewFindTheTreasure.value = false;
+  isViewGameOfLife.value = false;
+  isViewPageDogs.value = true;
+
+  isViewTesting.value = false;
+
+  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
+  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
+  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  isViewPageDogs.value.className += " active";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -119,6 +152,7 @@ function showTesting() {
   isViewCalculator.value = false;
   isViewFindTheTreasure.value = false;
   isViewGameOfLife.value = false;
+  isViewPageDogs.value = false;
 
   isViewTesting.value = true;
 
@@ -127,6 +161,7 @@ function showTesting() {
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className += " active";
 }
@@ -176,6 +211,14 @@ function showTesting() {
           игра в жизнь
         </button>
         <button
+          ref="pageDogs"
+          type="button"
+          class="col-2 btn btn-outline-secondary"
+          @click="showPageDogs"
+        >
+          Собаки
+        </button>
+        <button
           ref="testLink"
           type="button"
           class="col-2 btn btn-outline-secondary"
@@ -196,6 +239,7 @@ function showTesting() {
           <FindTheTreasure v-if="isViewFindTheTreasure" />
           <VariousTesting v-if="isViewTesting" />
           <GameOfLife v-if="isViewGameOfLife" />
+          <pageDogs v-if="isViewPageDogs" />
         </div>
       </div>
     </div>
