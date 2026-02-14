@@ -24,7 +24,7 @@ const calculatorLink = ref(null);
 const gallowsLink = ref(null);
 const findTheTreasureLink = ref(null);
 const gameOfLifeLink = ref(null);
-const pageDogs = ref(null)
+const pageDogsLink = ref(null)
 
 const testLink = ref(null);
 
@@ -39,11 +39,11 @@ function showPersonalPage() {
   isViewTesting.value = false;
 
   personalPageLink.value.className += " active";
-  calculatorLink.value.className += "col-1 btn btn-outline-secondary";
+  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -63,7 +63,7 @@ function showCalculator() {
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -82,7 +82,7 @@ function showGallows() {
   calculatorLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -101,7 +101,7 @@ function showFindTheTreasure() {
   calculatorLink.value.className = "col-1 btn btn-outline-secondary";
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -121,7 +121,7 @@ function showGameOfLife() {
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className += " active";
-  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -141,7 +141,7 @@ function showPageDogs() {
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  isViewPageDogs.value.className += " active";
+  pageDogsLink.value.className += " active";
 
   testLink.value.className = "col-1 btn btn-outline-secondary";
 }
@@ -161,7 +161,7 @@ function showTesting() {
   findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
   gallowsLink.value.className = "col-1 btn btn-outline-secondary";
   gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  isViewPageDogs.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
 
   testLink.value.className += " active";
 }
@@ -211,7 +211,7 @@ function showTesting() {
           игра в жизнь
         </button>
         <button
-          ref="pageDogs"
+          ref="pageDogsLink"
           type="button"
           class="col-2 btn btn-outline-secondary"
           @click="showPageDogs"
@@ -239,7 +239,7 @@ function showTesting() {
           <FindTheTreasure v-if="isViewFindTheTreasure" />
           <VariousTesting v-if="isViewTesting" />
           <GameOfLife v-if="isViewGameOfLife" />
-          <pageDogs v-if="isViewPageDogs" />
+          <PageDogs v-if="isViewPageDogs" />
         </div>
       </div>
     </div>
