@@ -3,7 +3,7 @@ import { ref, onMounted  } from 'vue';
 let srcOne = ref("https://images.dog.ceo/breeds/shiba/shiba-17.jpg");
 let srcTwo = ref("https://images.dog.ceo/breeds/terrier-scottish/n02097298_2583.jpg");
 let srcThree = ref("https://images.dog.ceo/breeds/sharpei/noel.jpg")
-
+let srcDogLink = "";
 const passedDogsLinks = [];
 const nextDogsLinks = [];
 
@@ -12,23 +12,20 @@ onMounted(() => {
 })
 
 /**
- * вытягиваем ссылку на собаки по API
+ * вытягиваем ссылку на собак по API.
  */
-async function getDogLink() {
-  let response = await fetch("https://dog.ceo/api/breeds/image/random");
-  let result = await response.json();
-  let link = result.message;
-  nextDogsLinks.push(result.message)
-  console.log("console", link);
-  
-  return link;
+function getDogLink() {
+  console.log("getDogLink", typeof srcDogLink)
+  let response = fetch("https://dog.ceo/api/breeds/image/random");
+  let resolve = response.then(result => result.json());
+  resolve.then(result => nextDogsLinks.push(result.message));
 };
 
 function addDogLink() {
   for(let i = nextDogsLinks.length; i < 3; i++) {
     getDogLink();
     
-    console.log("добавится ли ссылки на собак", nextDogsLinks);
+    console.log("добавится ли ссылки на собак", srcDogLink, nextDogsLinks);
 }
 
 };
