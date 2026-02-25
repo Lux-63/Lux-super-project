@@ -19,6 +19,7 @@ function getDogLink() {
   let response = fetch("https://dog.ceo/api/breeds/image/random");
   let resolve = response.then(result => result.json());
   resolve.then(result => nextDogsLinks.push(result.message));
+  console.log(nextDogsLinks, "getDogLink")
 };
 
 function addDogLink() {
@@ -37,16 +38,16 @@ function addDogLink() {
 
 
 
-  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+  <div id="carouselExampleAutoplaying" class="carousel slide " data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img :src="srcOne" class="d-block w-100" alt="...">
+      <img :src="srcOne" class="d-block w-50" alt="...">
     </div>
     <div class="carousel-item">
-      <img :src="srcTwo" class="d-block w-100" alt="...">
+      <img :src="srcTwo" class="d-block w-50" alt="...">
     </div>
     <div class="carousel-item">
-      <img :src="srcThree" class="d-block w-100" alt="...">
+      <img :src="srcThree" class="d-block w-50" alt="...">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
