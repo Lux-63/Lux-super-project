@@ -4,15 +4,18 @@ import { reactive, onMounted } from "vue";
 const nextDogsLinks = reactive([]);
 // let stepVariable = [srcOne.value, srcTwo.value, srcThree.value];
 
-
 onMounted(() => {
-  loadCaruselData();
+  loadImageApi();
 });
 
+/**
+ * Синхронный вариант выгрузки данных из API и загрузки карусели.
+ * В данном случае, карусель будет загружаться после получения первого изображения из API.
+ */
 function loadCaruselData() {
-  let p = null;
+  let imageElement = null;
   for (let i = 0; i < 3; i++) {
-    p = fetch("https://dog.ceo/api/breeds/image/random")
+    imageElement = fetch("https://dog.ceo/api/breeds/image/random")
       .then((result) => {
         console.log("3");
         return result.json();
@@ -20,15 +23,32 @@ function loadCaruselData() {
       .then((result) => nextDogsLinks.push(result.message))
       .then(() => console.log("4"));
   }
-  p.then(() => document.querySelector(".carousel-item").className += " active")
-  
+  imageElement.then(
+    () => (document.querySelector(".carousel-item").className += " active"),
+  );
 }
 
-// Асинхронный вариант loadCaruseleData().
+/**
+ * Асинхронный вариант выгрузки данных из API и загрузки карусели.
+ * В данном случае, карусель будет загружаться после получения всех данных из API.
+ */
+async function loadImageApi() {
+  console.log("1")
+  let imageElement = null;
+  for (let i = 0; i < 3; i++) {
+    imageElement = fetch("https://dog.ceo/api/breeds/image/random")
+      .then((result) => {
+        console.log("2")
+        return result.json();
+      })
+      .then((result) => nextDogsLinks.push(result.message)), console.log("3")
+  }
+  await imageElement.then(
+    () => (document.querySelector(".carousel-item").className += " active"), console.log("4")
+  );
+};
 
-function test() {
-
-}
+function test() {}
 </script>
 
 <template>
@@ -45,7 +65,6 @@ function test() {
       data-bs-ride="carousel"
     >
       <div class="carousel-inner">
-
         <div v-for="linkDog in nextDogsLinks" class="carousel-item">
           <img :src="linkDog" class="d-block w-50" alt="..." />
         </div>
