@@ -2,7 +2,6 @@
 import { reactive, onMounted } from "vue";
 
 const nextDogsLinks = reactive([]);
-// let stepVariable = [srcOne.value, srcTwo.value, srcThree.value];
 
 onMounted(() => {
   loadImageApi();
@@ -33,20 +32,14 @@ function loadCaruselData() {
  * В данном случае, карусель будет загружаться после получения всех данных из API.
  */
 async function loadImageApi() {
-  console.log("1")
   let imageElement = null;
   for (let i = 0; i < 3; i++) {
-    imageElement = fetch("https://dog.ceo/api/breeds/image/random")
-      .then((result) => {
-        console.log("2")
-        return result.json();
-      })
-      .then((result) => nextDogsLinks.push(result.message)), console.log("3")
+    imageElement = await fetch("https://dog.ceo/api/breeds/image/random");
+    let result = await imageElement.json();
+    nextDogsLinks.push(result.message);
   }
-  await imageElement.then(
-    () => (document.querySelector(".carousel-item").className += " active"), console.log("4")
-  );
-};
+  document.querySelector(".carousel-item").className += " active";
+}
 
 function test() {}
 </script>
@@ -61,17 +54,17 @@ function test() {}
 
     <div
       id="carouselExampleAutoplaying"
-      class="carousel slide"
+      class="carousel carousel-dark slide"
       data-bs-ride="carousel"
     >
       <div class="carousel-inner">
         <div v-for="linkDog in nextDogsLinks" class="carousel-item">
-          <img :src="linkDog" class="d-block w-50" alt="..." />
+          <img :src="linkDog" class="d-block w-70" alt="..." />
         </div>
       </div>
 
       <button
-        class="carousel-control-prev"
+        class="carousel-control-prev btn btn-dark btn-outline-dark"
         type="button"
         data-bs-target="#carouselExampleAutoplaying"
         data-bs-slide="prev"
@@ -80,7 +73,7 @@ function test() {}
         <span class="visually-hidden">Предыдущий</span>
       </button>
       <button
-        class="carousel-control-next"
+        class="carousel-control-next btn btn-outline-dark"
         type="button"
         data-bs-target="#carouselExampleAutoplaying"
         data-bs-slide="next"
