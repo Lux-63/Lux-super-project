@@ -56,7 +56,7 @@ async function loadImageApi() {
     currentsDogsLinks.push(result.message);
   }
   if (document.querySelectorAll(".carousel-item.active").length == 0) {
-    document.querySelector(".carousel-item").className += " active";
+    // document.querySelector(".carousel-item").className += " active";
     console.log("load dogs", currentsDogsLinks);
   }
 
@@ -78,16 +78,48 @@ function displayRandomSrc() {
 </script>
 
 <template>
-  <div>
-    <button @click="displayRandomSrc">случайные изображения</button>
+  <div class="container-fluid">
+    <div class="row">
+      <div>
+        <button @click="displayRandomSrc">случайные изображения</button>
+      </div>
+    </div>
   </div>
-  <div >
-    <img :src="currentsDogsLinks[0]" class="rounded mx-auto d-block" alt="..." />
+  <div class="container-fluid" style="height: 100%; width: 100%;">
+    <div class="row">
+      <div class="col-md-4">
+        <img
+          :src="currentsDogsLinks[0]"
+          class="rounded float-start"
+          style="height: 100px"
+          alt="..."
+        />
+      </div>
+      <div class="col-md-4">
+        <img
+          :src="currentsDogsLinks[1]"
+          class="rounded float-center"
+          style="height: 100px"
+          alt="..."
+        />
+      </div>
+      <div class="col-md-4">
+        <img
+          :src="currentsDogsLinks[2]"
+          class="rounded float-end"
+          style="height: 100px"
+          alt="..."
+        />
+      </div>
+      <div>колонка</div>
+      <div>колонка</div>
+    </div>
   </div>
-  <div >
-    <img :src="currentsDogsLinks[1]" class="rounded mx-auto d-block" alt="..." />
-  </div>
-  <div ><img :src="currentsDogsLinks[2]" class="rounded mx-auto d-block" alt="..." /></div>
-  <div >колонка</div>
-  <div >колонка</div>
 </template>
+
+<style>
+.div {
+  height: 10px;
+  width: 50;
+}
+</style>

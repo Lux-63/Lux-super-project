@@ -168,7 +168,7 @@ function showTesting() {
 </script>
 
 <template>
-  <header class="container">
+  <header class="container-fluid">
     <div class="row g-4 justify-content-center">
         <button
           ref="personalPageLink"
@@ -230,7 +230,8 @@ function showTesting() {
   </header>
 
   <main class="">
-    <div class="row justify-content-center">
+    <div class="container-fluid">
+      <div class="row justify-content-left">
       <div class="col-4">
         <div class="position-absolute">
           <PersonalPage v-if="isViewPersonalPage" />
@@ -243,7 +244,10 @@ function showTesting() {
         </div>
       </div>
     </div>
+    </div>
   </main>
 </template>
 
-<style></style>
+<style>
+
+</style>
