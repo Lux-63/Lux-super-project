@@ -1,10 +1,10 @@
 <script setup>
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, nextTick } from "vue";
 let currentsDogsLinks = reactive([]);
 onMounted(() => {
   console.log(
     "loading carusel",
-    document.querySelectorAll(".carousel-item").length,
+    // document.querySelectorAll(".carousel-item").length,
   );
   loadImageApi();
 });
@@ -48,31 +48,44 @@ onMounted(() => {
  * Асинхронный вариант выгрузки данных из API и загрузки карусели.
  * В данном случае, карусель будет загружаться после получения всех данных из API.
  */
-async function loadImageApi() {
-  let imageElement = null;
-  for (let i = 0; i < 3; i++) {
-    imageElement = await fetch("https://dog.ceo/api/breeds/image/random");
-    let result = await imageElement.json();
-    currentsDogsLinks.push(result.message);
-  }
-  if (document.querySelectorAll(".carousel-item.active").length == 0) {
-    // document.querySelector(".carousel-item").className += " active";
-    console.log("load dogs", currentsDogsLinks);
-  }
+// async function loadImageApi() {
+//   let imageElement = null;
+//   for (let i = 0; i < 3; i++) {
+//     imageElement = await fetch("https://dog.ceo/api/breeds/image/random");
+//     let result = await imageElement.json();
+//     currentsDogsLinks.push(result.message);
+//   }
+//   if (document.querySelectorAll(".carousel-item.active").length == 0) {
+//     // document.querySelector(".carousel-item").className += " active";
+//     console.log("load dogs", currentsDogsLinks);
+//   }
 
-  // document.querySelector(".carousel-item").className += " active";
-  // console.log("load dogs", currentsDogsLinks)
+//   // document.querySelector(".carousel-item").className += " active";
+//   // console.log("load dogs", currentsDogsLinks)
+// }
+
+/**
+ * Асинхронный вариант выгрузки данных из API и загрузки карусели.
+ */
+async function loadImageApi() {
+  let imageElement = await fetch("https://dog.ceo/api/breeds/image/random/25");
+
+  let result = await imageElement.json();
+  console.log("результат", result.message, currentsDogsLinks);
+  currentsDogsLinks.splice(0, currentsDogsLinks.length, ...result.message);
+  await nextTick();
+  console.log("load dogs", currentsDogsLinks);
 }
 
+/**
+ * выгрузка изображений по породе собак.
+ * @param breed string - название породы собак, по которой необходимо выгрузить изображения.
+ */
 function displayRandomSrc() {
   for (let i = currentsDogsLinks.length; i > 0; i--) {
     currentsDogsLinks.pop();
   }
-  console.log(
-    "typeof currentsDogsLink:",
-    currentsDogsLinks,
-    document.querySelectorAll(".carousel-item"),
-  );
+  console.log("typeof currentsDogsLink:", currentsDogsLinks);
   loadImageApi();
 }
 </script>
@@ -85,34 +98,16 @@ function displayRandomSrc() {
       </div>
     </div>
   </div>
-  <div class="container-fluid" style="height: 100%; width: 100%;">
+  <div class="container-fluid" style="height: 100%; width: 100%">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4" v-for="link in currentsDogsLinks" :key="index">
         <img
-          :src="currentsDogsLinks[0]"
+          :src="link"
           class="rounded float-start"
           style="height: 100px"
           alt="..."
         />
       </div>
-      <div class="col-md-4">
-        <img
-          :src="currentsDogsLinks[1]"
-          class="rounded float-center"
-          style="height: 100px"
-          alt="..."
-        />
-      </div>
-      <div class="col-md-4">
-        <img
-          :src="currentsDogsLinks[2]"
-          class="rounded float-end"
-          style="height: 100px"
-          alt="..."
-        />
-      </div>
-      <div>колонка</div>
-      <div>колонка</div>
     </div>
   </div>
 </template>
