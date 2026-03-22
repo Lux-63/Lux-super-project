@@ -1,14 +1,38 @@
 <script setup>
-import { ref, reactive} from "vue";
-import Dogs_carusel from "./Dogs_carusel.vue";
-import Dogs_gallery from "./Dogs_gallery.vue";
+import { ref, reactive, onMounted, watch, computed } from "vue";
+import LuxCarusel from "./LuxCarusel.vue";
+import LuxGallery from "./LuxGallery.vue";
 
 const isViewCarusel = ref(true);
 const isViewGallery = ref(false);
 const caruselLink = ref(null);
 const gallerylink = ref(null);
 
-let currentsDogsLinks = reactive([]);
+const currentsDogsLinks = reactive([]);
+const breedsList = ref([]);
+const countImages = ref(10);
+const selectedBreed = ref(null);
+
+const imageCounts = computed(() => {
+  let counts = [];
+  for (let i = 1; i <= 25; i++) {
+    counts.push(i);
+  }
+  return counts;
+});
+
+watch(selectedBreed, (newVal) => {
+  loadBreedImages(newVal);
+});
+watch(countImages, () => {
+  if (selectedBreed.value) {
+    loadBreedImages(selectedBreed.value);
+  }
+});
+
+onMounted(() => {
+  loadBreedsList();
+});
 /**
  * Показать компонент карусели.
  */
@@ -17,7 +41,8 @@ function showCarusel() {
   isViewGallery.value = false;
 
   caruselLink.value.className += " active";
-  gallerylink.value.className = "col-2 btn btn-outline-secondary";
+  gallerylink.value.className = "col-4 btn btn-outline-secondary";
+  loadBreedImages(selectedBreed.value);
 }
 /**
  * Показать компонент галереи.
@@ -26,49 +51,94 @@ function showGallery() {
   isViewCarusel.value = false;
   isViewGallery.value = true;
 
-  gallerylink.value.className = "col-2 btn btn-outline-secondary";
-  caruselLink.value.className += " active";
+  gallerylink.value.className += " active";
+  caruselLink.value.className = "col-4 btn btn-outline-secondary";
 }
 
+// Далее работа с API.
 
 /**
- * Асинхронный вариант выгрузки данных из API.
+ * выгрузка изображений по породе собак.
+ * @param listDogs string.
  */
-async function loadImageApi() {
-  let imageElement = await fetch("https://dog.ceo/api/breeds/image/random/3");
-  let result = await imageElement.json();
-  console.log("результат", result.message, currentsDogsLinks);
+async function loadBreedsList() {
+  let response = await fetch("https://dog.ceo/api/breeds/list/all");
+  let result = await response.json();
+  breedsList.value = Object.keys(result.message);
+  selectedBreed.value = breedsList.value[0];
+}
+
+async function loadBreedImages(breedName) {
+  let response = await fetch(
+    `https://dog.ceo/api/breed/${breedName}/images/random/${countImages.value}`,
+  );
+  let result = await response.json();
   currentsDogsLinks.splice(0, currentsDogsLinks.length, ...result.message);
-  await nextTick();
-  document.querySelectorAll(".carousel-item")[1].className += " active";
-  console.log("load dogs", currentsDogsLinks);
 }
 </script>
 
 <template>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <select
+          class="form-select"
+          v-model="selectedBreed"
+          aria-label="Пример выбора по умолчанию"
+        >
+          <!-- <option selected>Откройте это меню выбора</option>-->
+          <option v-for="breedName in breedsList" :value="breedName">
+            {{ breedName }}
+          </option>
+        </select>
+      </div>
+      <div class="col">
+        <select
+          class="form-select"
+          v-model="countImages"
+          aria-label="Пример выбора по умолчанию"
+        >
+          <!-- <option selected>Откройте это меню выбора</option> рядом поставить еще один селект, который будет спрашивать кол-во загружаемых изображений.-->
+          <option v-for="count in imageCounts" :value="count">
+            {{ count }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <div class="container-fluid justify-content-right">
     <div class="row">
       <div class="col">
-        <div class="row g-4">
-          <button
-            class="col-2 btn btn-outline-secondary active justify-content-right"
-            ref="caruselLink"
-            @click="showCarusel"
-          >
-            Карусель
-          </button>
-          <button
-            class="col-2 btn btn-outline-secondary justify-content-left"
-            ref="gallerylink"
-            @click="showGallery"
-          >
-            Галерея
-          </button>
-        </div>
-        <div class="row justify-content-center">
-          <Dogs_carusel v-if="isViewCarusel" />
-          <Dogs_gallery v-if="isViewGallery" />
-        </div>
+        <button
+          class="col-4 btn btn-outline-secondary active"
+          ref="caruselLink"
+          @click="showCarusel"
+        >
+          Карусель
+        </button>
+        <button
+          class="col-4 btn btn-outline-secondary"
+          ref="gallerylink"
+          @click="showGallery"
+        >
+          Галерея
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row-2">
+      <div class="col justify-content-center">
+        <LuxCarusel
+          v-if="isViewCarusel"
+          :currentDogsLinks="currentsDogsLinks"
+        />
+        <LuxGallery
+          v-if="isViewGallery"
+          :currentDogsLinks="currentsDogsLinks"
+        />
       </div>
     </div>
   </div>
