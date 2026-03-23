@@ -1,5 +1,5 @@
 <script setup>
-import { onUpdated } from "vue";
+import { onMounted, onUpdated } from "vue";
 
 const props = defineProps({
   currentDogsLinks: {
@@ -9,7 +9,15 @@ const props = defineProps({
 });
 
 onUpdated(() => {
-  document.querySelector(".carousel-item").className += " active";
+  if(document.querySelector(".carousel-item")) {
+    document.querySelector(".carousel-item").className += " active";
+  }
+});
+
+onMounted(() => {
+  if(document.querySelector(".carousel-item")) {
+    document.querySelector(".carousel-item").className += " active";
+  }
 });
 </script>
 
@@ -27,7 +35,7 @@ onUpdated(() => {
             :key="linkDog"
             class="carousel-item"
           >
-            <img :src="linkDog" class="d-block w-60 center" alt="..." />
+            <img :src="linkDog" class="d-block w-60 center" alt="..." style="height: 300px; width: 340px;"/>
           </div>
         </div>
 

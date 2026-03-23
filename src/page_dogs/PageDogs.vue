@@ -10,23 +10,15 @@ const gallerylink = ref(null);
 
 const currentsDogsLinks = reactive([]);
 const breedsList = ref([]);
-const countImages = ref(10);
+const imageCount = ref(10);
 const selectedBreed = ref(null);
 
-const imageCounts = computed(() => {
-  let counts = [];
-  for (let i = 1; i <= 25; i++) {
-    counts.push(i);
-  }
-  return counts;
-});
-
 watch(selectedBreed, (newVal) => {
-  loadBreedImages(newVal);
+  loadBreedImages(newVal, imageCount.value);
 });
-watch(countImages, () => {
+watch(imageCount, (newVal) => {
   if (selectedBreed.value) {
-    loadBreedImages(selectedBreed.value);
+    loadBreedImages(selectedBreed.value, newVal);
   }
 });
 
@@ -42,7 +34,7 @@ function showCarusel() {
 
   caruselLink.value.className += " active";
   gallerylink.value.className = "col-4 btn btn-outline-secondary";
-  loadBreedImages(selectedBreed.value);
+  console.log("пород", selectedBreed.value);
 }
 /**
  * Показать компонент галереи.
@@ -68,9 +60,9 @@ async function loadBreedsList() {
   selectedBreed.value = breedsList.value[0];
 }
 
-async function loadBreedImages(breedName) {
+async function loadBreedImages(breedName, count) {
   let response = await fetch(
-    `https://dog.ceo/api/breed/${breedName}/images/random/${countImages.value}`,
+    `https://dog.ceo/api/breed/${breedName}/images/random/${count}`,
   );
   let result = await response.json();
   currentsDogsLinks.splice(0, currentsDogsLinks.length, ...result.message);
@@ -86,7 +78,7 @@ async function loadBreedImages(breedName) {
           v-model="selectedBreed"
           aria-label="Пример выбора по умолчанию"
         >
-          <!-- <option selected>Откройте это меню выбора</option>-->
+          <option selected disabled value="">Откройте это меню выбора</option>
           <option v-for="breedName in breedsList" :value="breedName">
             {{ breedName }}
           </option>
@@ -95,11 +87,11 @@ async function loadBreedImages(breedName) {
       <div class="col">
         <select
           class="form-select"
-          v-model="countImages"
+          v-model="imageCount"
           aria-label="Пример выбора по умолчанию"
         >
           <!-- <option selected>Откройте это меню выбора</option> рядом поставить еще один селект, который будет спрашивать кол-во загружаемых изображений.-->
-          <option v-for="count in imageCounts" :value="count">
+          <option v-for="count in 25" :value="count">
             {{ count }}
           </option>
         </select>
@@ -132,11 +124,11 @@ async function loadBreedImages(breedName) {
     <div class="row-2">
       <div class="col justify-content-center">
         <LuxCarusel
-          v-if="isViewCarusel"
+          v-show="isViewCarusel"
           :currentDogsLinks="currentsDogsLinks"
         />
         <LuxGallery
-          v-if="isViewGallery"
+          v-show="isViewGallery"
           :currentDogsLinks="currentsDogsLinks"
         />
       </div>
