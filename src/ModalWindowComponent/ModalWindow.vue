@@ -16,7 +16,6 @@ const props = defineProps({
   },
 });
 
-// const imageUrl = ref("");
 
 let myModal = null;
 
@@ -34,11 +33,6 @@ function openModal(link, index) {
 
 
 
-// function openModal(link = "") {
-//   imageUrl.value = link;
-//   myModal.show();
-//   console.log("Open modal for", link);
-// }
 
 
 defineExpose({
@@ -49,10 +43,6 @@ defineExpose({
 
 function test() {
   console.log("test button clicked, current image index:", imageIndex.value, imageIndex.value + 1);
-  // Здесь можно добавить логику для смены изображения, например:
-  // imageIndex.value = (imageIndex.value + 1) % totalImages; // totalImages - общее количество изображений
-  // imageLink.value = getImageLinkByIndex(imageIndex.value); // Функция для получения ссылки по индексу
-  // imageIndex.value =  
 }
 </script>
 
@@ -89,25 +79,13 @@ function test() {
           <div v-if="imageLink">
             <img :src="imageLink" class="rounded float-start" alt="Большое изображение" />
           </div>
-          <!-- <div v-if="imageUrl">
-            <img :src="imageUrl" class="img-fluid" alt="Большое изображение" />
-          </div>
-          <div v-else>
-            Изображение не выбрано
-          </div> -->
         </div>
         <div class="modal-footer">
           ноги
           <button
             type="button"
             class="btn btn-secondary" @click="test">NEXT IMG</button>
-          <!-- <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Закрыть
-          </button> -->
+          
         </div>
       </div>
     </div>
