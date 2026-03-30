@@ -3,6 +3,7 @@ import { ref, reactive, onMounted, watch, computed } from "vue";
 import LuxCarusel from "./LuxCarusel.vue";
 import LuxGallery from "./LuxGallery.vue";
 
+
 const isViewCarusel = ref(true);
 const isViewGallery = ref(false);
 const caruselLink = ref(null);
