@@ -24,7 +24,7 @@ const calculatorLink = ref(null);
 const gallowsLink = ref(null);
 const findTheTreasureLink = ref(null);
 const gameOfLifeLink = ref(null);
-const pageDogsLink = ref(null)
+const pageDogsLink = ref(null);
 
 const testLink = ref(null);
 
@@ -168,8 +168,9 @@ function showTesting() {
 </script>
 
 <template>
-  <header class="container-fluid">
+  <header class="container-fluid" style="height: 100px;">
     <div class="row g-4 justify-content-center">
+      <div class="col">
         <button
           ref="personalPageLink"
           type="button"
@@ -213,7 +214,7 @@ function showTesting() {
         <button
           ref="pageDogsLink"
           type="button"
-          class="col-2 btn btn-outline-secondary"
+          class="col-4 btn btn-outline-secondary"
           @click="showPageDogs"
         >
           Собаки
@@ -221,33 +222,32 @@ function showTesting() {
         <button
           ref="testLink"
           type="button"
-          class="col-2 btn btn-outline-secondary"
+          class="col-4 btn btn-outline-secondary"
           @click="showTesting"
         >
           тестовое
         </button>
-    </div>
+        </div>
+        </div> 
   </header>
 
   <main class="">
     <div class="container-fluid">
       <div class="row justify-content-left">
-      <div class="col-4">
-        <div class="position-absolute">
-          <PersonalPage v-if="isViewPersonalPage" />
-          <SimpleCalculator v-if="isViewCalculator" />
-          <GallowsGame v-if="isViewGallows" />
-          <FindTheTreasure v-if="isViewFindTheTreasure" />
-          <VariousTesting v-if="isViewTesting" />
-          <GameOfLife v-if="isViewGameOfLife" />
-          <PageDogs v-if="isViewPageDogs" />
+        <div class="col-4">
+          <div class="position-absolute">
+            <PersonalPage v-if="isViewPersonalPage" />
+            <SimpleCalculator v-if="isViewCalculator" />
+            <GallowsGame v-if="isViewGallows" />
+            <FindTheTreasure v-if="isViewFindTheTreasure" />
+            <VariousTesting v-if="isViewTesting" />
+            <GameOfLife v-if="isViewGameOfLife" />
+            <PageDogs v-if="isViewPageDogs" />
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </main>
 </template>
 
-<style>
-
-</style>
+<style></style>

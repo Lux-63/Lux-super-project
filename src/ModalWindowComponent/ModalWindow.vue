@@ -2,9 +2,7 @@
 import { ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
 
-const emit = defineEmits(["changed-form"]);
 const simpleModal = ref(null);
-const text = ref("");
 
 const imageLink = ref("");
 const imageIndex = ref(null);
@@ -31,10 +29,6 @@ function openModal(link, index) {
   console.log("Open modal for", link, index);
 }
 
-
-
-
-
 defineExpose({
   openModal,
 });
@@ -59,7 +53,14 @@ function test() {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 
+
+
+
+          <slot name="header"></slot>
+
+
+
+          <!-- <h1 
             id="exampleModalLabel" 
             class="modal-title fs-5"
           >
@@ -70,7 +71,7 @@ function test() {
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Закрыть"
-          />
+          /> -->
         </div>
         <div class="modal-body">
           <div>
@@ -89,7 +90,9 @@ function test() {
         </div>
       </div>
     </div>
+
   </div>
+  
 </template>
 
 <style></style>
