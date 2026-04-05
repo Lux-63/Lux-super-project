@@ -26,41 +26,42 @@ function wievModal(link, elem) {
 </script>
 
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div
-        class="col-md-4"
-        v-for="(link, index) in currentDogsLinks"
-        :key="index"
-      >
-        <img
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-3 row-cols-md-5 g-3">
+        <div class="col" v-for="(link, index) in currentDogsLinks"
+        :key="index">
+          <div class="card shadow-sm">
+            <img
           :src="link"
           class="rounded float-start"
           style="height: 100px"
           alt="..."
           :index="index"
           @click="wievModal(link, index)"
-        />
+        />  
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div class="container-fluid">
     <div class="row">
       <div class="col-md-4">
         <ModalWindow ref="myModal">
           <template v-slot:header>
             12345
-            <h1 
-            id="exampleModalLabel" 
-            class="modal-title fs-5"
-          >
-            диалоговое окно
-          </h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Закрыть"
-          />
-          </template>>
+            <h1 id="exampleModalLabel" class="modal-title fs-5">
+              диалоговое окно
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Закрыть"
+            /> </template
+          >>
         </ModalWindow>
       </div>
     </div>

@@ -39,13 +39,13 @@ function showPersonalPage() {
   isViewTesting.value = false;
 
   personalPageLink.value.className += " active";
-  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
-  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
-  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
-  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
+  calculatorLink.value.className = "col btn btn-outline-secondary";
+  gallowsLink.value.className = "col btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col btn btn-outline-secondary";
+  pageDogsLink.value.className = "col btn btn-outline-secondary";
 
-  testLink.value.className = "col-1 btn btn-outline-secondary";
+  testLink.value.className = "col btn btn-outline-secondary";
 }
 
 function showCalculator() {
@@ -58,14 +58,14 @@ function showCalculator() {
 
   isViewTesting.value = false;
 
-  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
+  personalPageLink.value.className = "col btn btn-outline-secondary";
   calculatorLink.value.className += " active";
-  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
-  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
-  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
+  gallowsLink.value.className = "col btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col btn btn-outline-secondary";
+  pageDogsLink.value.className = "col btn btn-outline-secondary";
 
-  testLink.value.className = "col-1 btn btn-outline-secondary";
+  testLink.value.className = "col btn btn-outline-secondary";
 }
 function showGallows() {
   isViewPersonalPage.value = false;
@@ -77,14 +77,14 @@ function showGallows() {
 
   isViewTesting.value = false;
 
-  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
+  personalPageLink.value.className = "col btn btn-outline-secondary";
   gallowsLink.value.className += " active";
-  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
-  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
-  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
+  calculatorLink.value.className = "col btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col btn btn-outline-secondary";
+  pageDogsLink.value.className = "col btn btn-outline-secondary";
 
-  testLink.value.className = "col-1 btn btn-outline-secondary";
+  testLink.value.className = "col btn btn-outline-secondary";
 }
 function showFindTheTreasure() {
   isViewPersonalPage.value = false;
@@ -96,14 +96,14 @@ function showFindTheTreasure() {
 
   isViewTesting.value = false;
 
-  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
+  personalPageLink.value.className = "col btn btn-outline-secondary";
   findTheTreasureLink.value.className += " active";
-  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
-  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
-  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
+  calculatorLink.value.className = "col btn btn-outline-secondary";
+  gallowsLink.value.className = "col btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col btn btn-outline-secondary";
+  pageDogsLink.value.className = "col btn btn-outline-secondary";
 
-  testLink.value.className = "col-1 btn btn-outline-secondary";
+  testLink.value.className = "col btn btn-outline-secondary";
 }
 
 function showGameOfLife() {
@@ -116,14 +116,14 @@ function showGameOfLife() {
 
   isViewTesting.value = false;
 
-  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
-  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
-  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
-  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
+  personalPageLink.value.className = "col btn btn-outline-secondary";
+  calculatorLink.value.className = "col btn btn-outline-secondary";
+  gallowsLink.value.className = "col btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col btn btn-outline-secondary";
   gameOfLifeLink.value.className += " active";
-  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
+  pageDogsLink.value.className = "col btn btn-outline-secondary";
 
-  testLink.value.className = "col-1 btn btn-outline-secondary";
+  testLink.value.className = "col btn btn-outline-secondary";
 }
 
 function showPageDogs() {
@@ -136,14 +136,14 @@ function showPageDogs() {
 
   isViewTesting.value = false;
 
-  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
-  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
-  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
-  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
-  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
+  personalPageLink.value.className = "col btn btn-outline-secondary";
+  calculatorLink.value.className = "col btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col btn btn-outline-secondary";
+  gallowsLink.value.className = "col btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col btn btn-outline-secondary";
   pageDogsLink.value.className += " active";
 
-  testLink.value.className = "col-1 btn btn-outline-secondary";
+  testLink.value.className = "col btn btn-outline-secondary";
 }
 
 function showTesting() {
@@ -156,86 +156,60 @@ function showTesting() {
 
   isViewTesting.value = true;
 
-  personalPageLink.value.className = "col-1 btn btn-outline-secondary";
-  calculatorLink.value.className = "col-1 btn btn-outline-secondary";
-  findTheTreasureLink.value.className = "col-1 btn btn-outline-secondary";
-  gallowsLink.value.className = "col-1 btn btn-outline-secondary";
-  gameOfLifeLink.value.className = "col-1 btn btn-outline-secondary";
-  pageDogsLink.value.className = "col-1 btn btn-outline-secondary";
+  personalPageLink.value.className = "col btn btn-outline-secondary";
+  calculatorLink.value.className = "col btn btn-outline-secondary";
+  findTheTreasureLink.value.className = "col btn btn-outline-secondary";
+  gallowsLink.value.className = "col btn btn-outline-secondary";
+  gameOfLifeLink.value.className = "col btn btn-outline-secondary";
+  pageDogsLink.value.className = "col btn btn-outline-secondary";
 
   testLink.value.className += " active";
 }
 </script>
 
 <template>
-  <header class="container-fluid" style="height: 100px;">
-    <div class="row g-4 justify-content-center">
-      <div class="col">
-        <button
-          ref="personalPageLink"
-          type="button"
-          class="col-2 btn btn-outline-secondary active"
-          @click="showPersonalPage"
-        >
-          в начало
-        </button>
-        <button
-          ref="calculatorLink"
-          type="button"
-          class="col-2 btn btn-outline-secondary"
-          @click="showCalculator"
-        >
-          калькулятор
-        </button>
-        <button
-          ref="gallowsLink"
-          type="button"
-          class="col-2 btn btn-outline-secondary"
-          @click="showGallows"
-        >
-          виселица
-        </button>
-        <button
-          ref="findTheTreasureLink"
-          type="button"
-          class="col-2 btn btn-outline-secondary"
-          @click="showFindTheTreasure"
-        >
-          найди клад
-        </button>
-        <button
-          ref="gameOfLifeLink"
-          type="button"
-          class="col-2 btn btn-outline-secondary"
-          @click="showGameOfLife"
-        >
-          игра в жизнь
-        </button>
-        <button
-          ref="pageDogsLink"
-          type="button"
-          class="col-4 btn btn-outline-secondary"
-          @click="showPageDogs"
-        >
-          Собаки
-        </button>
-        <button
-          ref="testLink"
-          type="button"
-          class="col-4 btn btn-outline-secondary"
-          @click="showTesting"
-        >
-          тестовое
-        </button>
-        </div>
-        </div> 
-  </header>
 
-  <main class="">
-    <div class="container-fluid">
-      <div class="row justify-content-left">
-        <div class="col-4">
-          <div class="position-absolute">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <!-- почитать -->
+     <!-- сделать активными ссылки -->
+    <a class="navbar-brand" href="#">Top navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" @click="showPersonalPage()">В начало</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="showCalculator()">Калькулятор</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="showGallows()">Виселица</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="showFindTheTreasure()">Найди клад</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="showGameOfLife()">Игра в жизнь</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="showPageDogs()">Собаки</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="showTesting()">Тестовое</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+  <main class="container border border-5">
+      <div class="row text-center">
+        <div class="col">
             <PersonalPage v-if="isViewPersonalPage" />
             <SimpleCalculator v-if="isViewCalculator" />
             <GallowsGame v-if="isViewGallows" />
@@ -245,8 +219,6 @@ function showTesting() {
             <PageDogs v-if="isViewPageDogs" />
           </div>
         </div>
-      </div>
-    </div>
   </main>
 </template>
 
