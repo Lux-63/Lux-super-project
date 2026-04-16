@@ -207,9 +207,10 @@ function showTesting() {
 
 
 
-  <main class="container border border-5">
+  <main class="container">
+    
       <div class="row text-center">
-        <div class="col">
+        <!-- <div class="col"> -->
             <PersonalPage v-if="isViewPersonalPage" />
             <SimpleCalculator v-if="isViewCalculator" />
             <GallowsGame v-if="isViewGallows" />
@@ -217,9 +218,10 @@ function showTesting() {
             <VariousTesting v-if="isViewTesting" />
             <GameOfLife v-if="isViewGameOfLife" />
             <PageDogs v-if="isViewPageDogs" />
-          </div>
+          <!-- </div> -->
         </div>
   </main>
+  
 </template>
 
 <style></style>
