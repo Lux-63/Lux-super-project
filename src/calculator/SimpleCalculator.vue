@@ -534,10 +534,10 @@ function dividePercentageAmount(baseValue, percentValue) {
     </div>
   </div> -->
 
-  <div class="col">col1</div>
-  <div class="col-4">
-    <div class="mx-auto border border-dark border-2 rounded-3">
-      <div class="row border-bottom border-dark border-2">
+  <!-- <div class="col">col1</div> -->
+  <div class="col-4 col-md-auto">
+    <div class="col-3 mx-auto border border-dark border-2 rounded-3">
+      <div class="border-bottom border-dark border-2">
         <div class="col">
           <div
             class="display text-end fs-1 overflow-hidden border-2"
