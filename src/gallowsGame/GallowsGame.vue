@@ -1,7 +1,7 @@
 <script setup>
-
 import { ref, onMounted, reactive } from "vue";
 import ModalWindow from "./ModalWindow.vue";
+import PageDescription from "../components/PageDescription.vue";
 
 const selectedCategory = ref("animal");
 const infoElementRef = ref(null);
@@ -184,10 +184,10 @@ onMounted(() => {
   for (let category in allWords) {
     if (category != "all") {
       allWords["all"]["easy"] = allWords["all"]["easy"].concat(
-        allWords[category]["easy"]
+        allWords[category]["easy"],
       );
       allWords["all"]["hard"] = allWords["all"]["hard"].concat(
-        allWords[category]["hard"]
+        allWords[category]["hard"],
       );
     }
   }
@@ -295,7 +295,7 @@ function generationWord() {
     allWords[selectedCategory.value][difficulty.value][
       Math.floor(
         Math.random() *
-          allWords[selectedCategory.value][difficulty.value].length
+          allWords[selectedCategory.value][difficulty.value].length,
       )
     ];
 
@@ -597,6 +597,15 @@ function drawPlayerWin() {
 </script>
 
 <template>
+  <PageDescription>
+    Игра Виселица, в которой игрок должен отгадывать слова. Игра поддерживает
+    рызличные категории слов, сложность, систему подсказок, а так же выбор имени
+    игрока. Изначально писался на чистом <b>JavaScript</b>. Допольнительно будет
+    использоваться <b>pinia</b>
+    для хранения статистики игроков и их достижений. Настройки игры вынесены в
+    отдельный компонент, в виде модального окна.'
+  </PageDescription>
+
   <div class="container text-center" style="width: 600px">
     <div class="js-top-window-btn row" />
 

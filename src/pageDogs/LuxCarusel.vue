@@ -9,21 +9,21 @@ const props = defineProps({
 });
 
 onUpdated(() => {
-  if(document.querySelector(".carousel-item")) {
+  if (document.querySelector(".carousel-item")) {
     document.querySelector(".carousel-item").className += " active";
   }
 });
 
 onMounted(() => {
-  if(document.querySelector(".carousel-item")) {
+  if (document.querySelector(".carousel-item")) {
     document.querySelector(".carousel-item").className += " active";
   }
 });
 </script>
 
 <template>
-  <div class="container-fluid">
-    <div class="row">
+  <div class="row">
+    <div class="col-4 mx-auto text-center">
       <div
         id="carouselExampleAutoplaying"
         class="carousel carousel-dark slide"
@@ -35,7 +35,12 @@ onMounted(() => {
             :key="linkDog"
             class="carousel-item"
           >
-            <img :src="linkDog" class="d-block w-60 center" alt="..." style="height: 300px; width: 340px;"/>
+            <img
+              :src="linkDog"
+              class="d-block w-60 center"
+              alt="..."
+              style="height: 300px; width: 340px"
+            />
           </div>
         </div>
 

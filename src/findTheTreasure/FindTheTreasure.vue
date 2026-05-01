@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import PageDescription from "../components/PageDescription.vue";
 
 const coordinateX = ref(null);
 const coordinateY = ref(null);
@@ -7,7 +8,7 @@ const coordinateY = ref(null);
 const targetDiv = ref("null");
 let centerX = ref(0);
 let centerY = ref(0);
-const infoText = ref("");
+const infoText = ref("Попробуй найти!");
 const divInfoText = ref("");
 
 const settingsGame = ref({
@@ -87,6 +88,11 @@ function positionDiv(x, y) {
 </script>
 
 <template>
+  <PageDescription>
+    Игра "Найди сокровище", в которой игрок должен найти спрятанное сокровище на карте. 
+    Была написана как отработка координантной системы и взаимодействия с мышью. 
+    Изначально была написана на <b>чистом JavaScript</b>.',
+</PageDescription>
   <div class="container text-center">
     <div class="col">
       <h1>Найди клад</h1>
