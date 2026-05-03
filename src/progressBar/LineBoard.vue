@@ -224,7 +224,7 @@ function runEror() {
           </div>
           <div v-if="displayInformationChange == 1">
             <svg
-              class="js-load-complete dots-complette"
+              class="js-load-complete dots-line-complette wiew-line-complete"
               y="0px"
               style="enable-background: new 0 0 512.003 512.003"
               xml:space="preserve"
@@ -243,7 +243,8 @@ function runEror() {
           </div>
           <div
             v-if="displayInformationChange == 2"
-            class="wiew-error dots-complette"
+            class="wiew-line-error dots-line
+          -complette"
           >
             <svg
               width="48"
@@ -261,7 +262,8 @@ function runEror() {
           </div>
           <div
             v-if="displayInformationChange == 3"
-            class="wiew-warning-line dots-complette"
+            class="wiew-line-warning dots-line
+          -complette"
           >
             <svg
               fill="rgb(233, 175, 17)"
@@ -299,7 +301,7 @@ function runEror() {
   top: -48px;
   text-align: center;
 }
-.wiew-error {
+.wiew-line-error {
   position: absolute;
   width: 110px;
   height: 110px;
@@ -307,7 +309,15 @@ function runEror() {
   left: 30px;
   top: 20px;
 }
-.wiew-warning-line {
+.wiew-line-warning {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  padding-top: 45px;
+  left: 30px;
+  top: 20px;
+}
+.wiew-line-complete {
   position: absolute;
   width: 110px;
   height: 110px;
@@ -316,7 +326,7 @@ function runEror() {
   top: 20px;
 }
 
-.dots-complette {
+.dots-line-complette {
   animation: load-complette;
   transition-delay: 3s;
   animation-duration: 3s;
