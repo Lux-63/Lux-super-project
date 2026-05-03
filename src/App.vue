@@ -7,14 +7,6 @@ const toastContainer = ref(null);
 const tostMessage = ref("Описание страницы");
 const router = useRouter();
 
-function showLiveToast() {
-  const toastEl = toastContainer.value.querySelector("#liveToast");
-  const toast = new Toast(toastEl);
-  toast.show();
-
-  console.log("Показать тост", router);
-  tostMessage.value = router.currentRoute._rawValue.meta.title;
-}
 </script>
 
 <template>

@@ -62,7 +62,7 @@ function drawGrid(cellCountX, cellCountY) {
   canvasContext.stroke();
 
   console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
-};
+}
 /**
  * push coordinate and drawing cell.
  * @param x Number
@@ -77,7 +77,7 @@ function drawCell(x, y, action) {
     console.log("delete cell", x, y);
   canvasContext.clearRect(x, y, cellSize, cellSize);
   }
-};
+}
 
 
 function test() {
@@ -122,7 +122,7 @@ function checkAddCell(x, y) {
   } else {
     console.log("cell eror", x, y);
   }
-};
+}
 
 /**
  * The next step of evolution.
@@ -319,43 +319,50 @@ function stopGame() {
 </script>
 
 <template>
-  <div class="container text-center">
-    <button 
-      type="button" 
-      @click="nextStep"
-    >
-      шаг
-    </button>
-    <button 
-      type="button" 
-      @click="autoStartGame"
-    >
-      старт
-    </button>
-    <button 
-      type="button" 
-      @click="stopGame"
-    >
-      стоп
-    </button>
-    <button 
-      type="button" 
-      @click="clearArea"
-    >
-      сброс
-    </button>
-    <button 
-      type="button" 
-      @click="test"
-    >
-      тест
-    </button>
-    <button 
-      @click="drawGrid
-        (props.cellCountX, props.cellCountY)"
-    >
-      drawGrid
-    </button>
+  <br />
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <div class="btn-group" role="group">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="nextStep"
+        >
+          шаг
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="autoStartGame"
+        >
+          старт
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="stopGame"
+        >
+          стоп
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="clearArea"
+        >
+          сброс
+        </button>
+        <button class="btn btn-outline-secondary" type="button" @click="test">
+          тест
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="drawGrid(props.cellCountX, props.cellCountY)"
+        >
+          drawGrid
+        </button>
+      </div>
+    </div>
   </div>
   <div class="container text-center">
     <canvas

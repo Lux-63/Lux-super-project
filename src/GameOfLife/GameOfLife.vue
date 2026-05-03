@@ -33,16 +33,26 @@ function fieldSize() {
     навыков оптимизации производительности при работе с большим количеством
     данных. Изначально писался на чистом JavaScript.'
   </PageDescription>
-  <div class="container text-center">
-    <div>
-      <select v-bind="showOptionWithArray">
-        <option @click="showOptionWithArray">вариант с массивом</option>
-        <option @click="showOptionWithObject">вариант с объектом</option>
-      </select>
-      <button type="button" @click="fieldSize">размер поля</button>
-    </div>
 
-    <div>
+  <div class="row justify-content-center">
+    <div class="col-2 text-center">
+        <select class="btn btn-outline-secondary" v-bind="showOptionWithArray">
+          <option @click="showOptionWithArray">вариант с массивом</option>
+          <option @click="showOptionWithObject">вариант с объектом</option>
+        </select>
+    </div>
+    <div class="col-2 text-center">
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          @click="fieldSize"
+        >
+          размер поля
+        </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mx-auto text-center">
       <OptionWithObject
         v-if="isOptionWithObject"
         :cell-count-x="cellCountX"

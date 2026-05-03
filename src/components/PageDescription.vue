@@ -2,8 +2,6 @@
 import { ref, onMounted } from "vue";
 import { Toast } from "bootstrap";
 
-// todo: надо иконку вместо вопроса
-
 const toastContainer = ref(null);
 const toast = ref(null);
 

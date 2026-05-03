@@ -1,255 +1,322 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
-let lengthCircumference = 0
-let mistakeLoad = false // needed to give an error or warning.
-let progressLoad = 0 // how many were loaded.
-let dashOffsetMeaningOne = 0 // Need for correct display of loading.
-let dashOffsetMeaningTwo = 800 // Need for correct display of loading.
-let StartLoading = 0 // to start painting the circle with red color.
-let circleBar = ref(null) // second circle for changing colors.
-let wiewStatusLoad = ref(0)
-let wiewStatusBar = ref(null) //here is the percentage display or a check mark or a cross.
-let displayInformationChange = ref(0) // change svg depending on loading status
-let startIntervalChange = false
-let progressBarLoad = ref(678)
-let radiusCircle = 0
-let startInterval = null
-let colorBar = '#00cc00'
+let lengthCircumference = 0;
+let mistakeLoad = false; // needed to give an error or warning.
+let progressLoad = 0; // how many were loaded.
+let dashOffsetMeaningOne = 0; // Need for correct display of loading.
+let dashOffsetMeaningTwo = 800; // Need for correct display of loading.
+let startLoading = 0; // to start painting the circle with red color.
+let circleBar = ref(null); // second circle for changing colors.
+let wiewStatusLoad = ref(0);
+let displayInformationChange = ref(0); // change svg depending on loading status
+let startIntervalChange = false;
+let progressBarLoad = ref(678);
+let radiusCircle = 0;
+let startInterval = null;
+let colorBar = "#00cc00";
 onMounted(() => {
-  lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute('r'))
-  radiusCircle = Number(circleBar.value.getAttribute('r'))
-  console.log(lengthCircumference, radiusCircle)
-})
+  lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute("r"));
+  radiusCircle = Number(circleBar.value.getAttribute("r"));
+  console.log(lengthCircumference, radiusCircle);
+});
 
 function stepProgress() {
-  if (StartLoading == 0) {
+  if (startLoading == 0) {
     //if there is no check, then every time the download continues, a red color will appear.
-    colorBar = 'rgb(255, 0, 0)'
-    circleBar.value.style.stroke = colorBar
+    colorBar = "rgb(255, 0, 0)";
+    circleBar.value.style.stroke = colorBar;
   }
-  StartLoading = 1
+  startLoading = 1;
   if (progressLoad < 100 && mistakeLoad === false) {
-    progressLoad += 0.1
-    dashOffsetMeaningOne = 0 + Math.round((600 * progressLoad) / 100)
-    dashOffsetMeaningTwo = 800 - Math.round((600 * progressLoad) / 100)
-    progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100)
+    progressLoad += 0.1;
+    dashOffsetMeaningOne = 0 + Math.round((600 * progressLoad) / 100);
+    dashOffsetMeaningTwo = 800 - Math.round((600 * progressLoad) / 100);
+    progressBarLoad.value = lengthCircumference * ((100 - progressLoad) / 100);
 
-    wiewStatusLoad.value = Math.round(progressLoad)
-    drawColorBar(progressLoad)
+    wiewStatusLoad.value = Math.round(progressLoad);
+    drawColorBar(progressLoad);
     console.log(
-      'info %',
+      "info %",
       progressBarLoad.value,
       progressLoad,
-      'тут мы смотрим состояние значений',
+      "тут мы смотрим состояние значений",
       dashOffsetMeaningOne,
       dashOffsetMeaningTwo,
-    )
+    );
   } else {
-    stopAutoLoadBar()
+    stopAutoLoadBar();
   }
-  console.log()
+  console.log();
 }
 function drawColorBar(n) {
-  let progressLoad = n
+  let progressLoad = n;
 
-  console.log('старт рисования')
+  console.log("старт рисования");
   if (Math.round(progressLoad) >= 20 && progressLoad < 25) {
-    console.log('сработало')
-    colorBar = '#cb0a0a'
-    circleBar.value.classList.add('dots-one')
-    circleBar.value.style.stroke = 'rgb(240, 115, 12)'
-    colorBar = 'rgb(240, 115, 12)'
+    console.log("сработало");
+    colorBar = "#cb0a0a";
+    circleBar.value.classList.add("dots-one");
+    circleBar.value.style.stroke = "rgb(240, 115, 12)";
+    colorBar = "rgb(240, 115, 12)";
   } else if (Math.round(progressLoad) >= 45 && progressLoad < 50) {
-    circleBar.value.style.stroke = 'rgb(240, 115, 12)'
-    circleBar.value.classList.remove('dots-one')
-    circleBar.value.classList.add('dots-two')
-    circleBar.value.style.stroke = 'rgb(233, 161, 17)'
-    colorBar = 'rgb(233, 161, 17)'
+    circleBar.value.style.stroke = "rgb(240, 115, 12)";
+    circleBar.value.classList.remove("dots-one");
+    circleBar.value.classList.add("dots-two");
+    circleBar.value.style.stroke = "rgb(233, 161, 17)";
+    colorBar = "rgb(233, 161, 17)";
   } else if (Math.round(progressLoad) >= 70 && progressLoad < 75) {
-    circleBar.value.style.stroke = 'rgb(233, 161, 17)'
-    circleBar.value.classList.remove('dots-two')
-    circleBar.value.classList.add('dots-three')
-    circleBar.value.style.stroke = 'rgb(17, 150, 233)'
-    colorBar = 'rgb(17, 150, 233)'
+    circleBar.value.style.stroke = "rgb(233, 161, 17)";
+    circleBar.value.classList.remove("dots-two");
+    circleBar.value.classList.add("dots-three");
+    circleBar.value.style.stroke = "rgb(17, 150, 233)";
+    colorBar = "rgb(17, 150, 233)";
   } else if (Math.round(progressLoad) >= 85 && progressLoad < 100) {
-    circleBar.value.style.stroke = 'rgb(17, 150, 233)'
-    circleBar.value.classList.remove('dots-three')
-    circleBar.value.classList.add('dots-four')
-    circleBar.value.style.stroke = 'rgb(17, 42, 233)'
-    colorBar = 'rgb(17, 42, 233)'
+    circleBar.value.style.stroke = "rgb(17, 150, 233)";
+    circleBar.value.classList.remove("dots-three");
+    circleBar.value.classList.add("dots-four");
+    circleBar.value.style.stroke = "rgb(17, 42, 233)";
+    colorBar = "rgb(17, 42, 233)";
   } else if (Math.round(progressLoad) == 100) {
-    circleBar.value.style.stroke = 'rgb(17, 42, 233)'
-    circleBar.value.classList.remove('dots-four')
-    circleBar.value.classList.add('dots-five')
-    circleBar.value.style.stroke = 'rgb(28, 233, 17)'
-    colorBar = 'rgb(28, 233, 17)'
-    displayInformationChange.value = 1
+    circleBar.value.style.stroke = "rgb(17, 42, 233)";
+    circleBar.value.classList.remove("dots-four");
+    circleBar.value.classList.add("dots-five");
+    circleBar.value.style.stroke = "rgb(28, 233, 17)";
+    colorBar = "rgb(28, 233, 17)";
+    displayInformationChange.value = 1;
   }
-  circleBar.value.style.stroke = colorBar
+  circleBar.value.style.stroke = colorBar;
   circleBar.value.setAttribute(
-    'stroke-dasharray',
+    "stroke-dasharray",
     `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`,
-  )
-  console.log(lengthCircumference, progressLoad, progressBarLoad.value)
+  );
+  console.log(lengthCircumference, progressLoad, progressBarLoad.value);
 }
 
-function checkButton() {
-  console.log('chack', wiewStatusLoad.value)
+function resetButton() {
+  circleBar.value.style.stroke = "#e0e0e0";
+  colorBar = "rgb(255, 0, 0)";
+  wiewStatusLoad.value = 0;
+  startLoading = 1;
+  progressLoad = 0;
+  wiewStatusLoad.value = 0;
+  mistakeLoad = false;
+  circleBar.value.classList = "circle-bar-size";
+  displayInformationChange.value = 0;
 }
 
 function startAutoLoadBar() {
   if (startIntervalChange == false) {
-    startIntervalChange = true
+    startIntervalChange = true;
     startInterval = setInterval(() => {
-      stepProgress()
-    }, 10)
+      stepProgress();
+    }, 10);
   }
 }
 
 function stopAutoLoadBar() {
   if (startIntervalChange === true) {
-    startIntervalChange = false
-    setTimeout(clearInterval(startInterval))
+    startIntervalChange = false;
+    setTimeout(clearInterval(startInterval));
   }
 }
 
 function runWarning() {
-  setTimeout(clearInterval(startInterval))
-  if (wiewStatusLoad.value != 'error' && wiewStatusLoad.value != 'warning') {
-    displayInformationChange.value = 3
-    wiewStatusLoad.value = 'warning'
-    mistakeLoad = true
-    circleBar.value.classList.remove('dots-three')
-    circleBar.value.classList.add('dots-warning')
+  stopAutoLoadBar();
+  setTimeout(clearInterval(startInterval));
+  if (wiewStatusLoad.value != "error" && wiewStatusLoad.value != "warning") {
+    displayInformationChange.value = 3;
+    wiewStatusLoad.value = "warning";
+    mistakeLoad = true;
+    circleBar.value.classList.remove("dots-three");
+    circleBar.value.classList.add("dots-warning");
     setTimeout(() => {
-      circleBar.value.style.stroke = 'rgb(233, 175, 17)'
-    }, 3000)
+      circleBar.value.style.stroke = "rgb(233, 175, 17)";
+    }, 3000);
   }
 }
 function runEror() {
-  setTimeout(clearInterval(startInterval))
-  if (wiewStatusLoad.value != 'warning' && wiewStatusLoad.value != 'error') {
-    displayInformationChange.value = 2
-    wiewStatusLoad.value = 'error'
-    mistakeLoad = true
-    circleBar.value.classList.add('dots-error')
+  stopAutoLoadBar();
+  setTimeout(clearInterval(startInterval));
+  if (wiewStatusLoad.value != "warning" && wiewStatusLoad.value != "error") {
+    displayInformationChange.value = 2;
+    wiewStatusLoad.value = "error";
+    mistakeLoad = true;
+    circleBar.value.classList.add("dots-error");
     setTimeout(() => {
-      circleBar.value.style.stroke = 'rgb(233, 17, 17)'
-    }, 3000)
+      circleBar.value.style.stroke = "rgb(233, 17, 17)";
+    }, 3000);
   }
 }
 </script>
 
 <template>
-  <p />
-  <div>dashboard</div>
-  <header>
-    <div>
-      <button @click="startAutoLoadBar()">start</button>
-      <button @click="stopAutoLoadBar()">stop</button>
-      <button @click="checkButton()">testing</button>
-      <button @click="stepProgress()">step</button>
+  <br />
+  <div class="row">
+    <div class="col text-center">
+      <button
+        type="button"
+        class="btn btn-outline-secondary m-1"
+        @click="startAutoLoadBar()"
+      >
+        start
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary m-1"
+        @click="stopAutoLoadBar()"
+      >
+        stop
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary m-1"
+        @click="stepProgress()"
+      >
+        step
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary m-1"
+        @click="resetButton()"
+      >
+        reset
+      </button>
     </div>
-
-    <div class="wiew-svg">
-      <div>
-        <svg
-          class="loading-circumference"
-          width="236"
-          height="236"
-          viewBox="-29.5 -29.5 295 295"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          style="transform: rotate(0deg)"
+    <br />
+    <div class="row">
+      <div class="col m-2 text-center">
+        <button
+          type="button"
+          class="btn btn-outline-secondary m-1"
+          @click="runWarning()"
         >
-          <circle
-            class="circle-bar-size js-load-bar"
-            r="127"
-            cx="118"
-            cy="118"
-            fill="transparent"
-            stroke="#e0e0e0"
-            stroke-width="17"
-            stroke-linecap="round"
-            stroke-dasharray="580 200"
-            stroke-dashoffset="480"
-          ></circle>
-          <circle
-            ref="circleBar"
-            class="circle-bar-size"
-            r="127"
-            cx="118"
-            cy="118"
-            fill="transparent"
-            stroke="#e0e0e0"
-            stroke-width="17"
-            stroke-linecap="round"
-            stroke-dasharray="0 800"
-            stroke-dashoffset="500"
-          ></circle>
-        </svg>
-      </div>
-      <div class="info-position" ref="wiewStatusBar">
-        <div v-if="displayInformationChange == 0">
-          {{ wiewStatusLoad }}
-        </div>
-        <div v-if="displayInformationChange == 1">
-          <svg
-            class="js-load-complete dots-complette"
-            y="0px"
-            style="enable-background: new 0 0 512.003 512.003"
-            xml:space="preserve"
-            x="0px"
-            viewBox="-400 100 1212.003 512.003"
-          >
-            <g>
-              <g>
-                <path
-                  style="fill: rgb(28, 233, 17)"
-                  d="M507.291,57.14c-5.605-4.851-14.094-4.204-18.998,1.455L174.383,424.81l-151.39-151.39 c-5.255-5.255-13.797-5.255-19.052,0c-5.255,5.255-5.255,13.797,0,19.052l161.684,161.684c2.533,2.506,5.982,3.934,9.539,3.934 c0.162,0,0.35,0,0.539,0.027c3.746-0.162,7.276-1.886,9.701-4.716L508.773,76.138C513.597,70.479,512.95,61.99,507.291,57.14z"
-                ></path>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <div v-if="displayInformationChange == 2" class="wiew-error dots-complette">
-          <svg width="48" height="48" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              fill-rule="evenodd"
-              fill="rgb(233, 17, 17)"
-              clip-rule="evenodd"
-              d="M4.11 2.697L2.698 4.11 6.586 8l-3.89 3.89 1.415 1.413L8 9.414l3.89 3.89 1.413-1.415L9.414 8l3.89-3.89-1.415-1.413L8 6.586l-3.89-3.89z"
-            ></path>
-          </svg>
-        </div>
-        <div v-if="displayInformationChange == 3" class="wiew-warning dots-complette">
-          <svg fill="rgb(233, 175, 17)" width="60px" height="60px" viewBox="0 0 36 36">
-            <title>exclamation-circle-solid</title>
-            <path
-              class="clr-i-solid clr-i-solid-path-1"
-              d="M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z"
-            ></path>
-            <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
-          </svg>
-        </div>
-      </div>
-      <div>
-        <button @click="runWarning()">warning</button>
-        <button @click="runEror()">error</button>
+          warning
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary m-1"
+          @click="runEror()"
+        >
+          error
+        </button>
       </div>
     </div>
-  </header>
+  </div>
 
-  <main></main>
+  <div class="row">
+    <div class="col-2 mx-auto text-center">
+      <div class="wiew-dash-svg">
+        <div>
+          <svg
+            class="loading-circumference"
+            width="236"
+            height="236"
+            viewBox="-29.5 -29.5 295 295"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            style="transform: rotate(0deg)"
+          >
+            <circle
+              class="circle-bar-size js-load-bar"
+              r="127"
+              cx="118"
+              cy="118"
+              fill="transparent"
+              stroke="#e0e0e0"
+              stroke-width="17"
+              stroke-linecap="round"
+              stroke-dasharray="580 200"
+              stroke-dashoffset="480"
+            ></circle>
+            <circle
+              ref="circleBar"
+              class="circle-bar-size"
+              r="127"
+              cx="118"
+              cy="118"
+              fill="transparent"
+              stroke="#e0e0e0"
+              stroke-width="17"
+              stroke-linecap="round"
+              stroke-dasharray="0 800"
+              stroke-dashoffset="500"
+            ></circle>
+          </svg>
+        </div>
+        <div class="info-dash-position" ref="wiewStatusBar">
+          <div v-if="displayInformationChange == 0">
+            {{ wiewStatusLoad }}
+          </div>
+          <div v-if="displayInformationChange == 1">
+            <svg
+              class="js-load-complete dots-complette"
+              y="0px"
+              style="enable-background: new 0 0 512.003 512.003"
+              xml:space="preserve"
+              x="0px"
+              viewBox="-400 100 1212.003 512.003"
+            >
+              <g>
+                <g>
+                  <path
+                    style="fill: rgb(28, 233, 17)"
+                    d="M507.291,57.14c-5.605-4.851-14.094-4.204-18.998,1.455L174.383,424.81l-151.39-151.39 c-5.255-5.255-13.797-5.255-19.052,0c-5.255,5.255-5.255,13.797,0,19.052l161.684,161.684c2.533,2.506,5.982,3.934,9.539,3.934 c0.162,0,0.35,0,0.539,0.027c3.746-0.162,7.276-1.886,9.701-4.716L508.773,76.138C513.597,70.479,512.95,61.99,507.291,57.14z"
+                  ></path>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <div
+            v-if="displayInformationChange == 2"
+            class="wiew-dash-error dots-complette"
+          >
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                fill="rgb(233, 17, 17)"
+                clip-rule="evenodd"
+                d="M4.11 2.697L2.698 4.11 6.586 8l-3.89 3.89 1.415 1.413L8 9.414l3.89 3.89 1.413-1.415L9.414 8l3.89-3.89-1.415-1.413L8 6.586l-3.89-3.89z"
+              ></path>
+            </svg>
+          </div>
+          <div
+            v-if="displayInformationChange == 3"
+            class="wiew-dash-warning dots-complette"
+          >
+            <svg
+              fill="rgb(233, 175, 17)"
+              width="60px"
+              height="60px"
+              viewBox="0 0 36 36"
+            >
+              <title>exclamation-circle-solid</title>
+              <path
+                class="clr-i-solid clr-i-solid-path-1"
+                d="M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z"
+              ></path>
+              <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
-.wiew-svg {
+.wiew-dash-svg {
   position: absolute;
+  left: 42%;
+  top: 50%;
 }
 
-.info-position {
+.info-dash-position {
   position: absolute;
   width: 110px;
   height: 110px;
@@ -258,15 +325,15 @@ function runEror() {
   top: 60px;
   text-align: center;
 }
-.wiew-error {
+.wiew-dash-error {
   position: absolute;
   width: 110px;
   height: 110px;
   padding-top: 45px;
   left: 5px;
-  top: -10px;
+  top: -16px;
 }
-.wiew-warning {
+.wiew-dash-warning {
   position: absolute;
   width: 110px;
   height: 110px;
@@ -288,7 +355,7 @@ function runEror() {
     opacity: 1;
   }
 }
-.dots-clear {
+.dots-dash-clear {
   animation: precent-clear;
   animation-duration: 5s;
 }
