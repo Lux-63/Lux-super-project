@@ -31,9 +31,9 @@ function wievModal(link, elem) {
       <div class="album py-5 bg-body-tertiary">
         <div class="row row-cols-1 row-cols-sm-3 row-cols-md-5 g-3">
           <div
-            class="col"
             v-for="(link, index) in currentDogsLinks"
             :key="index"
+            class="col"
           >
             <div class="card shadow-sm">
               <img

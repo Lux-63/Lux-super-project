@@ -89,15 +89,15 @@ async function loadBreedImages(breedName, count) {
     </p>
     <div class="col-4 mx-auto text-center">
       <select
-        class="form-select"
         v-model="selectedBreed"
+        class="form-select"
         aria-label="Пример выбора по умолчанию"
       >
         <option selected disabled value="">Откройте это меню выбора</option>
         <option
           v-for="breedName in breedsList"
-          :value="breedName"
           :key="breedName"
+          :value="breedName"
         >
           {{ breedName }}
         </option>
@@ -105,12 +105,12 @@ async function loadBreedImages(breedName, count) {
     </div>
     <div class="col-4 mx-auto text-center">
       <select
-        class="form-select"
         v-model="imageCount"
+        class="form-select"
         aria-label="Пример выбора по умолчанию"
       >
         <!-- <option selected>Откройте это меню выбора</option> рядом поставить еще один селект, который будет спрашивать кол-во загружаемых изображений.-->
-        <option v-for="count in 25" :value="count" :key="count">
+        <option v-for="count in 25" :key="count" :value="count">
           {{ count }}
         </option>
       </select>

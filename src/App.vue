@@ -16,7 +16,7 @@
       >
         <span class="navbar-toggler-icon" />
       </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
             <RouterLink to="/" class="nav-link"> Обо мне </RouterLink>

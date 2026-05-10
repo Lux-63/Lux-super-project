@@ -244,7 +244,7 @@ function runEror() {
             />
           </svg>
         </div>
-        <div class="info-dash-position" ref="wiewStatusBar">
+        <div ref="wiewStatusBar" class="info-dash-position">
           <div v-if="displayInformationChange == 0">
             {{ wiewStatusLoad }}
           </div>

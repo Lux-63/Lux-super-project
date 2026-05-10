@@ -611,12 +611,13 @@ function drawPlayerWin() {
 
     <div class="row">
       <div>
-        <div
-          class="container text-center"
-          v-html="
-            `Привет <b>${nikName}</b>. <p />категория: <b>${meaningsInRussian[selectedCategory]}</b>, сложность: <b>${meaningsInRussian[isGameEasy]}</b>`
-          "
-        />
+        <div class="container text-center">
+          Привет <b>{{ nikName }}</b
+          >.
+          <p />
+          категория: <b>{{ meaningsInRussian[selectedCategory] }}</b
+          >, сложность: <b>{{ meaningsInRussian[isGameEasy] }}</b>
+        </div>
         <canvas
           ref="canvasElementRef"
           class="canvas-style border border-black center"
@@ -626,9 +627,9 @@ function drawPlayerWin() {
       </div>
     </div>
     <div
-      class="container text-center"
       ref="infoElementRef"
-      v-html="messageToPlayer"
+      class="container text-center"
+      v-text="messageToPlayer"
     />
     <div class="row">
       <div class="js-information-btn col" />
@@ -637,9 +638,9 @@ function drawPlayerWin() {
     <div class="js-block-answer-btn row justify-content-center">
       <div class="js-hidden-word-btn row" style="width: 400px">
         <div
-          class="js-answer-word-btn col"
           v-for="item in gameState.answer"
           :key="item.id"
+          class="js-answer-word-btn col"
         >
           {{ item }}
         </div>
@@ -673,8 +674,8 @@ function drawPlayerWin() {
     <div>
       <div class="js-line-btn row">
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="й"
           @click="gameProcess($event, 'й')"
@@ -682,8 +683,8 @@ function drawPlayerWin() {
           Й
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ц"
           @click="gameProcess($event, 'ц')"
@@ -691,8 +692,8 @@ function drawPlayerWin() {
           Ц
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="у"
           @click="gameProcess($event, 'у')"
@@ -700,8 +701,8 @@ function drawPlayerWin() {
           У
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="к"
           @click="gameProcess($event, 'к')"
@@ -709,8 +710,8 @@ function drawPlayerWin() {
           К
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="е"
           @click="gameProcess($event, 'е')"
@@ -718,8 +719,8 @@ function drawPlayerWin() {
           Е
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="н"
           @click="gameProcess($event, 'н')"
@@ -727,8 +728,8 @@ function drawPlayerWin() {
           Н
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="г"
           @click="gameProcess($event, 'г')"
@@ -736,8 +737,8 @@ function drawPlayerWin() {
           Г
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ш"
           @click="gameProcess($event, 'ш')"
@@ -745,8 +746,8 @@ function drawPlayerWin() {
           Ш
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="щ"
           @click="gameProcess($event, 'щ')"
@@ -754,8 +755,8 @@ function drawPlayerWin() {
           Щ
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="з"
           @click="gameProcess($event, 'з')"
@@ -763,8 +764,8 @@ function drawPlayerWin() {
           З
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="х"
           @click="gameProcess($event, 'х')"
@@ -772,8 +773,8 @@ function drawPlayerWin() {
           Х
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ъ"
           @click="gameProcess($event, 'ъ')"
@@ -783,8 +784,8 @@ function drawPlayerWin() {
       </div>
       <div class="js-line-btn row">
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ф"
           @click="gameProcess($event, 'ф')"
@@ -792,8 +793,8 @@ function drawPlayerWin() {
           Ф
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ы"
           @click="gameProcess($event, 'ы')"
@@ -801,8 +802,8 @@ function drawPlayerWin() {
           Ы
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="в"
           @click="gameProcess($event, 'в')"
@@ -810,8 +811,8 @@ function drawPlayerWin() {
           В
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="а"
           @click="gameProcess($event, 'а')"
@@ -819,8 +820,8 @@ function drawPlayerWin() {
           А
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="п"
           @click="gameProcess($event, 'п')"
@@ -828,8 +829,8 @@ function drawPlayerWin() {
           П
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="р"
           @click="gameProcess($event, 'р')"
@@ -837,8 +838,8 @@ function drawPlayerWin() {
           Р
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="о"
           @click="gameProcess($event, 'о')"
@@ -846,8 +847,8 @@ function drawPlayerWin() {
           О
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="л"
           @click="gameProcess($event, 'л')"
@@ -855,8 +856,8 @@ function drawPlayerWin() {
           Л
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="д"
           @click="gameProcess($event, 'д')"
@@ -864,8 +865,8 @@ function drawPlayerWin() {
           Д
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ж"
           @click="gameProcess($event, 'ж')"
@@ -873,8 +874,8 @@ function drawPlayerWin() {
           Ж
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="э"
           @click="gameProcess($event, 'э')"
@@ -884,8 +885,8 @@ function drawPlayerWin() {
       </div>
       <div class="js-line-btn row">
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="я"
           @click="gameProcess($event, 'я')"
@@ -893,8 +894,8 @@ function drawPlayerWin() {
           Я
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ч"
           @click="gameProcess($event, 'ч')"
@@ -902,8 +903,8 @@ function drawPlayerWin() {
           Ч
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="с"
           @click="gameProcess($event, 'с')"
@@ -911,8 +912,8 @@ function drawPlayerWin() {
           С
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="м"
           @click="gameProcess($event, 'м')"
@@ -920,8 +921,8 @@ function drawPlayerWin() {
           М
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="и"
           @click="gameProcess($event, 'и')"
@@ -929,8 +930,8 @@ function drawPlayerWin() {
           И
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="т"
           @click="gameProcess($event, 'т')"
@@ -938,8 +939,8 @@ function drawPlayerWin() {
           Т
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ь"
           @click="gameProcess($event, 'ь')"
@@ -947,8 +948,8 @@ function drawPlayerWin() {
           Ь
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="б"
           @click="gameProcess($event, 'б')"
@@ -956,8 +957,8 @@ function drawPlayerWin() {
           Б
         </button>
         <button
-          class="js-letter-btn col btn btn-outline-secondary"
           ref="letterButton"
+          class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isKeyboardOff"
           data-index="ю"
           @click="gameProcess($event, 'ю')"
