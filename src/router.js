@@ -4,16 +4,13 @@ import SimpleCalculator from "./calculator/SimpleCalculator.vue";
 import GallowsGame from "./gallowsGame/GallowsGame.vue";
 import FindTheTreasure from "./findTheTreasure/FindTheTreasure.vue";
 import GameOfLife from "./gameOfLife/GameOfLife.vue";
-
 import PageDogs from "./pageDogs/PageDogs.vue";
 import LuxCarusel from "./pageDogs/LuxCarusel.vue";
 import LuxGallery from "./pageDogs/LuxGallery.vue";
-
 import ProgressBar from "./progressBar/ProgressBar.vue";
 import CircumFerence from "./progressBar/CircumFerence.vue";
 import DashBoard from "./progressBar/DashBoard.vue";
 import LineBoard from "./progressBar/LineBoard.vue";
-
 import VariousTesting from "./variousTesting/VariousTesting.vue";
 
 const routes = [
