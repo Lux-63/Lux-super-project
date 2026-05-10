@@ -179,7 +179,7 @@ function checkingNeighbors(x, y) {
     if (identifyNeighbors[key] === undefined) {
       birthCell(
         neighboringCell[enumerationNextStep][0],
-        neighboringCell[enumerationNextStep][1]
+        neighboringCell[enumerationNextStep][1],
       );
     }
   }
@@ -268,10 +268,10 @@ function cellEvolution() {
  */
 function positionDiv(x, y) {
   centerX.value = Math.floor(
-    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize
+    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize,
   );
   centerY.value = Math.floor(
-    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize
+    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize,
   );
   if (centerX.value >= allCellX.value) {
     centerX.value--;
@@ -282,10 +282,10 @@ function positionDiv(x, y) {
 }
 function positionCanvas(x, y) {
   x = Math.floor(
-    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize
+    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize,
   );
   y = Math.floor(
-    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize
+    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize,
   );
   if (x >= props.cellCountX) {
     x--;
@@ -304,7 +304,7 @@ function clearArea() {
     0,
     0,
     props.cellCountX * cellSize,
-    props.cellCountY * cellSize
+    props.cellCountY * cellSize,
   );
   population = {};
 

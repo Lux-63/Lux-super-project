@@ -43,7 +43,7 @@ function worksProcess(event) {
     alert(
       "Клад найден! Сделано кликов: " +
         settingsGame.value.clicks +
-        " и мы перепрятали клад."
+        " и мы перепрятали клад.",
     );
     infoText.value = "Попробуй найти!";
     settingsGame.value.clicks = 0;

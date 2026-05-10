@@ -199,7 +199,7 @@ function getResult() {
     executeOperation(
       operandOne,
       calculateData[priorityOperatorIndex],
-      operandTwo
+      operandTwo,
     );
     console.log("передача в функции %", calculateData);
   }
@@ -209,7 +209,7 @@ function getResult() {
     let resultOperation = defineOperator(
       operandOne,
       calculateData[priorityOperatorIndex],
-      operandTwo
+      operandTwo,
     );
 
     calculateData.splice(priorityOperatorIndex - 1, 3, resultOperation);

@@ -16,7 +16,7 @@ watch(
   (newVal) => {
     currentsDogsLinks.splice(0, currentsDogsLinks.length, ...newVal);
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 
 onMounted(() => {
@@ -28,7 +28,7 @@ onMounted(() => {
       "смотрим значение ивента",
       event.to,
       event.direction,
-      currentsDogsLinks.length - 1
+      currentsDogsLinks.length - 1,
     );
     if (event.to == currentsDogsLinks.length - 1 && event.direction == "left") {
       console.log("в конец");

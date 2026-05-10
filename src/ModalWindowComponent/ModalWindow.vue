@@ -29,7 +29,7 @@ function test() {
   console.log(
     "test button clicked, current image index:",
     imageIndex.value,
-    imageIndex.value + 1
+    imageIndex.value + 1,
   );
 }
 </script>

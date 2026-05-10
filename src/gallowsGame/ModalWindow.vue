@@ -28,7 +28,7 @@ function saveChanges() {
     "changed-form",
     text.value == "" ? "друг" : text.value,
     isGameEasy.value,
-    selectedCategory.value
+    selectedCategory.value,
   );
   myModal.hide();
 }

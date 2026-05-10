@@ -70,8 +70,8 @@ function drawColorBar(n) {
     displayInformationChange.value = 1;
   }
   lineBar.value.style.stroke = colorBar;
-  lineBar.value.setAttribute("x2", (600 * progressLoad) / 100),
-    console.log(lengthLineference, progressLoad, progressBarLoad.value);
+  (lineBar.value.setAttribute("x2", (600 * progressLoad) / 100),
+    console.log(lengthLineference, progressLoad, progressBarLoad.value));
 }
 
 function resetButton() {

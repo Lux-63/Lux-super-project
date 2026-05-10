@@ -65,7 +65,7 @@ async function loadBreedsList() {
 
 async function loadBreedImages(breedName, count) {
   let response = await fetch(
-    `https://dog.ceo/api/breed/${breedName}/images/random/${count}`
+    `https://dog.ceo/api/breed/${breedName}/images/random/${count}`,
   );
   let result = await response.json();
   currentsDogsLinks.splice(0, currentsDogsLinks.length, ...result.message);

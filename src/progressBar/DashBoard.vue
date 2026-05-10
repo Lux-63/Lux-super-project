@@ -42,7 +42,7 @@ function stepProgress() {
       progressLoad,
       "тут мы смотрим состояние значений",
       dashOffsetMeaningOne,
-      dashOffsetMeaningTwo
+      dashOffsetMeaningTwo,
     );
   } else {
     stopAutoLoadBar();
@@ -88,7 +88,7 @@ function drawColorBar(n) {
   circleBar.value.style.stroke = colorBar;
   circleBar.value.setAttribute(
     "stroke-dasharray",
-    `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`
+    `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`,
   );
   console.log(lengthCircumference, progressLoad, progressBarLoad.value);
 }

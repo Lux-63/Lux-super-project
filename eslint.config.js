@@ -1,6 +1,8 @@
 import eslint from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
 import globals from "globals";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
 
 export default [
   // add more generic rulesets here, such as:
@@ -20,4 +22,6 @@ export default [
       },
     },
   },
+  eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
 ];
