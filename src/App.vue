@@ -1,13 +1,4 @@
-<script setup>
-import { ref } from "vue";
-import { Toast } from "bootstrap";
-import { useRouter } from "vue-router";
-
-const toastContainer = ref(null);
-const tostMessage = ref("Описание страницы");
-const router = useRouter();
-
-</script>
+<script setup></script>
 
 <template>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -23,41 +14,41 @@ const router = useRouter();
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" />
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <RouterLink to="/" class="nav-link">Обо мне</RouterLink>
+            <RouterLink to="/" class="nav-link"> Обо мне </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/calculator" class="nav-link"
-              >Калькулятор</RouterLink
-            >
+            <RouterLink to="/calculator" class="nav-link">
+              Калькулятор
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/gallows" class="nav-link">Виселица</RouterLink>
+            <RouterLink to="/gallows" class="nav-link"> Виселица </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/find-the-treasure" class="nav-link"
-              >Найди клад</RouterLink
-            >
+            <RouterLink to="/find-the-treasure" class="nav-link">
+              Найди клад
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/game-of-life" class="nav-link"
-              >Игра в жизнь</RouterLink
-            >
+            <RouterLink to="/game-of-life" class="nav-link">
+              Игра в жизнь
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/page-dogs" class="nav-link">Собаки</RouterLink>
+            <RouterLink to="/page-dogs" class="nav-link"> Собаки </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/progress-bar" class="nav-link"
-              >Прогресс бар</RouterLink
-            >
+            <RouterLink to="/progress-bar" class="nav-link">
+              Прогресс бар
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/testing" class="nav-link">Тестовое</RouterLink>
+            <RouterLink to="/testing" class="nav-link"> Тестовое </RouterLink>
           </li>
         </ul>
       </div>

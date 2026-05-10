@@ -184,10 +184,10 @@ onMounted(() => {
   for (let category in allWords) {
     if (category != "all") {
       allWords["all"]["easy"] = allWords["all"]["easy"].concat(
-        allWords[category]["easy"],
+        allWords[category]["easy"]
       );
       allWords["all"]["hard"] = allWords["all"]["hard"].concat(
-        allWords[category]["hard"],
+        allWords[category]["hard"]
       );
     }
   }
@@ -295,7 +295,7 @@ function generationWord() {
     allWords[selectedCategory.value][difficulty.value][
       Math.floor(
         Math.random() *
-          allWords[selectedCategory.value][difficulty.value].length,
+          allWords[selectedCategory.value][difficulty.value].length
       )
     ];
 

@@ -13,22 +13,25 @@ import PageDescription from "../components/PageDescription.vue";
       <router-link
         to="/progress-bar/circle"
         class="btn btn-outline-secondary mx-2"
-        >Круговой</router-link
       >
+        Круговой
+      </router-link>
       <router-link
         to="/progress-bar/dash-board"
         class="btn btn-outline-secondary mx-2"
-        >Dashboard</router-link
       >
+        Dashboard
+      </router-link>
       <router-link
         to="/progress-bar/line-board"
         class="btn btn-outline-secondary mx-2"
-        >Линейный</router-link
       >
+        Линейный
+      </router-link>
     </div>
   </div>
   <div class="container">
-      <router-view />
+    <router-view />
   </div>
 </template>
 

@@ -47,10 +47,10 @@ onMounted(() => {
           class="btn-close"
           data-bs-dismiss="toast"
           aria-label="Закрыть"
-        ></button>
+        />
       </div>
       <div class="toast-body">
-        <slot></slot>
+        <slot />
       </div>
     </div>
   </div>

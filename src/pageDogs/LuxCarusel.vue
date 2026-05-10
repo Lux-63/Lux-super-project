@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUpdated } from "vue";
 
-const props = defineProps({
+defineProps({
   currentDogsLinks: {
     type: Array,
     default: () => [],
@@ -51,7 +51,7 @@ onMounted(() => {
           data-bs-slide="prev"
           @keyup.left="buttonEvent"
         >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="carousel-control-prev-icon" aria-hidden="true" />
           <span class="visually-hidden">Предыдущий</span>
         </button>
         <button
@@ -61,7 +61,7 @@ onMounted(() => {
           data-bs-slide="next"
           @keyup.right="buttonEvent"
         >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="carousel-control-next-icon" aria-hidden="true" />
           <span class="visually-hidden">Следующий</span>
         </button>
       </div>

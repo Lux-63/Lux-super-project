@@ -65,7 +65,7 @@ async function loadBreedsList() {
 
 async function loadBreedImages(breedName, count) {
   let response = await fetch(
-    `https://dog.ceo/api/breed/${breedName}/images/random/${count}`,
+    `https://dog.ceo/api/breed/${breedName}/images/random/${count}`
   );
   let result = await response.json();
   currentsDogsLinks.splice(0, currentsDogsLinks.length, ...result.message);
@@ -74,12 +74,13 @@ async function loadBreedImages(breedName, count) {
 
 <template>
   <PageDescription>
-    <b>Работа с API</b> и отображение данных. На странице отображаются фотографии
-    собак, полученные с помощью API. Реализована пагинация для удобства
-    просмотра большого количества фотографий. Варианты отображения данных -
-    карусель и галерея. Компонент карусели был написан с нуля, а галерея была
-    реализована с использованием <b>Bootstrap</b>. Реализована возможность фильтрации
-    фотографий по породам собак и количесвтву отображаемых фотографий.
+    <b>Работа с API</b> и отображение данных. На странице отображаются
+    фотографии собак, полученные с помощью API. Реализована пагинация для
+    удобства просмотра большого количества фотографий. Варианты отображения
+    данных - карусель и галерея. Компонент карусели был написан с нуля, а
+    галерея была реализована с использованием <b>Bootstrap</b>. Реализована
+    возможность фильтрации фотографий по породам собак и количесвтву
+    отображаемых фотографий.
   </PageDescription>
 
   <div class="row">
@@ -93,7 +94,11 @@ async function loadBreedImages(breedName, count) {
         aria-label="Пример выбора по умолчанию"
       >
         <option selected disabled value="">Откройте это меню выбора</option>
-        <option v-for="breedName in breedsList" :value="breedName">
+        <option
+          v-for="breedName in breedsList"
+          :value="breedName"
+          :key="breedName"
+        >
           {{ breedName }}
         </option>
       </select>
@@ -105,7 +110,7 @@ async function loadBreedImages(breedName, count) {
         aria-label="Пример выбора по умолчанию"
       >
         <!-- <option selected>Откройте это меню выбора</option> рядом поставить еще один селект, который будет спрашивать кол-во загружаемых изображений.-->
-        <option v-for="count in 25" :value="count">
+        <option v-for="count in 25" :value="count" :key="count">
           {{ count }}
         </option>
       </select>
@@ -119,13 +124,15 @@ async function loadBreedImages(breedName, count) {
       <RouterLink
         :to="{ path: '/page-dogs/carusel', query: route.query }"
         class="btn btn-outline-secondary mx-2"
-        >Карусель</RouterLink
       >
+        Карусель
+      </RouterLink>
       <RouterLink
         :to="{ path: '/page-dogs/gallery', query: route.query }"
         class="btn btn-outline-secondary mx-2"
-        >Галерея</RouterLink
       >
+        Галерея
+      </RouterLink>
     </div>
   </div>
   <br />
@@ -133,7 +140,7 @@ async function loadBreedImages(breedName, count) {
     <!-- <div class="row">
       <div class="col"> -->
     <RouterView v-slot="{ Component }">
-      <component :is="Component" :currentDogsLinks="currentsDogsLinks" />
+      <component :is="Component" :current-dogs-links="currentsDogsLinks" />
     </RouterView>
     <!-- </div>
     </div> -->

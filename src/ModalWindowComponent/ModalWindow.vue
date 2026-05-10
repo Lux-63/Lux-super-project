@@ -7,14 +7,6 @@ const simpleModal = ref(null);
 const imageLink = ref("");
 const imageIndex = ref(null);
 
-const props = defineProps({
-  currentDogsLinks: {
-    type: Array,
-    default: () => [],
-  },
-});
-
-
 let myModal = null;
 
 onMounted(() => {
@@ -33,16 +25,18 @@ defineExpose({
   openModal,
 });
 
-
-
 function test() {
-  console.log("test button clicked, current image index:", imageIndex.value, imageIndex.value + 1);
+  console.log(
+    "test button clicked, current image index:",
+    imageIndex.value,
+    imageIndex.value + 1
+  );
 }
 </script>
 
 <template>
   <!-- Модальное окно -->
-   <div
+  <div
     id="exampleModal"
     ref="simpleModal"
     class="modal fade"
@@ -53,12 +47,7 @@ function test() {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-
-
-
-          <slot name="header"></slot>
-
-
+          <slot name="header" />
 
           <!-- <h1 
             id="exampleModalLabel" 
@@ -74,25 +63,24 @@ function test() {
           /> -->
         </div>
         <div class="modal-body">
-          <div>
-            тело
-          </div>
+          <div>тело</div>
           <div v-if="imageLink">
-            <img :src="imageLink" class="rounded float-start" alt="Большое изображение" />
+            <img
+              :src="imageLink"
+              class="rounded float-start"
+              alt="Большое изображение"
+            />
           </div>
         </div>
         <div class="modal-footer">
           ноги
-          <button
-            type="button"
-            class="btn btn-secondary" @click="test">NEXT IMG</button>
-          
+          <button type="button" class="btn btn-secondary" @click="test">
+            NEXT IMG
+          </button>
         </div>
       </div>
     </div>
-
   </div>
-  
 </template>
 
 <style></style>

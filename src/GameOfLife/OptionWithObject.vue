@@ -39,8 +39,6 @@ onMounted(() => {
   drawGrid(props.cellCountX, props.cellCountY);
 });
 
-
-
 /**
  * Разметка сетки.
  */
@@ -70,15 +68,14 @@ function drawGrid(cellCountX, cellCountY) {
  * @param action String
  */
 function drawCell(x, y, action) {
-  if(action == "drawing") {
+  if (action == "drawing") {
     console.log("drawing cell", x, y);
     canvasContext.fillRect(x, y, cellSize, cellSize);
   } else if (action == "del") {
     console.log("delete cell", x, y);
-  canvasContext.clearRect(x, y, cellSize, cellSize);
+    canvasContext.clearRect(x, y, cellSize, cellSize);
   }
 }
-
 
 function test() {
   let LiveCell = {
@@ -135,9 +132,9 @@ function nextStep() {
     coordinateY = population[key][1];
 
     checkingNeighbors(coordinateX, coordinateY);
-  };
+  }
   epochCounter.value++;
-  console.log("strart evo")
+  console.log("strart evo");
   cellEvolution();
 }
 /**
@@ -174,7 +171,7 @@ function checkingNeighbors(x, y) {
 
   // перебор соседей.
   for (let key in identifyNeighbors) {
-    enumerationNextStep +=1;
+    enumerationNextStep += 1;
     if (identifyNeighbors[key] != undefined) {
       livingNeighbor += 1;
       // тут индекс посибл борн
@@ -229,7 +226,12 @@ function birthCell(x, y) {
     }
   }
   if (livingNeighbor === 3 && population[`${x},${y}`] == undefined) {
-    if (x >= 0 && x < props.cellCountX * cellSize && y >= 0 && y < props.cellCountY * cellSize) {
+    if (
+      x >= 0 &&
+      x < props.cellCountX * cellSize &&
+      y >= 0 &&
+      y < props.cellCountY * cellSize
+    ) {
       bornCells[`${x},${y}`] = [x, y];
     }
   }
@@ -240,19 +242,18 @@ function birthCell(x, y) {
  */
 function cellEvolution() {
   // Delete death cells.
-  console.log("del obj", deadCells)
+  console.log("del obj", deadCells);
   for (let key in deadCells) {
     delete population[`${deadCells[key][0]},${deadCells[key][1]}`];
     drawCell(deadCells[key][0], deadCells[key][1], "del");
   }
-
 
   for (let key in bornCells) {
     population[`${bornCells[key][0]},${bornCells[key][1]}`] = [
       bornCells[key][0],
       bornCells[key][1],
     ];
-    drawCell(bornCells[key][0], bornCells[key][1], "drawing")
+    drawCell(bornCells[key][0], bornCells[key][1], "drawing");
   }
   bornCells = {};
   deadCells = [];
@@ -280,8 +281,12 @@ function positionDiv(x, y) {
   }
 }
 function positionCanvas(x, y) {
-  x = Math.floor((x - canvasElementRef.value.getBoundingClientRect().x) / cellSize);
-  y = Math.floor((y - canvasElementRef.value.getBoundingClientRect().y) / cellSize);
+  x = Math.floor(
+    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize
+  );
+  y = Math.floor(
+    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize
+  );
   if (x >= props.cellCountX) {
     x--;
   }
@@ -292,7 +297,6 @@ function positionCanvas(x, y) {
   drawCell(x * cellSize, y * cellSize, "drawing");
   population[`${x * cellSize},${y * cellSize}`] = [x * cellSize, y * cellSize];
   console.log(population);
-
 }
 
 function clearArea() {
@@ -370,16 +374,11 @@ function stopGame() {
       class="canvas-size"
       :height="`${cellCountY * cellSize}px`"
       :width="`${cellCountX * cellSize}px`"
-
       @mousemove="positionDiv($event.clientX, $event.clientY)"
       @click="positionCanvas($event.clientX, $event.clientY)"
     />
   </div>
-  <div 
-    class="container text-center"
-  >
-    Текущее поколение: {{ epochCounter }}
-  </div>
+  <div class="container text-center">Текущее поколение: {{ epochCounter }}</div>
 </template>
 
 <style>

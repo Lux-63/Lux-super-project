@@ -36,19 +36,19 @@ function fieldSize() {
 
   <div class="row justify-content-center">
     <div class="col-2 text-center">
-        <select class="btn btn-outline-secondary" v-bind="showOptionWithArray">
-          <option @click="showOptionWithArray">вариант с массивом</option>
-          <option @click="showOptionWithObject">вариант с объектом</option>
-        </select>
+      <select class="btn btn-outline-secondary" v-bind="showOptionWithArray">
+        <option @click="showOptionWithArray">вариант с массивом</option>
+        <option @click="showOptionWithObject">вариант с объектом</option>
+      </select>
     </div>
     <div class="col-2 text-center">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          @click="fieldSize"
-        >
-          размер поля
-        </button>
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        @click="fieldSize"
+      >
+        размер поля
+      </button>
     </div>
   </div>
   <div class="row">

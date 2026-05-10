@@ -51,10 +51,7 @@ defineExpose({
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 
-            id="exampleModalLabel" 
-            class="modal-title fs-5"
-          >
+          <h1 id="exampleModalLabel" class="modal-title fs-5">
             Выберите нужные параметры
           </h1>
           <button
@@ -67,11 +64,7 @@ defineExpose({
         <div class="modal-body">
           <div>
             Ваше имя
-            <input 
-              ref="inputFocus" 
-              v-model="text" 
-              placeholder="друг" 
-            />
+            <input ref="inputFocus" v-model="text" placeholder="друг" />
           </div>
           <br />
           <div class="js-line-btn col">
@@ -89,27 +82,10 @@ defineExpose({
                 class="col btn btn-outline-secondary"
                 @click="changeCategory"
               >
-                <option 
-                  value="animal" 
-                  data="животные"
-                >
-                  Животные
-                </option>
-                <option 
-                  value="edible"
-                >
-                  Съедобное
-                </option>
-                <option 
-                  value="inedible"
-                >
-                  Несъедобное
-                </option>
-                <option 
-                  value="all"
-                >
-                  Все категории
-                </option>
+                <option value="animal" data="животные">Животные</option>
+                <option value="edible">Съедобное</option>
+                <option value="inedible">Несъедобное</option>
+                <option value="all">Все категории</option>
               </select>
             </div>
           </div>

@@ -112,7 +112,7 @@ function createCellPopulation(cellCountX, cellCountY) {
     indexY,
     indexX,
     "parameters from parent",
-    testX.value,
+    testX.value
   );
 }
 
@@ -151,7 +151,7 @@ function test() {
     "проверим параметры",
     testX.value,
     allCellX.value,
-    allCellY.value,
+    allCellY.value
   );
 }
 
@@ -277,7 +277,7 @@ function cellEvolution() {
     drawCell(
       bornCells[key][1] * cellSize,
       bornCells[key][0] * cellSize,
-      "drawing",
+      "drawing"
     );
   }
   bornCells = [];
@@ -293,10 +293,10 @@ function cellEvolution() {
  */
 function positionDiv(x, y) {
   centerX.value = Math.floor(
-    x - canvasElementRef.value.getBoundingClientRect().x,
+    x - canvasElementRef.value.getBoundingClientRect().x
   );
   centerY.value = Math.floor(
-    y - canvasElementRef.value.getBoundingClientRect().y,
+    y - canvasElementRef.value.getBoundingClientRect().y
   );
   if (centerX.value >= allCellX.value) {
     centerX.value--;
@@ -308,10 +308,10 @@ function positionDiv(x, y) {
 //Рисуем живые клетки в поле.
 function positionCanvas(x, y) {
   x = Math.floor(
-    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize,
+    (x - canvasElementRef.value.getBoundingClientRect().x) / cellSize
   );
   y = Math.floor(
-    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize,
+    (y - canvasElementRef.value.getBoundingClientRect().y) / cellSize
   );
   if (x >= allCellX.value) {
     x--;
@@ -330,7 +330,7 @@ function clearArea() {
     0,
     0,
     props.cellCountX * cellSize,
-    props.cellCountY * cellSize,
+    props.cellCountY * cellSize
   );
   //переписываем массив клеток.
   createCellPopulation(props.cellCountX, props.cellCountY);

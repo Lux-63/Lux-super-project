@@ -37,7 +37,6 @@ function stepProgress() {
 }
 function drawColorBar(n) {
   let progressLoad = n;
-  let coordinateX = console.log("старт рисования");
   if (Math.round(progressLoad) >= 20 && progressLoad < 25) {
     console.log("сработало");
     colorBar = "#cb0a0a";
@@ -206,7 +205,7 @@ function runEror() {
               y2="0"
               stroke="rgb(224, 224, 224)"
               stroke-width="45"
-            ></line>
+            />
             <line
               ref="lineBar"
               x1="0"
@@ -215,7 +214,7 @@ function runEror() {
               y2="0"
               stroke="rgb(17, 42, 233)"
               stroke-width="45"
-            ></line>
+            />
           </svg>
         </div>
         <div class="information-position">
@@ -236,15 +235,14 @@ function runEror() {
                   <path
                     style="fill: rgb(28, 233, 17)"
                     d="M507.291,57.14c-5.605-4.851-14.094-4.204-18.998,1.455L174.383,424.81l-151.39-151.39 c-5.255-5.255-13.797-5.255-19.052,0c-5.255,5.255-5.255,13.797,0,19.052l161.684,161.684c2.533,2.506,5.982,3.934,9.539,3.934 c0.162,0,0.35,0,0.539,0.027c3.746-0.162,7.276-1.886,9.701-4.716L508.773,76.138C513.597,70.479,512.95,61.99,507.291,57.14z"
-                  ></path>
+                  />
                 </g>
               </g>
             </svg>
           </div>
           <div
             v-if="displayInformationChange == 2"
-            class="wiew-line-error dots-line
-          -complette"
+            class="wiew-line-error dots-line -complette"
           >
             <svg
               width="48"
@@ -257,13 +255,12 @@ function runEror() {
                 fill="rgb(233, 17, 17)"
                 clip-rule="evenodd"
                 d="M4.11 2.697L2.698 4.11 6.586 8l-3.89 3.89 1.415 1.413L8 9.414l3.89 3.89 1.413-1.415L9.414 8l3.89-3.89-1.415-1.413L8 6.586l-3.89-3.89z"
-              ></path>
+              />
             </svg>
           </div>
           <div
             v-if="displayInformationChange == 3"
-            class="wiew-line-warning dots-line
-          -complette"
+            class="wiew-line-warning dots-line -complette"
           >
             <svg
               fill="rgb(233, 175, 17)"
@@ -275,7 +272,7 @@ function runEror() {
               <path
                 class="clr-i-solid clr-i-solid-path-1"
                 d="M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z"
-              ></path>
+              />
               <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
             </svg>
           </div>

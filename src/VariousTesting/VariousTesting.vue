@@ -27,9 +27,7 @@ function divClickElem() {
 </script>
 
 <template>
-  <PageDescription>
-    Различные тесты
-  </PageDescription>
+  <PageDescription> Различные тесты </PageDescription>
   <div class="row">
     <div class="col-4 mx-auto">
       <div>
@@ -40,7 +38,7 @@ function divClickElem() {
   <br />
   <div class="row-2">
     <div class="col">
-       <!-- <p class="fs-4 mx-auto text-center">Нажмите на черный квадрат, чтобы увидеть реакцию</p>
+      <!-- <p class="fs-4 mx-auto text-center">Нажмите на черный квадрат, чтобы увидеть реакцию</p>
        <p class="fs-5 mx-auto text-center">При клике на квадрат появится надпись "Я изменился" и пропадет через 2 секунды</p>
        <p class="fs-5 mx-auto text-center">При наведении мыши на квадрат координаты будут отображаться вверху страницы</p> -->
       <div

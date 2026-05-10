@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import ModalWindow from "../modalWindowComponent/ModalWindow.vue";
-const props = defineProps({
+defineProps({
   currentDogsLinks: {
     type: Array,
     default: () => [],
@@ -28,18 +28,22 @@ function wievModal(link, elem) {
 <template>
   <div class="row">
     <div class="col">
-    <div class="album py-5 bg-body-tertiary">
-      <div class="row row-cols-1 row-cols-sm-3 row-cols-md-5 g-3">
-        <div class="col" v-for="(link, index) in currentDogsLinks" :key="index">
-          <div class="card shadow-sm">
-            <img
-              :src="link"
-              class="rounded float-start"
-              alt="..."
-              :index="index"
-              @click="wievModal(link, index)"
-            />
-          </div>
+      <div class="album py-5 bg-body-tertiary">
+        <div class="row row-cols-1 row-cols-sm-3 row-cols-md-5 g-3">
+          <div
+            class="col"
+            v-for="(link, index) in currentDogsLinks"
+            :key="index"
+          >
+            <div class="card shadow-sm">
+              <img
+                :src="link"
+                class="rounded float-start"
+                alt="..."
+                :index="index"
+                @click="wievModal(link, index)"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -48,7 +52,7 @@ function wievModal(link, elem) {
     <div class="row">
       <div class="col-md-4">
         <ModalWindow ref="myModal">
-          <template v-slot:header>
+          <template #header>
             12345
             <h1 id="exampleModalLabel" class="modal-title fs-5">
               диалоговое окно

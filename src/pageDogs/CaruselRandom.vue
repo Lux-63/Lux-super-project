@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, nextTick, watch } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 
 const props = defineProps({
   currentDogsLinks: {
@@ -16,14 +16,11 @@ watch(
   (newVal) => {
     currentsDogsLinks.splice(0, currentsDogsLinks.length, ...newVal);
   },
-  { immediate: true, deep: true },
+  { immediate: true, deep: true }
 );
 
 onMounted(() => {
-  console.log(
-    "что пришло от родителя",
-     currentsDogsLinks, breedSelect.value
-  );
+  console.log("что пришло от родителя", currentsDogsLinks, breedSelect.value);
   const myCarousel = document.getElementById("carouselExampleAutoplaying");
 
   myCarousel.addEventListener("slide.bs.carousel", (event) => {
@@ -31,14 +28,14 @@ onMounted(() => {
       "смотрим значение ивента",
       event.to,
       event.direction,
-      currentsDogsLinks.length - 1,
+      currentsDogsLinks.length - 1
     );
     if (event.to == currentsDogsLinks.length - 1 && event.direction == "left") {
       console.log("в конец");
-      loadOneRandomImage(false);
+      // loadOneRandomImage(false);
     } else if (event.to == 0 && event.direction == "right") {
       console.log("в начало");
-      loadOneRandomImage(true);
+      // loadOneRandomImage(true);
     }
   });
 });
@@ -100,8 +97,6 @@ onMounted(() => {
 //   console.log("load dogs", currentsDogsLinks);
 // }
 
-
-
 /**
  * сброс изображений
  */
@@ -120,7 +115,6 @@ function buttonEvent() {}
 </script>
 
 <template>
-
   <div class="container-fluid">
     <div class="row">
       <div
@@ -129,7 +123,11 @@ function buttonEvent() {}
         data-bs-ride="false"
       >
         <div class="carousel-inner">
-          <div v-for="linkDog in currentsDogsLinks" :key="linkDog" class="carousel-item">
+          <div
+            v-for="linkDog in currentsDogsLinks"
+            :key="linkDog"
+            class="carousel-item"
+          >
             <img :src="linkDog" class="d-block w-60 center" alt="..." />
           </div>
         </div>
@@ -141,7 +139,7 @@ function buttonEvent() {}
           data-bs-slide="prev"
           @keyup.left="buttonEvent"
         >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="carousel-control-prev-icon" aria-hidden="true" />
           <span class="visually-hidden">Предыдущий</span>
         </button>
         <button
@@ -151,7 +149,7 @@ function buttonEvent() {}
           data-bs-slide="next"
           @keyup.right="buttonEvent"
         >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="carousel-control-next-icon" aria-hidden="true" />
           <span class="visually-hidden">Следующий</span>
         </button>
       </div>

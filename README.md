@@ -7,8 +7,7 @@ Building various applications using the Vue and Bootstrap frameworks. Includes:
 Calculator.
 Game of Life.
 Game of gallows.
-Game of  find the treasure.
-
+Game of find the treasure.
 
 ver 1.1.0
 Added:
