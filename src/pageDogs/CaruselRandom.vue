@@ -21,7 +21,7 @@ watch(
 
 onMounted(() => {
   console.log("что пришло от родителя", currentsDogsLinks, breedSelect.value);
-  const myCarousel = document.getElementById("carouselExampleAutoplaying");
+  const myCarousel = document.querySelector("#carouselExampleAutoplaying");
 
   myCarousel.addEventListener("slide.bs.carousel", (event) => {
     console.log(

@@ -76,7 +76,7 @@ function worksProcess(event) {
 function getDistance(x, y) {
   let diffX = x - target.x;
   let diffY = y - target.y;
-  return Math.sqrt(diffX * diffX + diffY * diffY);
+  return Math.hypot(diffX, diffY);
 }
 
 function positionDiv(x, y) {

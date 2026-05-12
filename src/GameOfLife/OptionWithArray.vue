@@ -173,9 +173,9 @@ function checkAddCell(y, x) {
  * Следующий шаг эволюции.
  */
 function nextStep() {
-  for (let y = 0; y < population.length; y++) {
-    for (let x = 0; x < population[y].length; x++) {
-      if (population[y][x] == 1) {
+  for (const [y, element] of population.entries()) {
+    for (const [x, element_] of element.entries()) {
+      if (element_ == 1) {
         checkingNeighbors(y, x);
       }
     }

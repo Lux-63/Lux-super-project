@@ -118,8 +118,8 @@ function handleKey(event) {
  * @param {String} currentChar
  */
 function addCharToDisplay(currentChar) {
-  const lastChar = calculateData[calculateData.length - 1];
-  const penultimateChar = calculateData[calculateData.length - 2];
+  const lastChar = calculateData.at(-1);
+  const penultimateChar = calculateData.at(-2);
   const isLastCharSpecial = specialChars.includes(lastChar);
   const isCurrentCharSpecial = specialChars.includes(currentChar);
 
@@ -147,10 +147,7 @@ function addCharToDisplay(currentChar) {
   } else if (isLastCharSpecial === false && isCurrentCharSpecial === true) {
     calculateData.push(currentChar);
   } else if (isLastCharSpecial === true && isCurrentCharSpecial === true) {
-    if (
-      currentChar === "." &&
-      calculateData[calculateData.length - 3] === "."
-    ) {
+    if (currentChar === "." && calculateData.at(-3) === ".") {
       // Без проверки - плюс можно заменить точкой.
       return;
     }
@@ -300,7 +297,7 @@ function removeLastCharacter() {
   console.log(lastValue, lastValue.length, calculateData);
 
   if (lastValue.length > 1) {
-    lastValue = lastValue.slice(0, lastValue.length - 1);
+    lastValue = lastValue.slice(0, -1);
     calculateData.push(+lastValue);
     console.log(lastValue, calculateData);
   }

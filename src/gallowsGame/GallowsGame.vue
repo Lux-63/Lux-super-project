@@ -205,11 +205,14 @@ function usingHints() {
     isbuttonHelpOff.value = true;
     return;
   }
-  gameState.answer.forEach((unsolvedLetter, unsolvedLetterIndex) => {
+  for (const [
+    unsolvedLetterIndex,
+    unsolvedLetter,
+  ] of gameState.answer.entries()) {
     if (unsolvedLetter === "-") {
       unsolvedLettersIndexes.push(unsolvedLetterIndex);
     }
-  });
+  }
   const randomIndex = Math.floor(Math.random() * unsolvedLettersIndexes.length);
   const answerIndexHint = unsolvedLettersIndexes[randomIndex];
   const letter =
@@ -273,16 +276,13 @@ function resetGameState() {
   //Включение кнопок алфавита.
   isKeyboardOff.value = false;
   //сброс кнопок алфавита.
-  document.querySelectorAll(".js-letter-btn").forEach((letterButton) => {
+  for (const letterButton of document.querySelectorAll(".js-letter-btn")) {
     letterButton.className =
       "js-letter-btn col btn btn-outline-secondary button-letters";
-  });
-  // life
-  if (isGameEasy.value == false) {
-    gameState.maxLife = 10;
-  } else {
-    gameState.maxLife = 7;
   }
+  // life
+  //тернарный оператор?
+  gameState.maxLife = isGameEasy.value == false ? 10 : 7;
   gameState.remainingAttempts = gameState.maxLife;
 }
 
@@ -316,20 +316,23 @@ function gameProcess(event) {
   console.log("бутон позития", buttonElement);
 
   switch (charLetterUsage(letter)) {
-    case STATE_LETTER_USED:
+    case STATE_LETTER_USED: {
       console.log("было");
       messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.letterWas}`;
       return;
-    case STATE_LETTER_CORRECT:
+    }
+    case STATE_LETTER_CORRECT: {
       console.log("передача леттера", letter);
       messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.correctLetter}`;
       correctLetter(buttonElement, letter);
       break;
-    case STATE_LETTER_WRONG:
+    }
+    case STATE_LETTER_WRONG: {
       wrongLetter(buttonElement);
       messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
       console.log("передача леттера", letter);
       break;
+    }
   }
   gameState.lettersUsed.push(letter);
 

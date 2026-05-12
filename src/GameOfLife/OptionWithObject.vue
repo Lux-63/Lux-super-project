@@ -225,15 +225,15 @@ function birthCell(x, y) {
       livingNeighbor += 1;
     }
   }
-  if (livingNeighbor === 3 && population[`${x},${y}`] == undefined) {
-    if (
-      x >= 0 &&
-      x < props.cellCountX * cellSize &&
-      y >= 0 &&
-      y < props.cellCountY * cellSize
-    ) {
-      bornCells[`${x},${y}`] = [x, y];
-    }
+  if (
+    livingNeighbor === 3 &&
+    population[`${x},${y}`] == undefined &&
+    x >= 0 &&
+    x < props.cellCountX * cellSize &&
+    y >= 0 &&
+    y < props.cellCountY * cellSize
+  ) {
+    bornCells[`${x},${y}`] = [x, y];
   }
 }
 
