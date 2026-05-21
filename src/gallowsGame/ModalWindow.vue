@@ -1,19 +1,18 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
+import { useParametrsStore } from "../store/gallowsGame";
 
 const emit = defineEmits(["changed-form"]);
 const simpleModal = ref(null);
 const text = ref("");
 let myModal = null;
 
-const inputFocus = ref(null);
-const isGameEasy = ref(true);
-const selectedCategory = ref("animal");
+const store = useParametrsStore()
+
 
 onMounted(() => {
   myModal = new Modal(simpleModal.value);
-  console.log(myModal);
 });
 
 function openModal() {
@@ -26,9 +25,9 @@ function openModal() {
 function saveChanges() {
   emit(
     "changed-form",
-    text.value == "" ? "друг" : text.value,
-    isGameEasy.value,
-    selectedCategory.value,
+    text.value == "" ? store.nikName : text.value,
+    store.isGameEasy,
+    store.selectedCategory,
   );
   myModal.hide();
 }
@@ -64,7 +63,7 @@ defineExpose({
         <div class="modal-body">
           <div>
             Ваше имя
-            <input ref="inputFocus" v-model="text" placeholder="друг" />
+            <input ref="inputFocus" v-model="text" :placeholder="store.nikName" />
           </div>
           <br />
           <div class="js-line-btn col">
@@ -72,13 +71,13 @@ defineExpose({
               <button
                 class="col btn btn-outline-secondary"
                 data-bs-toggle="button"
-                @click="isGameEasy = !isGameEasy"
+                @click="store.isGameEasy = !store.isGameEasy"
               >
-                {{ isGameEasy ? "легко" : "сложно" }}
+                {{ store.isGameEasy ? "легко" : "сложно" }}
               </button>
 
               <select
-                v-model="selectedCategory"
+                v-model="store.selectedCategory"
                 class="col btn btn-outline-secondary"
                 @click="changeCategory"
               >

@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import { useParametrsStore } from "../store/gallowsGame";
+
+const store = useParametrsStore();
 
 const props = defineProps({
   cellCountX: {
@@ -83,10 +86,8 @@ function drawGrid(cellCountX, cellCountY) {
  */
 function drawCell(x, y, action) {
   if (action == "drawing") {
-    console.log("drawing cell", x, y);
     canvasContext.fillRect(x, y, cellSize, cellSize);
   } else if (action == "del") {
-    console.log("delete cell", x, y);
     canvasContext.clearRect(x, y, cellSize, cellSize);
   }
 }
@@ -148,10 +149,12 @@ function test() {
     checkAddCell(LiveCell[key][0], LiveCell[key][1]);
   }
   console.log(
-    "проверим параметры",
-    testX.value,
-    allCellX.value,
-    allCellY.value,
+    // "проверим параметры",
+    // testX.value,
+    // allCellX.value,
+    // allCellY.value,
+    "пиния тест в игре в жизнь", 
+    store.piniaTest,
   );
 }
 
@@ -162,7 +165,6 @@ function test() {
  */
 function checkAddCell(y, x) {
   if (x < props.cellCountX && y < props.cellCountY) {
-    console.log("cell OK", y, x);
     population[y][x] = 1;
 
     drawCell(x * cellSize, y * cellSize, "drawing");

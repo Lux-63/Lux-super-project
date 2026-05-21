@@ -2,20 +2,18 @@
 import { ref, onMounted, reactive } from "vue";
 import ModalWindow from "./ModalWindow.vue";
 import PageDescription from "../components/PageDescription.vue";
+import { useParametrsStore } from "../store/gallowsGame";
 
-const selectedCategory = ref("animal");
 const infoElementRef = ref(null);
 const myModal = ref(null);
 
-const isGameEasy = ref(true);
-const difficulty = ref("easy");
 const addHintOnDifficulty = ref(1);
 const canvasElementRef = ref(null);
 let canvasContext = null;
 const isKeyboardOff = ref(false);
 const isbuttonHelpOff = ref(false);
-const totalHints = ref(2);
-let nikName = ref("друг");
+
+const store = useParametrsStore();
 
 // Массив количества жизней.
 let chanceLife = [
@@ -55,6 +53,11 @@ const gameState = reactive({
  */
 function showModal() {
   myModal.value.openModal();
+  localStorage.setItem("app_user", store.nikName);
+  localStorage.setItem("app_difficulty", store.difficulty);
+  localStorage.setItem("app_category", store.selectedCategory);
+  localStorage.setItem("app_totalHints", store.totalHints);
+  localStorage.setItem("app_isGameEasy", store.isGameEasy);
 }
 /**
  * Получение значений из модального окна.
@@ -63,9 +66,9 @@ function showModal() {
  * @param paramCategory {text}
  */
 function receiveNewData(paramName, paramDifficulty, paramCategory) {
-  nikName.value = paramName;
-  isGameEasy.value = paramDifficulty;
-  selectedCategory.value = paramCategory;
+  store.nikName = paramName;
+  store.difficulty = paramDifficulty;
+  store.selectedCategory = paramCategory;
   generationWord();
 }
 
@@ -175,7 +178,6 @@ const allWords = {
 function proverimNuzhnoemne() {
   //Math.random(gameState.randomWord.length)
   //floor(Math.random() * (max - min + 1)) + min
-  console.log(totalHints.value);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -200,7 +202,7 @@ onMounted(() => {
  */
 function usingHints() {
   let unsolvedLettersIndexes = [];
-  if (totalHints.value === 0) {
+  if (store.totalHints === 0) {
     messageToPlayer.value = gameInfo.help;
     isbuttonHelpOff.value = true;
     return;
@@ -224,7 +226,7 @@ function usingHints() {
   correctLetter(buttonElement, letter);
   gameState.lettersUsed.push(letter);
   checkGameEnd();
-  totalHints.value--;
+  store.totalHints--;
 }
 
 const STATE_LETTER_USED = 1;
@@ -267,9 +269,9 @@ function resetGameState() {
   gameState.lettersUsed = [];
   gameState.answer = [];
   //определение сложности игры
-  difficulty.value = isGameEasy.value ? "easy" : "hard";
+  store.difficulty = store.isGameEasy ? "easy" : "hard";
   // Инфа на кнопке подсказок.
-  difficulty.value == "easy"
+  store.difficulty == "easy"
     ? (addHintOnDifficulty.value = 1)
     : (addHintOnDifficulty.value = 2);
   canvasElementRef.value.getContext("2d").clearRect(0, 0, 250, 300);
@@ -282,7 +284,7 @@ function resetGameState() {
   }
   // life
   //тернарный оператор?
-  gameState.maxLife = isGameEasy.value == false ? 10 : 7;
+  gameState.maxLife = store.isGameEasy == false ? 10 : 7;
   gameState.remainingAttempts = gameState.maxLife;
 }
 
@@ -292,10 +294,10 @@ function generationWord() {
   resetGameState();
   // Выбираем слово из массива по категории.
   gameState.randomWord =
-    allWords[selectedCategory.value][difficulty.value][
+    allWords[store.selectedCategory][store.difficulty][
       Math.floor(
         Math.random() *
-          allWords[selectedCategory.value][difficulty.value].length,
+          allWords[store.selectedCategory][store.difficulty].length,
       )
     ];
 
@@ -313,23 +315,22 @@ function gameProcess(event) {
   const buttonElement = event.target;
   // Значение кнопки.
   const letter = event.target.dataset.index;
-  console.log("бутон позития", buttonElement);
 
   switch (charLetterUsage(letter)) {
     case STATE_LETTER_USED: {
       console.log("было");
-      messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.letterWas}`;
+      messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.letterWas}`;
       return;
     }
     case STATE_LETTER_CORRECT: {
       console.log("передача леттера", letter);
-      messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.correctLetter}`;
+      messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.correctLetter}`;
       correctLetter(buttonElement, letter);
       break;
     }
     case STATE_LETTER_WRONG: {
       wrongLetter(buttonElement);
-      messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
+      messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
       console.log("передача леттера", letter);
       break;
     }
@@ -389,7 +390,7 @@ function wrongLetter(buttonElement) {
  */
 function gameOver() {
   console.log("Проигрыш");
-  messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.gameOver} "${gameState.randomWord}"`;
+  messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.gameOver} "${gameState.randomWord}"`;
   for (let j = 0; j < gameState.randomWord.length; j++) {
     gameState.answer[j] = gameState.randomWord[j];
     console.log("проиграл");
@@ -401,9 +402,9 @@ function gameOver() {
  * Если игрок выйграл.
  */
 function victory() {
-  messageToPlayer.value = `<b>${nikName.value}</b> ${gameInfo.playerWin}<b>"${gameState.randomWord}"</b>`;
+  messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.playerWin}<b>"${gameState.randomWord}"</b>`;
   drawPlayerWin();
-  totalHints.value += addHintOnDifficulty.value;
+  store.totalHints += addHintOnDifficulty.value;
   isbuttonHelpOff.value = false;
   console.log("выйграл");
   isKeyboardOff.value = true;
@@ -615,11 +616,11 @@ function drawPlayerWin() {
     <div class="row">
       <div>
         <div class="container text-center">
-          Привет <b>{{ nikName }}</b
+          Привет <b>{{ store.nikName }}</b
           >.
           <p />
-          категория: <b>{{ meaningsInRussian[selectedCategory] }}</b
-          >, сложность: <b>{{ meaningsInRussian[isGameEasy] }}</b>
+          категория: <b>{{ meaningsInRussian[store.selectedCategory] }}</b
+          >, сложность: <b>{{ meaningsInRussian[store.isGameEasy] }}</b>
         </div>
         <canvas
           ref="canvasElementRef"
@@ -670,7 +671,7 @@ function drawPlayerWin() {
           :disabled="isbuttonHelpOff"
           @click="usingHints()"
         >
-          всего подсказок: {{ totalHints }}
+          всего подсказок: {{ store.totalHints }}
         </button>
       </div>
     </div>
@@ -970,17 +971,6 @@ function drawPlayerWin() {
         </button>
       </div>
     </div>
-    <div class="js-line-btn col">
-      <div class="d-grid gap-2">
-        <button
-          class="col btn btn-outline-secondary"
-          @click="proverimNuzhnoemne()"
-        >
-          Проверка
-        </button>
-      </div>
-    </div>
-    <div class="js-line-btn" />
   </div>
 </template>
 

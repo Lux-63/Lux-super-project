@@ -202,7 +202,7 @@ function getResult() {
   }
 
   // Взятие чисел для вычисления результата, в зависимости от приоритетного оператора.
-  if (isFinite(operandOne) && isFinite(operandTwo)) {
+  if (Number.isFinite(operandOne) && Number.isFinite(operandTwo)) {
     let resultOperation = defineOperator(
       operandOne,
       calculateData[priorityOperatorIndex],
