@@ -3,19 +3,24 @@ import { ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
 import { useParametrsStore } from "../store/gallowsGame";
 
+const store = useParametrsStore();
+
 const emit = defineEmits(["changed-form"]);
 const simpleModal = ref(null);
 const text = ref("");
+const isGameEasy = ref(store.isGameEasy);
+const selectedCategory = ref(store.selectedCategory);
 let myModal = null;
-
-const store = useParametrsStore()
-
 
 onMounted(() => {
   myModal = new Modal(simpleModal.value);
 });
 
 function openModal() {
+  // Переинициализируем значения из store при открытии модального окна
+  // text.value = "";
+  // isGameEasy.value = store.isGameEasy;
+  // selectedCategory.value = store.selectedCategory;
   myModal.show();
   console.log();
 }
@@ -23,13 +28,21 @@ function openModal() {
  * передача параметров в родительский компонент. Имя, сложность, категория.
  */
 function saveChanges() {
-  emit(
-    "changed-form",
-    text.value == "" ? store.nikName : text.value,
-    store.isGameEasy,
-    store.selectedCategory,
+  store.setNikName(text.value == "" ? store.nikName : text.value);
+  store.setIsGameEasy(isGameEasy.value);
+  store.setSelectCategory(selectedCategory.value);
+  if (isGameEasy.value) {
+    store.setDifficulty("easy");
+  } else {
+    store.setDifficulty("hard");
+  }
+  console.log(
+    "параметры сохранены",
+    store.difficulty
   );
+  emit("changed-form");
   myModal.hide();
+  
 }
 
 defineExpose({
@@ -63,7 +76,11 @@ defineExpose({
         <div class="modal-body">
           <div>
             Ваше имя
-            <input ref="inputFocus" v-model="text" :placeholder="store.nikName" />
+            <input
+              ref="inputFocus"
+              v-model="text"
+              :placeholder="store.nikName"
+            />
           </div>
           <br />
           <div class="js-line-btn col">
@@ -71,13 +88,13 @@ defineExpose({
               <button
                 class="col btn btn-outline-secondary"
                 data-bs-toggle="button"
-                @click="store.isGameEasy = !store.isGameEasy"
+                @click="isGameEasy = !isGameEasy"
               >
-                {{ store.isGameEasy ? "легко" : "сложно" }}
+                {{ isGameEasy ? "легко" : "сложно" }}
               </button>
 
               <select
-                v-model="store.selectedCategory"
+                v-model="selectedCategory"
                 class="col btn btn-outline-secondary"
                 @click="changeCategory"
               >

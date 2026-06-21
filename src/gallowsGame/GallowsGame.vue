@@ -30,14 +30,6 @@ let chanceLife = [
 ];
 const imageParts = chanceLife.length;
 
-const meaningsInRussian = {
-  animal: "животные",
-  edible: "съедобное",
-  inedible: "несъедобное",
-  all: "все категории",
-  true: "легко",
-  false: "сложно",
-};
 
 const gameState = reactive({
   lettersUsed: [],
@@ -53,24 +45,10 @@ const gameState = reactive({
  */
 function showModal() {
   myModal.value.openModal();
-  localStorage.setItem("app_user", store.nikName);
-  localStorage.setItem("app_difficulty", store.difficulty);
-  localStorage.setItem("app_category", store.selectedCategory);
-  localStorage.setItem("app_totalHints", store.totalHints);
-  localStorage.setItem("app_isGameEasy", store.isGameEasy);
+  // Возможно стоит вынести сохранение в отдельную функцию.
+  
 }
-/**
- * Получение значений из модального окна.
- * @param paramName {text}
- * @param paramDifficulty {Boolean}
- * @param paramCategory {text}
- */
-function receiveNewData(paramName, paramDifficulty, paramCategory) {
-  store.nikName = paramName;
-  store.difficulty = paramDifficulty;
-  store.selectedCategory = paramCategory;
-  generationWord();
-}
+
 
 // Сообщения для игрока.
 const gameInfo = {
@@ -87,91 +65,7 @@ const gameInfo = {
 // Константа для вывода сообщения.
 const messageToPlayer = ref(gameInfo.startGame);
 
-// Выбор массива слов исходя из сложности и выбранной категории.
-const allWords = {
-  animal: {
-    easy: [
-      "лиса",
-      "волк",
-      "бобёр",
-      "ёжик",
-      "медведь",
-      "олень",
-      "заяц",
-      "кролик",
-      "корова",
-      "лягушка",
-      "кошка",
-      "собака",
-      "мышь",
-    ],
-    hard: [
-      "игуана",
-      "гиппопотам",
-      "трясогузка",
-      "леопард",
-      "аллигатор",
-      "горилла",
-    ],
-  },
-  edible: {
-    easy: [
-      "каша",
-      "пицца",
-      "арбуз",
-      "лимон",
-      "грибы",
-      "хлеб",
-      "тесто",
-      "мясо",
-      "салат",
-      "рыба",
-      "молоко",
-    ],
-    hard: [
-      "сельдерей",
-      "фейхоа",
-      "картофель",
-      "абрикос",
-      "баклажан",
-      "виноград",
-      "йогурт",
-      "конфета",
-      "свинина",
-      "говядина",
-    ],
-  },
-  inedible: {
-    easy: [
-      "окно",
-      "стена",
-      "шкаф",
-      "стол",
-      "стул",
-      "пакет",
-      "мешок",
-      "шарик",
-      "очки",
-      "машина",
-    ],
-    hard: [
-      "гильотина",
-      "наволочка",
-      "автозаправка",
-      "фортепиано",
-      "антресоль",
-      "домкрат",
-      "электричка",
-      "сноуборд",
-      "программа",
-      "верёвка",
-    ],
-  },
-  all: {
-    easy: [],
-    hard: [],
-  },
-};
+
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
@@ -183,16 +77,17 @@ function proverimNuzhnoemne() {
 //-----------------------------------------------------------------------------------------------------------------------------
 
 onMounted(() => {
-  for (let category in allWords) {
+  for (let category in store.allWords) {
     if (category != "all") {
-      allWords["all"]["easy"] = allWords["all"]["easy"].concat(
-        allWords[category]["easy"],
+      store.allWords["all"]["easy"] = store.allWords["all"]["easy"].concat(
+        store.allWords[category]["easy"],
       );
-      allWords["all"]["hard"] = allWords["all"]["hard"].concat(
-        allWords[category]["hard"],
+      store.allWords["all"]["hard"] = store.allWords["all"]["hard"].concat(
+        store.allWords[category]["hard"],
       );
     }
   }
+  console.log("слова для игры", store.allWords,"категория", store.selectedCategory, "сложность", store.difficulty);
   canvasContext = canvasElementRef.value.getContext("2d"); // Получаем контекст канваса и сохр. его в реакт. св-во.
   generationWord();
 });
@@ -294,10 +189,10 @@ function generationWord() {
   resetGameState();
   // Выбираем слово из массива по категории.
   gameState.randomWord =
-    allWords[store.selectedCategory][store.difficulty][
+    store.allWords[store.selectedCategory][store.difficulty][
       Math.floor(
         Math.random() *
-          allWords[store.selectedCategory][store.difficulty].length,
+          store.allWords[store.selectedCategory][store.difficulty].length,
       )
     ];
 
@@ -619,8 +514,8 @@ function drawPlayerWin() {
           Привет <b>{{ store.nikName }}</b
           >.
           <p />
-          категория: <b>{{ meaningsInRussian[store.selectedCategory] }}</b
-          >, сложность: <b>{{ meaningsInRussian[store.isGameEasy] }}</b>
+          категория: <b>{{ store.meaningsInRussian[store.selectedCategory] }}</b
+          >, сложность: <b>{{ store.meaningsInRussian[store.isGameEasy] }}</b>
         </div>
         <canvas
           ref="canvasElementRef"
@@ -665,7 +560,7 @@ function drawPlayerWin() {
         >
           Настройки игры
         </button>
-        <ModalWindow ref="myModal" @changed-form="receiveNewData" />
+        <ModalWindow ref="myModal" @changed-form="generationWord()" />
         <button
           class="js-letter-btn col btn btn-outline-secondary"
           :disabled="isbuttonHelpOff"
@@ -673,6 +568,9 @@ function drawPlayerWin() {
         >
           всего подсказок: {{ store.totalHints }}
         </button>
+        <button
+          class="js-letter-btn col btn btn-outline-secondary"
+          @click="proverimNuzhnoemne()"> тест</button>
       </div>
     </div>
     <div>
