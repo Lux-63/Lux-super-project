@@ -14,7 +14,7 @@ import PageDescription from "../components/PageDescription.vue";
   <div class="row">
     <div class="col-6 mx-auto text-center">
       <p class="fs-4">
-        Добро пожаловать на мой проект! это должно быть на странице
+        Добро пожаловать на мой проект!
       </p>
       <p>Меня зовут Сергей, и я рад приветствовать вас здесь.</p>
       <p>
@@ -36,8 +36,7 @@ import PageDescription from "../components/PageDescription.vue";
         предложения.
       </p>
       <p>
-        Спасибо, что посетили мою страницу, и я надеюсь, что вам будет интересно
-        узнать обо мне больше!
+        <a href="https://career.habr.com/lux-63">Я на Хабр карьере</a> 
       </p>
     </div>
     <div class="col-2">

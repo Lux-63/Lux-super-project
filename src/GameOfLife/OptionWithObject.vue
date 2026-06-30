@@ -31,7 +31,6 @@ watch([() => props.cellCountX, () => props.cellCountY], () => {
   drawGrid(props.cellCountX, props.cellCountY);
   population = {};
   stopGame();
-  console.log(population);
 });
 
 onMounted(() => {
@@ -59,7 +58,6 @@ function drawGrid(cellCountX, cellCountY) {
   canvasContext.strokeStyle = "silver";
   canvasContext.stroke();
 
-  console.log("drawGrid", cellCountX, cellCountY, rightBorder, bottomBorder);
 }
 /**
  * push coordinate and drawing cell.
@@ -69,10 +67,8 @@ function drawGrid(cellCountX, cellCountY) {
  */
 function drawCell(x, y, action) {
   if (action == "drawing") {
-    console.log("drawing cell", x, y);
     canvasContext.fillRect(x, y, cellSize, cellSize);
   } else if (action == "del") {
-    console.log("delete cell", x, y);
     canvasContext.clearRect(x, y, cellSize, cellSize);
   }
 }
@@ -103,7 +99,6 @@ function test() {
   };
   for (let key in LiveCell) {
     checkAddCell(LiveCell[key][0], LiveCell[key][1]);
-    console.log("testing coord", LiveCell[key]);
   }
 }
 /**
@@ -113,7 +108,6 @@ function test() {
  */
 function checkAddCell(x, y) {
   if (x < props.cellCountX * cellSize && y < props.cellCountY * cellSize) {
-    console.log("cell OK", x, y);
     population[`${x},${y}`] = [x, y];
     drawCell(x, y, "drawing");
   } else {
@@ -134,7 +128,6 @@ function nextStep() {
     checkingNeighbors(coordinateX, coordinateY);
   }
   epochCounter.value++;
-  console.log("strart evo");
   cellEvolution();
 }
 /**
@@ -186,7 +179,6 @@ function checkingNeighbors(x, y) {
 
   if (livingNeighbor < 2 || livingNeighbor > 3) {
     deadCells.push([x, y]);
-    console.log("dead cell", x, y);
   }
 }
 
@@ -242,7 +234,6 @@ function birthCell(x, y) {
  */
 function cellEvolution() {
   // Delete death cells.
-  console.log("del obj", deadCells);
   for (let key in deadCells) {
     delete population[`${deadCells[key][0]},${deadCells[key][1]}`];
     drawCell(deadCells[key][0], deadCells[key][1], "del");
@@ -296,7 +287,6 @@ function positionCanvas(x, y) {
 
   drawCell(x * cellSize, y * cellSize, "drawing");
   population[`${x * cellSize},${y * cellSize}`] = [x * cellSize, y * cellSize];
-  console.log(population);
 }
 
 function clearArea() {
@@ -318,7 +308,6 @@ function autoStartGame() {
 }
 function stopGame() {
   clearInterval(timerId);
-  console.log(population);
 }
 </script>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import ModalWindow from "../modalWindowComponent/ModalWindow.vue";
+import ModalWindow from "@/ModalWindowComponent/ModalWindow.vue";
 defineProps({
   currentDogsLinks: {
     type: Array,
@@ -14,6 +14,10 @@ const myModal = ref(null);
 function wievModal(link, elem) {
   console.log("клик по картинке", link, elem);
   myModal.value.openModal(link, elem);
+}
+
+function imageError() {
+  alert("вызвалась ошибка")
 }
 
 // // Добавить модальное окно с открытием полноразмерного изображения при клике на картинку в галерее.
@@ -42,6 +46,7 @@ function wievModal(link, elem) {
                 alt="..."
                 :index="index"
                 @click="wievModal(link, index)"
+                v-on:error="src='error-image.jpg'; this.onerror=null;"
               />
             </div>
           </div>

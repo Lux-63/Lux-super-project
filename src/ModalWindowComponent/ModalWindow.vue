@@ -11,27 +11,18 @@ let myModal = null;
 
 onMounted(() => {
   myModal = new Modal(simpleModal.value);
-  console.log(myModal);
 });
 
 function openModal(link, index) {
   imageLink.value = link;
   imageIndex.value = index;
   myModal.show();
-  console.log("Open modal for", link, index);
 }
 
 defineExpose({
   openModal,
 });
 
-function test() {
-  console.log(
-    "test button clicked, current image index:",
-    imageIndex.value,
-    imageIndex.value + 1,
-  );
-}
 </script>
 
 <template>

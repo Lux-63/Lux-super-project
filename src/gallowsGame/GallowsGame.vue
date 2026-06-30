@@ -2,7 +2,7 @@
 import { ref, onMounted, reactive } from "vue";
 import ModalWindow from "./ModalWindow.vue";
 import PageDescription from "../components/PageDescription.vue";
-import { useParametrsStore } from "../store/gallowsGame";
+import { useParametersStore } from "@/store/gallowsGame.js";
 
 const infoElementRef = ref(null);
 const myModal = ref(null);
@@ -13,7 +13,7 @@ let canvasContext = null;
 const isKeyboardOff = ref(false);
 const isbuttonHelpOff = ref(false);
 
-const store = useParametrsStore();
+const store = useParametersStore();
 
 // Массив количества жизней.
 let chanceLife = [
@@ -30,7 +30,6 @@ let chanceLife = [
 ];
 const imageParts = chanceLife.length;
 
-
 const gameState = reactive({
   lettersUsed: [],
   answer: [],
@@ -46,9 +45,7 @@ const gameState = reactive({
 function showModal() {
   myModal.value.openModal();
   // Возможно стоит вынести сохранение в отдельную функцию.
-  
 }
-
 
 // Сообщения для игрока.
 const gameInfo = {
@@ -64,8 +61,6 @@ const gameInfo = {
 
 // Константа для вывода сообщения.
 const messageToPlayer = ref(gameInfo.startGame);
-
-
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
@@ -87,7 +82,6 @@ onMounted(() => {
       );
     }
   }
-  console.log("слова для игры", store.allWords,"категория", store.selectedCategory, "сложность", store.difficulty);
   canvasContext = canvasElementRef.value.getContext("2d"); // Получаем контекст канваса и сохр. его в реакт. св-во.
   generationWord();
 });
@@ -130,17 +124,13 @@ const STATE_LETTER_WRONG = 3;
 
 function charLetterUsage(letter) {
   if (gameState.lettersUsed.includes(letter)) {
-    console.log("repeat");
     return STATE_LETTER_USED;
   }
   if (gameState.randomWord.includes(letter)) {
-    console.log("correct");
     return STATE_LETTER_CORRECT;
   } else if (letter == "е" && gameState.randomWord.includes("ё")) {
-    console.log("correct", letter);
     return STATE_LETTER_CORRECT;
   } else {
-    console.log("wrong");
     return STATE_LETTER_WRONG;
   }
 }
@@ -213,12 +203,10 @@ function gameProcess(event) {
 
   switch (charLetterUsage(letter)) {
     case STATE_LETTER_USED: {
-      console.log("было");
       messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.letterWas}`;
       return;
     }
     case STATE_LETTER_CORRECT: {
-      console.log("передача леттера", letter);
       messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.correctLetter}`;
       correctLetter(buttonElement, letter);
       break;
@@ -226,15 +214,12 @@ function gameProcess(event) {
     case STATE_LETTER_WRONG: {
       wrongLetter(buttonElement);
       messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.wrong}"${gameState.remainingAttempts}"`;
-      console.log("передача леттера", letter);
       break;
     }
   }
   gameState.lettersUsed.push(letter);
 
   checkGameEnd();
-
-  console.log(buttonElement, letter);
 }
 
 /**
@@ -255,7 +240,6 @@ function correctLetter(buttonElement, letter) {
 
       // Смена цвета кнопки.
       buttonElement.className += " letter-correct";
-      console.log("Буква найдена", gameState.answer, "Победа");
     }
   }
 }
@@ -275,7 +259,6 @@ function wrongLetter(buttonElement) {
   let parts = imageParts - Math.ceil(partPerLife * gameState.remainingAttempts);
   parts = Math.min(parts, imageParts);
   for (let indexAnswer = 0; parts > indexAnswer; indexAnswer++) {
-    console.log("минус жизнь", indexAnswer, parts, chanceLife[indexAnswer]);
     chanceLife[indexAnswer]();
   }
 }
@@ -284,11 +267,9 @@ function wrongLetter(buttonElement) {
  * Если игрок проиграл.
  */
 function gameOver() {
-  console.log("Проигрыш");
   messageToPlayer.value = `<b>${store.nikName}</b> ${gameInfo.gameOver} "${gameState.randomWord}"`;
   for (let j = 0; j < gameState.randomWord.length; j++) {
     gameState.answer[j] = gameState.randomWord[j];
-    console.log("проиграл");
   }
   isKeyboardOff.value = true;
 }
@@ -301,7 +282,6 @@ function victory() {
   drawPlayerWin();
   store.totalHints += addHintOnDifficulty.value;
   isbuttonHelpOff.value = false;
-  console.log("выйграл");
   isKeyboardOff.value = true;
 }
 
@@ -568,9 +548,6 @@ function drawPlayerWin() {
         >
           всего подсказок: {{ store.totalHints }}
         </button>
-        <button
-          class="js-letter-btn col btn btn-outline-secondary"
-          @click="proverimNuzhnoemne()"> тест</button>
       </div>
     </div>
     <div>

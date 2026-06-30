@@ -6,7 +6,6 @@ import PageDescription from "../components/PageDescription.vue";
 let calculateData = reactive([]);
 
 const calculatedData = computed(() => {
-  console.log("computed", calculateData);
   return calculateData.join("") || "0";
 });
 
@@ -108,7 +107,6 @@ const numbersKey = {
  * @param {*} event
  */
 function handleKey(event) {
-  console.log(event.keyCode, event.code);
   event.preventDefault();
   numbersKey[event.keyCode]();
 }
@@ -135,10 +133,8 @@ function addCharToDisplay(currentChar) {
   if (isLastCharSpecial === false && isCurrentCharSpecial === false) {
     if (lastChar === undefined) {
       calculateData.push(Number(currentChar));
-      console.log(calculateData);
     } else {
       const strChars = String(lastChar) + String(currentChar);
-      console.log(strChars);
       calculateData[calculateData.length - 1] = Number(strChars);
     }
   } else if (currentChar === "." && penultimateChar === ".") {
@@ -155,13 +151,11 @@ function addCharToDisplay(currentChar) {
   } else if (isLastCharSpecial === true && isCurrentCharSpecial === false) {
     calculateData.push(currentChar);
   }
-  console.log(currentChar, calculateData);
 }
 
 // Очистка значения.
 function clearInputField() {
   calculateData.splice(0);
-  console.log(calculateData);
 }
 /**
  * Приоритет операции по правилам. сначала деление, умножение, потом сложение.
@@ -198,7 +192,6 @@ function getResult() {
       calculateData[priorityOperatorIndex],
       operandTwo,
     );
-    console.log("передача в функции %", calculateData);
   }
 
   // Взятие чисел для вычисления результата, в зависимости от приоритетного оператора.
@@ -212,7 +205,6 @@ function getResult() {
     calculateData.splice(priorityOperatorIndex - 1, 3, resultOperation);
     getResult();
 
-    console.log(calculateData);
   }
 }
 
@@ -294,12 +286,10 @@ function resultDivide(operandOne, operandTwo) {
 // Удаление последнего символа.
 function removeLastCharacter() {
   let lastValue = calculateData.splice(-1).toString();
-  console.log(lastValue, lastValue.length, calculateData);
 
   if (lastValue.length > 1) {
     lastValue = lastValue.slice(0, -1);
     calculateData.push(+lastValue);
-    console.log(lastValue, calculateData);
   }
 }
 

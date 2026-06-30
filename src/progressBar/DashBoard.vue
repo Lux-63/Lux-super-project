@@ -18,7 +18,6 @@ let colorBar = "#00cc00";
 onMounted(() => {
   lengthCircumference = 2 * 3.14 * Number(circleBar.value.getAttribute("r"));
   radiusCircle = Number(circleBar.value.getAttribute("r"));
-  console.log(lengthCircumference, radiusCircle);
 });
 
 function stepProgress() {
@@ -36,25 +35,15 @@ function stepProgress() {
 
     wiewStatusLoad.value = Math.round(progressLoad);
     drawColorBar(progressLoad);
-    console.log(
-      "info %",
-      progressBarLoad.value,
-      progressLoad,
-      "тут мы смотрим состояние значений",
-      dashOffsetMeaningOne,
-      dashOffsetMeaningTwo,
-    );
   } else {
     stopAutoLoadBar();
   }
-  console.log();
 }
 function drawColorBar(n) {
   let progressLoad = n;
 
-  console.log("старт рисования");
+  // Старт рисования
   if (Math.round(progressLoad) >= 20 && progressLoad < 25) {
-    console.log("сработало");
     colorBar = "#cb0a0a";
     circleBar.value.classList.add("dots-one");
     circleBar.value.style.stroke = "rgb(240, 115, 12)";
@@ -90,7 +79,6 @@ function drawColorBar(n) {
     "stroke-dasharray",
     `${dashOffsetMeaningOne} ${dashOffsetMeaningTwo}`,
   );
-  console.log(lengthCircumference, progressLoad, progressBarLoad.value);
 }
 
 function resetButton() {

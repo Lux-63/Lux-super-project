@@ -2,17 +2,18 @@
 import { ref, reactive, onMounted, watch } from "vue";
 import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
 import PageDescription from "../components/PageDescription.vue";
+import { useDogImageStore } from "@/store/dogImage.js";
 
+const dogStore = useDogImageStore();
 const router = useRouter();
 const route = useRoute();
 
 const currentsDogsLinks = reactive([]);
 const breedsList = ref([]);
-const imageCount = ref(null);
+const imageCount = ref(10);
 const selectedBreed = ref(null);
 
 watch(selectedBreed, (newVal) => {
-  console.log("выбрана порода собак", route);
   router.push({
     path: route.path,
     query: { breed: newVal, count: imageCount.value },
@@ -25,10 +26,10 @@ watch(imageCount, (newVal) => {
       query: { breed: selectedBreed.value, count: newVal },
     });
   }
+  console.log("pinia-atack", dogStore.currentsDogsLinks);
 });
 
 onBeforeRouteUpdate((to, from) => {
-  console.log("параметры маршрута изменились", to.query, from.query);
   if (
     from.query.breed !== to.query.breed ||
     from.query.count !== to.query.count
@@ -38,37 +39,40 @@ onBeforeRouteUpdate((to, from) => {
 });
 
 onMounted(() => {
-  console.log("текст любой");
   loadBreedsList();
 });
 
 // Далее работа с API.
 
 /**
- * выгрузка изображений по породе собак.
+ * выгрузка списка пород собак.
  * @param listDogs string.
  */
 async function loadBreedsList() {
-  let response = await fetch("https://dog.ceo/api/breeds/list/all");
-  let result = await response.json();
-  breedsList.value = Object.keys(result.message);
+    let response = await fetch("https://dog.ceo/api/breeds/list/all");
+    let result = await response.json()
+    breedsList.value = Object.keys(result.message)
 
   if (route.query.count && route.query.breed) {
     selectedBreed.value = route.query.breed;
     imageCount.value = route.query.count;
     loadBreedImages(route.query.breed, route.query.count);
   } else {
-    selectedBreed.value = breedsList.value[0];
     imageCount.value = 10;
+    selectedBreed.value = breedsList.value[0];
   }
 }
+    
 
 async function loadBreedImages(breedName, count) {
   let response = await fetch(
     `https://dog.ceo/api/breed/${breedName}/images/random/${count}`,
   );
-  let result = await response.json();
-  currentsDogsLinks.splice(0, currentsDogsLinks.length, ...result.message);
+  let result = await response.json()
+  .catch(err => console.log("извините не удалось загрузить дог цео"))
+
+  dogStore.currentsDogsLinks.splice(0, dogStore.currentsDogsLinks.length, ...result.message);
+  console.log()
 }
 </script>
 
@@ -140,7 +144,7 @@ async function loadBreedImages(breedName, count) {
     <!-- <div class="row">
       <div class="col"> -->
     <RouterView v-slot="{ Component }">
-      <component :is="Component" :current-dogs-links="currentsDogsLinks" />
+      <component :is="Component" :current-dogs-links="dogStore.currentsDogsLinks" />
     </RouterView>
     <!-- </div>
     </div> -->

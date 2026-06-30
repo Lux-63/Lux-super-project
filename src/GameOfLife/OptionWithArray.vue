@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useParametrsStore } from "../store/gallowsGame";
+import { useParametersStore } from "../store/gallowsGame";
 
-const store = useParametrsStore();
+const store = useParametersStore();
 
 const props = defineProps({
   cellCountX: {
@@ -38,14 +38,10 @@ let bornCells = [];
 
 //watch смотрим.
 watch([() => props.cellCountX, () => props.cellCountY], () => {
-  console.log("рисуем разметку");
   drawGrid(props.cellCountX, props.cellCountY);
-  console.log("Создаем популяцию");
   createCellPopulation(props.cellCountX, props.cellCountY);
-  console.log("Создаем популяцию");
   stopGame();
   epochCounter.value = 0;
-  console.log("Останавливаем игру");
 });
 onMounted(() => {
   canvasContext = canvasElementRef.value.getContext("2d");
@@ -59,7 +55,6 @@ onMounted(() => {
  * Разметка сетки.
  */
 function drawGrid(cellCountX, cellCountY) {
-  console.log("start of field marking");
 
   const rightBorder = cellCountX * cellSize;
   const bottomBorder = cellCountY * cellSize;
@@ -108,13 +103,6 @@ function createCellPopulation(cellCountX, cellCountY) {
       population[indexY].push(0);
     }
   }
-  console.log(
-    population,
-    indexY,
-    indexX,
-    "parameters from parent",
-    testX.value,
-  );
 }
 
 // вызвать отдельно популяцию, по которой канвас уже нарисует все. В отдельной функции.
@@ -148,14 +136,6 @@ function test() {
   for (let key in LiveCell) {
     checkAddCell(LiveCell[key][0], LiveCell[key][1]);
   }
-  console.log(
-    // "проверим параметры",
-    // testX.value,
-    // allCellX.value,
-    // allCellY.value,
-    "пиния тест в игре в жизнь", 
-    store.piniaTest,
-  );
 }
 
 /**
@@ -323,7 +303,6 @@ function positionCanvas(x, y) {
   }
 
   canvasContext.fillRect(x * cellSize, y * cellSize, 10, 10);
-  console.log(x, y);
   population[y].splice(x, 1, 1);
 }
 
@@ -347,7 +326,6 @@ function autoStartGame() {
 }
 function stopGame() {
   clearInterval(timerId);
-  console.log(population);
 }
 </script>
 

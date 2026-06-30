@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
-import { useParametrsStore } from "../store/gallowsGame";
+import { useParametersStore } from "../store/gallowsGame";
 
-const store = useParametrsStore();
+const store = useParametersStore();
 
 const emit = defineEmits(["changed-form"]);
 const simpleModal = ref(null);
@@ -21,8 +21,8 @@ function openModal() {
   // text.value = "";
   // isGameEasy.value = store.isGameEasy;
   // selectedCategory.value = store.selectedCategory;
+
   myModal.show();
-  console.log();
 }
 /**
  * передача параметров в родительский компонент. Имя, сложность, категория.
@@ -36,10 +36,6 @@ function saveChanges() {
   } else {
     store.setDifficulty("hard");
   }
-  console.log(
-    "параметры сохранены",
-    store.difficulty
-  );
   emit("changed-form");
   myModal.hide();
   

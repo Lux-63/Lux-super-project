@@ -13,7 +13,6 @@ let progressBarLoad = ref(678);
 let startInterval = null;
 let colorBar = "#00cc00";
 onMounted(() => {
-  console.log(lengthLineference);
 });
 
 function stepProgress() {
@@ -29,16 +28,13 @@ function stepProgress() {
 
     wiewStatusLoad.value = Math.round(progressLoad);
     drawColorBar(progressLoad);
-    console.log("info %", progressBarLoad.value, progressLoad);
   } else {
     stopAutoLoadBar();
   }
-  console.log();
 }
 function drawColorBar(n) {
   let progressLoad = n;
   if (Math.round(progressLoad) >= 20 && progressLoad < 25) {
-    console.log("сработало");
     colorBar = "#cb0a0a";
     lineBar.value.classList.add("dots-one");
     lineBar.value.style.stroke = "rgb(240, 115, 12)";
@@ -70,8 +66,7 @@ function drawColorBar(n) {
     displayInformationChange.value = 1;
   }
   lineBar.value.style.stroke = colorBar;
-  (lineBar.value.setAttribute("x2", (600 * progressLoad) / 100),
-    console.log(lengthLineference, progressLoad, progressBarLoad.value));
+  (lineBar.value.setAttribute("x2", (600 * progressLoad) / 100));
 }
 
 function resetButton() {
