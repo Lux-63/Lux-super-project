@@ -13,7 +13,7 @@ https://lux-63.github.io/Lux-super-project/
 - Vue Router, Pinia
 - Vite
 - HTML5 Canvas
-- Axios, REST API
+- REST API
 - Bootstrap
 
 ## Модули проекта
