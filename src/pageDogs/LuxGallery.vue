@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import ModalWindow from "@/ModalWindowComponent/ModalWindow.vue";
+import ModalWindow from "@/modalWindowComponent/ModalWindow.vue";
 defineProps({
   currentDogsLinks: {
     type: Array,

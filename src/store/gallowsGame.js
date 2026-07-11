@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
 //setup хранилище.
-export const useParametersStore = defineStore("piniaAlerts", () => {
+export const useParametersStore = defineStore("gallows", () => {
   const nikName = ref("друг");
   const totalHints = ref(2);
   const difficulty = ref("easy");

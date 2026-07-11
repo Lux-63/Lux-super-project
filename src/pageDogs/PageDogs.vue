@@ -2,13 +2,12 @@
 import { ref, reactive, onMounted, watch } from "vue";
 import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
 import PageDescription from "../components/PageDescription.vue";
-import { useDogImageStore } from "@/store/dogImage.js";
+import { useDogImageStore } from "../store/dogImage.js";
 
 const dogStore = useDogImageStore();
 const router = useRouter();
 const route = useRoute();
 
-const currentsDogsLinks = reactive([]);
 const breedsList = ref([]);
 const imageCount = ref(10);
 const selectedBreed = ref(null);
@@ -39,7 +38,9 @@ onBeforeRouteUpdate((to, from) => {
 });
 
 onMounted(() => {
-  loadBreedsList();
+  dogStore.getLoadBreeds();
+  // loadBreedsList();
+  console.log("монтирование", dogStore.currentsDogsLinks);
 });
 
 // Далее работа с API.
@@ -77,6 +78,7 @@ async function loadBreedImages(breedName, count) {
 </script>
 
 <template>
+  
   <PageDescription>
     <b>Работа с API</b> и отображение данных. На странице отображаются
     фотографии собак, полученные с помощью API. Реализована пагинация для
@@ -99,7 +101,7 @@ async function loadBreedImages(breedName, count) {
       >
         <option selected disabled value="">Откройте это меню выбора</option>
         <option
-          v-for="breedName in breedsList"
+          v-for="breedName in dogStore.breedsList"
           :key="breedName"
           :value="breedName"
         >

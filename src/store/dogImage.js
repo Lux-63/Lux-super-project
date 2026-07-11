@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
+import { useRouter, useRoute, onBeforeRouteUpdate } from "vue-router";
+const route = useRoute();
 
-export const useDogImageStore = defineStore("piniaAlert", () => {
+export const useDogImageStore = defineStore("imagePinia", () => {
   const dogImageUrl = ref("");
   const currentsDogsLinks = reactive([]);
   const breedsList = ref([]);
@@ -15,7 +17,7 @@ export const useDogImageStore = defineStore("piniaAlert", () => {
  * выгрузка списка пород собак.
  * @param listDogs string.
  */
-  const getLoadBreeds = async function loadBreedsList() {
+  async function getLoadBreeds() {
     let response = await fetch("https://dog.ceo/api/breeds/list/all");
     let result = await response.json()
     breedsList.value = Object.keys(result.message)
@@ -28,6 +30,7 @@ export const useDogImageStore = defineStore("piniaAlert", () => {
     imageCount.value = 10;
     selectedBreed.value = breedsList.value[0];
   }
+  console.log("проверяем в роуте загрузку", breedsList.value);
 };
 
 /**

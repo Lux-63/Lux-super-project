@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="position-fixed bottom-0 start-0 p-3">
+  <div class="position-fixed bottom-0 end-0 p-3">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
@@ -30,7 +30,7 @@ onMounted(() => {
       />
     </svg>
   </div>
-  <div class="toast-container position-fixed bottom-0 start-0 p-3">
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div
       id="liveToast"
       ref="toastContainer"
@@ -40,7 +40,7 @@ onMounted(() => {
       aria-atomic="true"
     >
       <div class="toast-header">
-        <strong class="me-auto">nen Описание компонента</strong>
+        <strong class="me-auto">Описание компонента</strong>
         <!-- <small>11 мин назад</small> -->
         <button
           type="button"
