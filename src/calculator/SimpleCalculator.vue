@@ -1,11 +1,11 @@
 <script setup>
 import { reactive, computed } from "vue";
+import PageDescription from "../components/PageDescription.vue";
 
 // Основной массив.
 let calculateData = reactive([]);
 
 const calculatedData = computed(() => {
-  console.log("computed", calculateData);
   return calculateData.join("") || "0";
 });
 
@@ -107,7 +107,6 @@ const numbersKey = {
  * @param {*} event
  */
 function handleKey(event) {
-  console.log(event.keyCode, event.code);
   event.preventDefault();
   numbersKey[event.keyCode]();
 }
@@ -117,8 +116,8 @@ function handleKey(event) {
  * @param {String} currentChar
  */
 function addCharToDisplay(currentChar) {
-  const lastChar = calculateData[calculateData.length - 1];
-  const penultimateChar = calculateData[calculateData.length - 2];
+  const lastChar = calculateData.at(-1);
+  const penultimateChar = calculateData.at(-2);
   const isLastCharSpecial = specialChars.includes(lastChar);
   const isCurrentCharSpecial = specialChars.includes(currentChar);
 
@@ -134,10 +133,8 @@ function addCharToDisplay(currentChar) {
   if (isLastCharSpecial === false && isCurrentCharSpecial === false) {
     if (lastChar === undefined) {
       calculateData.push(Number(currentChar));
-      console.log(calculateData);
     } else {
       const strChars = String(lastChar) + String(currentChar);
-      console.log(strChars);
       calculateData[calculateData.length - 1] = Number(strChars);
     }
   } else if (currentChar === "." && penultimateChar === ".") {
@@ -146,10 +143,7 @@ function addCharToDisplay(currentChar) {
   } else if (isLastCharSpecial === false && isCurrentCharSpecial === true) {
     calculateData.push(currentChar);
   } else if (isLastCharSpecial === true && isCurrentCharSpecial === true) {
-    if (
-      currentChar === "." &&
-      calculateData[calculateData.length - 3] === "."
-    ) {
+    if (currentChar === "." && calculateData.at(-3) === ".") {
       // Без проверки - плюс можно заменить точкой.
       return;
     }
@@ -157,13 +151,11 @@ function addCharToDisplay(currentChar) {
   } else if (isLastCharSpecial === true && isCurrentCharSpecial === false) {
     calculateData.push(currentChar);
   }
-  console.log(currentChar, calculateData);
 }
 
 // Очистка значения.
 function clearInputField() {
   calculateData.splice(0);
-  console.log(calculateData);
 }
 /**
  * Приоритет операции по правилам. сначала деление, умножение, потом сложение.
@@ -198,23 +190,21 @@ function getResult() {
     executeOperation(
       operandOne,
       calculateData[priorityOperatorIndex],
-      operandTwo
+      operandTwo,
     );
-    console.log("передача в функции %", calculateData);
   }
 
   // Взятие чисел для вычисления результата, в зависимости от приоритетного оператора.
-  if (isFinite(operandOne) && isFinite(operandTwo)) {
+  if (Number.isFinite(operandOne) && Number.isFinite(operandTwo)) {
     let resultOperation = defineOperator(
       operandOne,
       calculateData[priorityOperatorIndex],
-      operandTwo
+      operandTwo,
     );
 
     calculateData.splice(priorityOperatorIndex - 1, 3, resultOperation);
     getResult();
 
-    console.log(calculateData);
   }
 }
 
@@ -296,12 +286,10 @@ function resultDivide(operandOne, operandTwo) {
 // Удаление последнего символа.
 function removeLastCharacter() {
   let lastValue = calculateData.splice(-1).toString();
-  console.log(lastValue, lastValue.length, calculateData);
 
   if (lastValue.length > 1) {
-    lastValue = lastValue.slice(0, lastValue.length - 1);
+    lastValue = lastValue.slice(0, -1);
     calculateData.push(+lastValue);
-    console.log(lastValue, calculateData);
   }
 }
 
@@ -355,182 +343,192 @@ function dividePercentageAmount(baseValue, percentValue) {
 </script>
 
 <template>
-  <div class=" mx-auto border border-dark border-2 rounded-3">
-    <div class="container">
-      <div class="row border-bottom border-dark border-2">
-        <div class="col">
-          <div
-            class="display text-end fs-1 overflow-hidden border-2"
-            style="max-height: 0.5em"
-          >
-            {{ calculatedData }}
+  <PageDescription>
+    Простой калькулятор с вычислением выражений, поддержкой не целых чисел, а
+    так же с отрицательными числами. заложен приоритет операций. Изначально
+    писался в качестве практики на <b>JavaScript</b>, но в итоге был перенесён
+    на <b>Vue.js</b>
+    с минимальными изменениями в коде.',
+  </PageDescription>
+
+  <div class="row-2">
+    <div class="col-4 col-md-auto">
+      <div class="col-3 mx-auto border border-dark border-2 rounded-3">
+        <div class="border-bottom border-dark border-2">
+          <div class="col">
+            <div
+              class="display text-end fs-1 overflow-hidden border-2"
+              style="max-height: 0.5em"
+            >
+              {{ calculatedData }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row justify-content-md-center">
-        <div class="col-md-auto">
-          <div class="row m-1">
-            <div class="col">
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="clearInputField()"
-              >
-                AC
-              </button>
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="removeLastCharacter()"
-              >
-                &#8592;
-              </button><button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('negative')"
-              >
-                +/-
-              </button>
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('/')"
-              >
-                /
-              </button>
+        <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+            <div class="row">
+              <div class="col">
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="clearInputField()"
+                >
+                  AC
+                </button>
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="removeLastCharacter()"
+                >
+                  &#8592;</button
+                ><button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('negative')"
+                >
+                  +/-
+                </button>
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('/')"
+                >
+                  /
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="row m-1">
-            <div class="col">
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(7)"
-              >
-                7
-              </button>
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(8)"
-              >
-                8
-              </button>
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(9)"
-              >
-                9
-              </button>
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('x')"
-              >
-                x
-              </button>
+            <div class="row">
+              <div class="col">
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(7)"
+                >
+                  7
+                </button>
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(8)"
+                >
+                  8
+                </button>
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(9)"
+                >
+                  9
+                </button>
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('x')"
+                >
+                  x
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="row m-1">
-            <div class="col">
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(4)"
-              >
-                4
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(5)"
-              >
-                5
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(6)"
-              >
-                6
-              </button>
-              <button
-                type="button"
-                class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('-')"
-              >
-                -
-              </button>
+            <div class="row">
+              <div class="col">
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(4)"
+                >
+                  4
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(5)"
+                >
+                  5
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(6)"
+                >
+                  6
+                </button>
+                <button
+                  type="button"
+                  class="button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('-')"
+                >
+                  -
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="row m-1">
-            <div class="col">
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(1)"
-              >
-                1
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(2)"
-              >
-                2
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(3)"
-              >
-                3
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('+')"
-              >
-                +
-              </button>
+            <div class="row">
+              <div class="col">
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(1)"
+                >
+                  1
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(2)"
+                >
+                  2
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(3)"
+                >
+                  3
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('+')"
+                >
+                  +
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="row m-1">
-            <div class="col">
-              <button
-                type="button"
-                class="button button-calc button-calc-js button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('%')"
-              >
-                %
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay(0)"
-              >
-                0
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="addCharToDisplay('.')"
-              >
-                .
-              </button>
-              <button
-                type="button"
-                class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3"
-                @click="getResult()"
-              >
-                =
-              </button>
+            <div class="row">
+              <div class="col">
+                <button
+                  type="button"
+                  class="button button-calc button-calc-js button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('%')"
+                >
+                  %
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay(0)"
+                >
+                  0
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="addCharToDisplay('.')"
+                >
+                  .
+                </button>
+                <button
+                  type="button"
+                  class="button button-calc button btn btn-lg btn-outline-dark p-0 fs-3 m-1"
+                  @click="getResult()"
+                >
+                  =
+                </button>
+              </div>
             </div>
           </div>
         </div>
